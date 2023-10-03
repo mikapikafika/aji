@@ -1,0 +1,7 @@
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background: linear-gradient(to right, #C6FFDD, #FBD786, #f7797d);
+    /* żartuję z tym gradientem */
+}
