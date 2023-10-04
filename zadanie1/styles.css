@@ -7,17 +7,17 @@ body {
 
 .bus-container {
     display: flex;
-    justify-content: center;
     align-items: center;
-    position: relative;
+    position: relative;        /* wtedy to co jest absolute układa się względem tego */
     top: 500px;
+    left: 200px;
 }
 
 .bus-body {
     position: absolute;
-    background-color: darkorange;
-    border-bottom: 5px solid orangered;
-    border-top: 5px solid orange;
+    background-color: #f59520;
+    border-bottom: 5px solid #cf760a;
+    border-top: 5px solid #faa741;
     border-radius: 40px 40px 15px 15px;
     width: 650px;
     height: 280px;
@@ -25,10 +25,9 @@ body {
     display: flex;
 }
 
-
 .rear-lights {
     position: absolute;
-    background-color: red;
+    background-color: #f24b0f;
     border-radius: 5px 15px 15px 5px;
     width: 12px;
     height: 60px;
@@ -36,18 +35,30 @@ body {
 }
 
 .bus-window {
-    background-color: dodgerblue;
+    background-color: #2eb7f2;
     border-radius: 8px;
-    margin: 40px 10px 0 38px;
+    margin: 40px 10px 0 15px;       /* odstępy */
     width: 160px;
     height: 100px;
 }
 
+.bus-window::before {
+    content: "";
+    background-color: #b6e7fc;
+    border-radius: 5px;
+    border-left: 40px solid transparent;
+    border-right: 20px solid transparent;
+}
+
+.bus-window.long {
+    width: 250px;
+}
+
 .front-lights {
-    position: relative;
-    background-color: black;
+    position: absolute;
+    background-color: #303030;
     border-radius: 50% 5px 5px 50%;
-    border-right: 5px solid yellow;
+    border-right: 5px solid #ffe84f;
     width: 20px;
     height: 50px;
     top: 200px;
@@ -56,34 +67,34 @@ body {
 
 .light {
     position: absolute;
-    border-left: 20px solid transparent;
+    border-left: 20px solid transparent;    /* ucina kształt */
     border-right: 20px solid transparent;
-    border-bottom: 220px solid yellow;
-    width: 0;
-    height: 0;
+    border-bottom: 220px solid #ffe84f;     /* światło */
+    transform: rotate(-90deg);              /* obrót stożka */
     top: 115px;
     left: 730px;
     z-index: -1;
-    transform: rotate(-90deg);
-    opacity: 40%;
+    opacity: 50%;
 }
 
 .bus-wheel {
     position: relative;
-    background-color: gray;
+    background-color: #404040;
     border-radius: 50%;
+    border-top: 4px solid #2e2e2e;
     margin: 0 100px 0 100px;
     width: 120px;
     height: 120px;
-    top: 150px;
+    top: 140px;
     z-index: 2;
+    /* wyśrodkowanie felg */
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
 .bus-rim {
-    background-color: lightgray;
+    background-color: #d4d4d4;
     border-radius: 50%;
     width: 70px;
     height: 70px;
