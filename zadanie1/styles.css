@@ -11,13 +11,10 @@ body {
     position: absolute;
     background: #f2f9fe;
     border-radius: 150px;
-    display: flex;
-    justify-content: center;
-    align-items: flex-end;
     width: 360px;
     height: 120px;
-    top: 170px;
-    left: 850px;
+    top: 10%;
+    left: 65%;
 }
 
 .sun {
@@ -26,8 +23,8 @@ body {
     border-radius: 50%;
     width: 150px;
     height: 150px;
-    top: 60px;
-    left: 90px;
+    top: 5%;
+    left: 10%;
 }
 
 .cloud:after, .cloud:before {
@@ -40,7 +37,7 @@ body {
 .cloud:after {
     width: 100px;
     height: 100px;
-    top: -50px;
+    top: -25%;
     right: 200px;
 }
 
