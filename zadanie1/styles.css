@@ -5,11 +5,59 @@ body {
     background: #9dddfa;
 }
 
+/* SKY */
+
+.cloud {
+    position: absolute;
+    background: #f2f9fe;
+    border-radius: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    width: 360px;
+    height: 120px;
+    top: 170px;
+    left: 850px;
+}
+
+.sun {
+    position: absolute;
+    background-color: #ffe160;
+    border-radius: 50%;
+    width: 150px;
+    height: 150px;
+    top: 60px;
+    left: 90px;
+}
+
+.cloud:after, .cloud:before {
+    content: "";
+    position: absolute;
+    background: #f2f9fe;
+    border-radius: 150px;
+}
+
+.cloud:after {
+    width: 100px;
+    height: 100px;
+    top: -50px;
+    right: 200px;
+}
+
+.cloud:before {
+    width: 180px;
+    height: 180px;
+    top: -90px;
+    right: 50px;
+}
+
+/* BUS */
+
 .bus-container {
     display: flex;
     align-items: center;
-    position: relative;        /* wtedy to co jest absolute układa się względem tego */
-    top: 500px;
+    position: absolute;
+    top: 600px;
     left: 200px;
 }
 
@@ -75,6 +123,7 @@ body {
     left: 730px;
     z-index: -1;
     opacity: 50%;
+    border-radius: 5px;
 }
 
 .bus-wheel {
@@ -98,6 +147,37 @@ body {
     border-radius: 50%;
     width: 70px;
     height: 70px;
+}
+
+/* GROUND */
+
+.ground {
+    position: absolute;
+    background-color: #3da859;
+    height: 650px;
+    width: 110vw;
+    bottom: 0;
+    z-index: -2;
+}
+
+.street {
+    position: absolute;
+    background-color: #888888;
+    height: 300px;
+    width: 110vw;
+    bottom: 250px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: inset 0px 0px 13px 5px rgba(76, 76, 76, 1);
+}
+
+.street-stripe {
+    background-color: white;
+    border-radius: 5px;
+    width: 150px;
+    height: 30px;
+    left: 100PX;
 }
 
 
