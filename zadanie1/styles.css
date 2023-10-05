@@ -13,18 +13,20 @@ body {
     border-radius: 150px;
     width: 360px;
     height: 120px;
-    top: 10%;
+    top: 18%;
     left: 65%;
+    z-index: 1;
 }
 
 .sun {
     position: absolute;
     background-color: #ffe160;
     border-radius: 50%;
-    width: 150px;
-    height: 150px;
-    top: 5%;
-    left: 10%;
+    width: 120px;
+    height: 120px;
+    top: 6%;
+    left: 4%;
+    z-index: 1;
 }
 
 .cloud:after, .cloud:before {
@@ -38,14 +40,14 @@ body {
     width: 100px;
     height: 100px;
     top: -25%;
-    right: 200px;
+    right: 55%;
 }
 
 .cloud:before {
     width: 180px;
     height: 180px;
-    top: -90px;
-    right: 50px;
+    top: -60%;
+    right: 20%;
 }
 
 /* BUS */
@@ -54,8 +56,8 @@ body {
     display: flex;
     align-items: center;
     position: absolute;
-    top: 600px;
-    left: 200px;
+    top: 30%;
+    left: 15%;
 }
 
 .bus-body {
@@ -76,7 +78,7 @@ body {
     border-radius: 5px 15px 15px 5px;
     width: 12px;
     height: 60px;
-    top: 200px;
+    top: 70%;
 }
 
 .bus-window {
@@ -106,8 +108,8 @@ body {
     border-right: 5px solid #ffe84f;
     width: 20px;
     height: 50px;
-    top: 200px;
-    right: -10px;
+    top: 70%;
+    right: -1%;
 }
 
 .light {
@@ -116,8 +118,8 @@ body {
     border-right: 20px solid transparent;
     border-bottom: 220px solid #ffe84f;     /* światło */
     transform: rotate(-90deg);              /* obrót stożka */
-    top: 115px;
-    left: 730px;
+    top: 40%;
+    left: 113%;
     z-index: -1;
     opacity: 50%;
     border-radius: 5px;
@@ -151,8 +153,8 @@ body {
 .ground {
     position: absolute;
     background-color: #3da859;
-    height: 650px;
-    width: 110vw;
+    height: 60%;
+    width: 100vw;
     bottom: 0;
     z-index: -2;
 }
@@ -160,9 +162,9 @@ body {
 .street {
     position: absolute;
     background-color: #888888;
-    height: 300px;
-    width: 110vw;
-    bottom: 250px;
+    height: 37%;
+    width: 100vw;
+    bottom: 10%;
     display: flex;
     align-items: center;
     justify-content: space-between;
