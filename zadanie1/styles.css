@@ -11,8 +11,8 @@ body {
     position: absolute;
     background-color: #ffe160;
     border-radius: 50%;
-    width: 10vw;
-    height: 10vw;
+    width: 120px;
+    height: 120px;
     top: 6%;
     left: 4%;
     z-index: 1;
@@ -22,8 +22,8 @@ body {
     position: absolute;
     background: #f2f9fe;
     border-radius: 150px;
-    width: 18vw;
-    height: 8vw;
+    width: 360px;
+    height: 120px;
     top: 18%;
     left: 65%;
     z-index: 1;
@@ -40,15 +40,15 @@ body {
 }
 
 .cloud:after {
-    width: 6vw;
-    height: 6vw;
+    width: 100px;
+    height: 100px;
     top: -25%;
     right: 55%;
 }
 
 .cloud:before {
-    width: 8vw;
-    height: 9vw;
+    width: 180px;
+    height: 180px;
     top: -60%;
     right: 20%;
 }
@@ -71,8 +71,8 @@ body {
     border-bottom: 5px solid #cf760a;
     border-top: 5px solid #faa741;
     border-radius: 40px 40px 15px 15px;
-    width: 44vw;
-    height: 18vw;
+    width: 650px;
+    height: 280px;
     z-index: 1;
     display: flex;      /* ustawia okna */
 }
@@ -83,8 +83,8 @@ body {
     position: absolute;
     background-color: #f24b0f;
     border-radius: 5px 15px 15px 5px;
-    width: 1vw;
-    height: 5vw;
+    width: 12px;
+    height: 60px;
     top: 70%;
 }
 
@@ -92,8 +92,8 @@ body {
     background-color: #2eb7f2;
     border-radius: 8px;
     margin: 40px 10px 0 15px;       /* odstępy */
-    width: 11vw;
-    height: 7vw;
+    width: 160px;
+    height: 100px;
 }
 
 /* odbicia na oknie */
@@ -106,7 +106,7 @@ body {
 }
 
 .bus-window.long {
-    width: 17vw;
+    width: 250px;
 }
 
 .front-lights {
@@ -114,8 +114,8 @@ body {
     background-color: #303030;
     border-radius: 50% 5px 5px 50%;
     border-right: 5px solid #ffe84f;
-    width: 2vw;
-    height: 4vw;
+    width: 20px;
+    height: 50px;
     top: 70%;
     right: -1%;
 }
@@ -139,8 +139,8 @@ body {
     border-radius: 50%;
     border-top: 4px solid #2e2e2e;
     margin: 0 100px 0 100px;
-    width: 8vw;
-    height: 8vw;
+    width: 120px;
+    height: 120px;
     top: 140px;
     z-index: 2;
     /* wyśrodkowanie felg */
@@ -152,8 +152,8 @@ body {
 .bus-rim {
     background-color: #d4d4d4;
     border-radius: 50%;
-    width: 4vw;
-    height: 4vw;
+    width: 70px;
+    height: 70px;
 }
 
 /* ZIEMIA */
@@ -161,8 +161,8 @@ body {
 .ground {
     position: absolute;
     background-color: #3da859;
-    height: 25vw;
-    width: 100vw;
+    height: 60%;
+    width: 100vw;      /* żeby zajęło całą szerokość */
     bottom: 0;
     z-index: -2;
 }
@@ -182,8 +182,8 @@ body {
 .street-stripe {
     background-color: white;
     border-radius: 5px;
-    width: 10vw;
-    height: 2vw;
+    width: 150px;
+    height: 30px;
 }
 
 
