@@ -227,14 +227,48 @@ body {
 
     .street-stripe {
         width: 130px;
-        height: 26px;
     }
 }
 
 @media only screen and (max-width: 800px) {
+    .sun {
+        width: 90px;
+        height: 90px;
+    }
+
+    .cloud {
+        width: 250px;
+        height: 75px;
+    }
+
+    .cloud:after {
+        width: 70px;
+        height: 70px;
+    }
+
+    .cloud:before {
+        width: 145px;
+        height: 145px;
+    }
+
+    .bus-body {
+        width: 580px;
+        height: 252px;
+    }
+
+    .bus-wheel {
+        margin: 0 100px 0 100px;
+        width: 105px;
+        height: 105px;
+    }
+
+    .bus-rim {
+        width: 55px;
+        height: 55px;
+    }
+
     .street-stripe {
         width: 100px;
-        height: 20px;
     }
 }
 
