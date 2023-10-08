@@ -15,7 +15,7 @@ body {
     height: 120px;
     top: 6%;
     left: 4%;
-    z-index: 1;
+    z-index: -1;
 }
 
 .cloud {
@@ -26,7 +26,7 @@ body {
     height: 120px;
     top: 18%;
     left: 65%;
-    z-index: 1;
+    z-index: -1;
 }
 
 /* obłoczki na bazie chmury */
@@ -164,7 +164,7 @@ body {
     height: 400px;
     width: 100vw;      /* żeby zajęło całą szerokość */
     bottom: 0;
-    z-index: -2;
+    z-index: -1;
 }
 
 .street {
@@ -188,7 +188,7 @@ body {
 
 /* SKALOWANIE */
 
-@media only screen and (max-width: 1090px) {
+@media only screen and (max-width: 1090px), (max-height: 615px) {
     .sun {
         width: 100px;
         height: 100px;
@@ -230,7 +230,7 @@ body {
     }
 }
 
-@media only screen and (max-width: 800px) {
+@media only screen and (max-width: 800px), (max-height: 590px) {
     .sun {
         width: 90px;
         height: 90px;
@@ -238,7 +238,7 @@ body {
 
     .cloud {
         width: 250px;
-        height: 75px;
+        height: 85px;
     }
 
     .cloud:after {
@@ -247,8 +247,8 @@ body {
     }
 
     .cloud:before {
-        width: 145px;
-        height: 145px;
+        width: 130px;
+        height: 130px;
     }
 
     .bus-body {
@@ -269,6 +269,18 @@ body {
 
     .street-stripe {
         width: 100px;
+    }
+}
+
+@media only screen and (max-height: 550px) {
+    .bus-container {
+        top: 25%;
+    }
+}
+
+@media only screen and (max-height: 405px) {
+    .bus-container {
+        top: 20%;
     }
 }
 
