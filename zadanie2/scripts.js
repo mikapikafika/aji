@@ -24,7 +24,46 @@ let initList = function() {
         // of course the lecture test mentioned above will not take place
     );
 }
-initList();
+//initList();
+
+// KROK 4
+const BASE_URL = "https://api.jsonbin.io/v3/b/652956660574da7622b86ba4";
+const SECRET_KEY = "$2a$10$k6rJFntlGv4uRtrF6Kh1MO.f1AIzeGDuHvMWwgoewjf6lbsGqaX2a";
+$.ajax({
+    // copy Your bin identifier here. It can be obtained in the dashboard
+    url: BASE_URL,
+    type: 'GET',
+    headers: { //Required only if you are trying to access a private bin
+        'X-Master-Key': SECRET_KEY,
+        'X-Bin-Meta': false
+    },
+    success: (data) => {
+        // console.log(data);
+        todoList = data;
+    },
+    error: (err) => {
+        console.log(err.response);
+    }
+});
+
+let updateJSONbin = function() {
+    $.ajax({
+        url: BASE_URL,
+        type: 'PUT',
+        headers: { //Required only if you are trying to access a private bin
+            'X-Master-Key': SECRET_KEY
+        },
+        contentType: 'application/json',
+        data: JSON.stringify(todoList),
+        success: (data) => {
+            console.log(data);
+        },
+        error: (err) => {
+            console.log(err.response);
+        }
+    });
+}
+
 
 // KROK 3A
 let updateTodoList = function() {
@@ -69,6 +108,7 @@ setInterval(updateTodoList, 1000);
 // KROK 3C
 let deleteTodo = function(index) {
     todoList.splice(index,1);
+    updateJSONbin();
 }
 
 // KROK 3B
@@ -95,4 +135,6 @@ let addTodo = function() {
 
     // KROK 3D
     window.localStorage.setItem("todos", JSON.stringify(todoList));
+    
+    updateJSONbin();
 }
