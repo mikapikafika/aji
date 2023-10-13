@@ -1,0 +1,45 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+}
+
+body {
+    background: linear-gradient(to right, #6190E8, #A7BFE8);
+}
+
+.title {
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 3vw;
+}
+
+.todo-list, .todo-form, .search-field {
+    width: 50vw;
+    border-radius: 10px;
+    background: white;
+    padding: 2vw;
+    margin: auto;
+}
+
+.todo-list {
+    margin: auto auto 4vw;
+}
+
+.add-btn {
+    margin-top: 2vw;
+    width: 100%;
+}
+
+.delete-btn {
+
+}
+
+.search-field {
+    margin: 4vw auto auto;
+}
+

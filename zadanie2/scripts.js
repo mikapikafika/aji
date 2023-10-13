@@ -110,7 +110,7 @@ let updateTodoList = function() {
             ) {
                 let newElement =  $("<p>" + todo.title + " " + todo.description + "</p>");
 
-                let newDeleteButton = $("<input type='button' value='x'>");
+                let newDeleteButton = $("<input class='delete-btn btn btn-danger' type='button' value='x'>");
                 newDeleteButton.on("click", function() {
                     deleteTodo(index)
                 });
