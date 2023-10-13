@@ -1,9 +1,14 @@
 "use strict"
-let todoList = []; //declares a new array for Your todo list        KROK 2
+let todoList = []; //declares a new array for Your todo list
 
 // KROK 3
 let initList = function() {
-    todoList.push(
+    // KROK 3D
+    let savedList = window.localStorage.getItem("todos");
+    if (savedList != null)
+        todoList = JSON.parse(savedList);
+    else     //code creating a default list with 2 items
+        todoList.push(
         {
             title: "Learn JS",
             description: "Create a demo application for my TODO's",
@@ -19,7 +24,6 @@ let initList = function() {
         // of course the lecture test mentioned above will not take place
     );
 }
-
 initList();
 
 // KROK 3A
@@ -32,26 +36,34 @@ let updateTodoList = function() {
         todoListDiv.removeChild(todoListDiv.firstChild);
     }
 
+    // KROK 3E
     //add all elements
+    let filterInput = document.getElementById("inputSearch");
     for (let todo in todoList) {
-        let newElement = document.createElement("div");
-        let newContent = document.createTextNode(
-            todoList[todo].title + " " + todoList[todo].description);
-        newElement.appendChild(newContent);
-        todoListDiv.appendChild(newElement);
+        if (
+            (filterInput.value === "") ||
+            (todoList[todo].title.includes(filterInput.value)) ||
+            (todoList[todo].description.includes(filterInput.value))
+        ) {
+            let newElement = document.createElement("p");
+            let newContent = document.createTextNode(todoList[todo].title + " " +
+                todoList[todo].description);
+            newElement.appendChild(newContent);
 
-        // KROK 3C CZY TO NA PEWNO TU 
-        let newDeleteButton = document.createElement("input");
-        newDeleteButton.type = "button";
-        newDeleteButton.value = "x";
-        newDeleteButton.addEventListener("click",
-            function() {
-                deleteTodo(todo);
-            });
+            // KROK 3C
+            let newDeleteButton = document.createElement("input");
+            newDeleteButton.type = "button";
+            newDeleteButton.value = "x";
+            newDeleteButton.addEventListener("click",
+                function() {
+                    deleteTodo(todo);
+                });
 
+            newElement.appendChild(newDeleteButton);
+            todoListDiv.appendChild(newElement);
+        }
     }
 }
-
 setInterval(updateTodoList, 1000);
 
 // KROK 3C
@@ -80,4 +92,7 @@ let addTodo = function() {
     };
     //add item to the list
     todoList.push(newTodo);
+
+    // KROK 3D
+    window.localStorage.setItem("todos", JSON.stringify(todoList));
 }
