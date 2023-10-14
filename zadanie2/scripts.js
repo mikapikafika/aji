@@ -63,7 +63,10 @@ let updateTodoList = function () {
             newRow.append($("<td>" + todo.title + "</td>"));
             newRow.append($("<td>" + todo.description + "</td>"));
             newRow.append($("<td>" + todo.place + "</td>"));
-            newRow.append($("<td>" + todo.dueDate + "</td>"));
+
+            let formattedDate = todoDueDate.getDate() + "." + (todoDueDate.getMonth() + 1) + "." + todoDueDate.getFullYear();
+            newRow.append($("<td>" + formattedDate + "</td>"));
+
             let newDeleteButton = $("<input class='delete-btn btn btn-danger' type='button' value='x'>");
             newDeleteButton.on("click", function () {
                 deleteTodo(index);
