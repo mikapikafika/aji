@@ -1,7 +1,7 @@
 "use strict"
+
 let todoList = []; //declares a new array for Your todo list
 
-// KROK 4
 const BASE_URL = "https://api.jsonbin.io/v3/b/652956660574da7622b86ba4";
 const SECRET_KEY = "$2a$10$k6rJFntlGv4uRtrF6Kh1MO.f1AIzeGDuHvMWwgoewjf6lbsGqaX2a";
 $.ajax({
@@ -40,20 +40,17 @@ let updateJSONbin = function () {
 }
 
 
-// KROK 3A
 let updateTodoList = function () {
     let todoListTable = $("#todoListContent");
 
     //remove all elements
     todoListTable.empty();
 
-    // KROK 3E
     //add all elements
     let filterInput = $("#inputSearch").val();
     let fromDate = new Date($("#inputFromDate").val());
     let toDate = new Date($("#inputToDate").val());
 
-    // KROK 8 JQUERY
     $.each(todoList, function (index, todo) {
         let todoDueDate = new Date(todo.dueDate);
 
@@ -79,13 +76,13 @@ let updateTodoList = function () {
 }
 setInterval(updateTodoList, 1000);
 
-// KROK 3C
+
 let deleteTodo = function (index) {
     todoList.splice(index, 1);
     updateJSONbin();
 }
 
-// KROK 3B
+
 let addTodo = function () {
     //get the elements in the form
     let inputTitle = $("#inputTitle");
@@ -110,7 +107,6 @@ let addTodo = function () {
     //add item to the list
     todoList.push(newTodo);
 
-    // KROK 3D
     window.localStorage.setItem("todos", JSON.stringify(todoList));
 
     updateJSONbin();

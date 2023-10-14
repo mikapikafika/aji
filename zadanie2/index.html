@@ -11,7 +11,7 @@
     <title>MyTODO App</title>
 </head>
 <body>
-<h1 class="title">MyNotes</h1>
+<h1 class="title text-center">MyNotes</h1>
 <div class="todo-list" id="todoListView">
     <table class="table">
         <thead>
@@ -19,7 +19,7 @@
             <th>Title</th>
             <th>Description</th>
             <th>Place</th>
-            <th>Due date</th>
+            <th>Date</th>
             <th>Action</th>
         </tr>
         </thead>
@@ -46,17 +46,25 @@
     <input class="add-btn btn btn-primary" type="button" value="Add"
            onclick="addTodo()"/>
 </form>
-<div class="search-field">
-    <label for="inputSearch">Search</label>
-    <input class="form-control" type="text" id="inputSearch" placeholder="Type Your seach here..."/>
-</div>
-<div class="search-field">
-    <label for="inputFromDate">From</label>
-    <input class="form-control" type="date" id="inputFromDate" placeholder="Chose date to start from..."/>
-</div>
-<div class="search-field">
-    <label for="inputToDate">To</label>
-    <input class="form-control" type="date" id="inputToDate" placeholder="Chose date to end at..."/>
+<div class="filters">
+    <div class="search-field input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text">Search</span>
+        </div>
+        <input class="form-control" type="text" id="inputSearch" placeholder="Type Your seach here..."/>
+    </div>
+    <div class="search-field input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text">From</span>
+        </div>
+        <input class="form-control" type="date" id="inputFromDate" placeholder="Chose date to start from..."/>
+    </div>
+    <div class="search-field input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text">To</span>
+        </div>
+        <input class="form-control" type="date" id="inputToDate" placeholder="Chose date to end at..."/>
+    </div>
 </div>
 </body>
 </html>
