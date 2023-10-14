@@ -2,27 +2,27 @@
 let todoList = []; //declares a new array for Your todo list
 
 // KROK 3
-let initList = function() {
+let initList = function () {
     // KROK 3D
     let savedList = window.localStorage.getItem("todos");
     if (savedList != null)
         todoList = JSON.parse(savedList);
     else     //code creating a default list with 2 items
         todoList.push(
-        {
-            title: "Learn JS",
-            description: "Create a demo application for my TODO's",
-            place: "445",
-            dueDate: new Date(2019,10,16)
-        },
-        {
-            title: "Lecture test",
-            description: "Quick test from the first three lectures",
-            place: "F6",
-            dueDate: new Date(2019,10,17)
-        }
-        // of course the lecture test mentioned above will not take place
-    );
+            {
+                title: "Learn JS",
+                description: "Create a demo application for my TODO's",
+                place: "445",
+                dueDate: new Date(2019, 10, 16)
+            },
+            {
+                title: "Lecture test",
+                description: "Quick test from the first three lectures",
+                place: "F6",
+                dueDate: new Date(2019, 10, 17)
+            }
+            // of course the lecture test mentioned above will not take place
+        );
 }
 //initList();
 
@@ -46,7 +46,7 @@ $.ajax({
     }
 });
 
-let updateJSONbin = function() {
+let updateJSONbin = function () {
     $.ajax({
         url: BASE_URL,
         type: 'PUT',
@@ -66,70 +66,57 @@ let updateJSONbin = function() {
 
 
 // KROK 3A
-let updateTodoList = function() {
-    let todoListDiv = $("#todoListView");
+let updateTodoList = function () {
+    let todoListTable = $("#todoListContent");
 
     //remove all elements
-    todoListDiv.empty();
+    todoListTable.empty();
 
     // KROK 3E
     //add all elements
     let filterInput = $("#inputSearch");
 
-    // for (let todo in todoList) {
-    //     if (
-    //         (filterInput.value === "") ||
-    //         (todoList[todo].title.includes(filterInput.value)) ||
-    //         (todoList[todo].description.includes(filterInput.value))
-    //     ) {
-    //         let newElement = document.createElement("p");
-    //         let newContent = document.createTextNode(todoList[todo].title + " " +
-    //             todoList[todo].description);
-    //         newElement.appendChild(newContent);
-    //
-    //         // KROK 3C
-    //         let newDeleteButton = document.createElement("input");
-    //         newDeleteButton.type = "button";
-    //         newDeleteButton.value = "x";
-    //         newDeleteButton.addEventListener("click",
-    //             function() {
-    //                 deleteTodo(todo);
-    //             });
-    //
-    //         newElement.appendChild(newDeleteButton);
-    //         todoListDiv.appendChild(newElement);
-    //     }
-    // }
-
     // KROK 8 JQUERY
     $.each(todoList, function (index, todo) {
         if (
-                (filterInput.val() === "") ||
-                (todo.title.includes(filterInput.val())) ||
-                (todo.description.includes(filterInput.val()))
-            ) {
-                let newElement =  $("<p>" + todo.title + " " + todo.description + "</p>");
+            (filterInput.val() === "") ||
+            (todo.title.includes(filterInput.val())) ||
+            (todo.description.includes(filterInput.val()))
+        ) {
+            // let newElement =  $("<p>" + todo.title + " " + todo.description + "</p>");
+            //
+            // let newDeleteButton = $("<input class='delete-btn btn btn-danger' type='button' value='x'>");
+            // newDeleteButton.on("click", function() {
+            //     deleteTodo(index)
+            // });
+            //
+            // newElement.append(newDeleteButton);
+            // todoListDiv.append(newElement);
+            let newRow = $("<tr>");
+            newRow.append($("<td>" + todo.title + "</td>"));
+            newRow.append($("<td>" + todo.description + "</td>"));
+            newRow.append($("<td>" + todo.place + "</td>"));
+            newRow.append($("<td>" + todo.dueDate + "</td>"));
+            let newDeleteButton = $("<input class='delete-btn btn btn-danger' type='button' value='x'>");
+            newDeleteButton.on("click", function () {
+                deleteTodo(index);
+            });
+            newRow.append($("<td>").append(newDeleteButton));
 
-                let newDeleteButton = $("<input class='delete-btn btn btn-danger' type='button' value='x'>");
-                newDeleteButton.on("click", function() {
-                    deleteTodo(index)
-                });
-
-                newElement.append(newDeleteButton);
-                todoListDiv.append(newElement);
+            todoListTable.append(newRow);
         }
     });
 }
 setInterval(updateTodoList, 1000);
 
 // KROK 3C
-let deleteTodo = function(index) {
-    todoList.splice(index,1);
+let deleteTodo = function (index) {
+    todoList.splice(index, 1);
     updateJSONbin();
 }
 
 // KROK 3B
-let addTodo = function() {
+let addTodo = function () {
     //get the elements in the form
     let inputTitle = $("#inputTitle");
     let inputDescription = $("#inputDescription");
