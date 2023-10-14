@@ -52,7 +52,7 @@ let updateTodoList = function () {
     let toDate = new Date($("#inputToDate").val());
 
     $.each(todoList, function (index, todo) {
-        let todoDueDate = new Date(todo.dueDate);
+        let todoDueDate = new Date(todo.dueDate).toDateString();
 
         if (
             (filterInput === "" || todo.title.includes(filterInput) || todo.description.includes(filterInput))
@@ -63,9 +63,7 @@ let updateTodoList = function () {
             newRow.append($("<td>" + todo.title + "</td>"));
             newRow.append($("<td>" + todo.description + "</td>"));
             newRow.append($("<td>" + todo.place + "</td>"));
-
-            let formattedDate = todoDueDate.getDate() + "." + (todoDueDate.getMonth() + 1) + "." + todoDueDate.getFullYear();
-            newRow.append($("<td>" + formattedDate + "</td>"));
+            newRow.append($("<td>" + todoDueDate + "</td>"));
 
             let newDeleteButton = $("<input class='delete-btn btn btn-danger' type='button' value='x'>");
             newDeleteButton.on("click", function () {
