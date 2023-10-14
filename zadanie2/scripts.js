@@ -1,31 +1,6 @@
 "use strict"
 let todoList = []; //declares a new array for Your todo list
 
-// KROK 3
-let initList = function () {
-    // KROK 3D
-    let savedList = window.localStorage.getItem("todos");
-    if (savedList != null)
-        todoList = JSON.parse(savedList);
-    else     //code creating a default list with 2 items
-        todoList.push(
-            {
-                title: "Learn JS",
-                description: "Create a demo application for my TODO's",
-                place: "445",
-                dueDate: new Date(2019, 10, 16)
-            },
-            {
-                title: "Lecture test",
-                description: "Quick test from the first three lectures",
-                place: "F6",
-                dueDate: new Date(2019, 10, 17)
-            }
-            // of course the lecture test mentioned above will not take place
-        );
-}
-//initList();
-
 // KROK 4
 const BASE_URL = "https://api.jsonbin.io/v3/b/652956660574da7622b86ba4";
 const SECRET_KEY = "$2a$10$k6rJFntlGv4uRtrF6Kh1MO.f1AIzeGDuHvMWwgoewjf6lbsGqaX2a";
@@ -74,24 +49,19 @@ let updateTodoList = function () {
 
     // KROK 3E
     //add all elements
-    let filterInput = $("#inputSearch");
+    let filterInput = $("#inputSearch").val();
+    let fromDate = new Date($("#inputFromDate").val());
+    let toDate = new Date($("#inputToDate").val());
 
     // KROK 8 JQUERY
     $.each(todoList, function (index, todo) {
+        let todoDueDate = new Date(todo.dueDate);
+
         if (
-            (filterInput.val() === "") ||
-            (todo.title.includes(filterInput.val())) ||
-            (todo.description.includes(filterInput.val()))
+            (filterInput === "" || todo.title.includes(filterInput) || todo.description.includes(filterInput))
+            && (isNaN(fromDate.getTime()) || todoDueDate >= fromDate)
+            && (isNaN(toDate.getTime()) || todoDueDate <= toDate)
         ) {
-            // let newElement =  $("<p>" + todo.title + " " + todo.description + "</p>");
-            //
-            // let newDeleteButton = $("<input class='delete-btn btn btn-danger' type='button' value='x'>");
-            // newDeleteButton.on("click", function() {
-            //     deleteTodo(index)
-            // });
-            //
-            // newElement.append(newDeleteButton);
-            // todoListDiv.append(newElement);
             let newRow = $("<tr>");
             newRow.append($("<td>" + todo.title + "</td>"));
             newRow.append($("<td>" + todo.description + "</td>"));
