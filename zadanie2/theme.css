@@ -18,35 +18,40 @@ body {
 .title {
     color: white;
     font-weight: bold;
-    margin-top: 3vw;
-    margin-bottom: 2vw;
-    font-size: 50px;
+    margin-top: 3rem;
+    margin-bottom: 1.5rem;
+    font-size: 4rem;
     text-shadow: 0px 0px 13px rgb(58, 82, 125);
 }
 
 .sub-title {
-    font-size: 40px;
+    font-size: 3rem;
+    margin-bottom: 0.5rem;
 }
 
 
 /* LAYOUT */
-
-.todo-list, .todo-form, .search-field {
-    width: 50vw;
-    border-radius: 10px;
-    background: white;
-    padding: 2vw;
-    margin: auto;
-    box-shadow: 0px 0px 16px 0px rgba(58, 82, 125, 1);
-}
 
 .table th, .table td {
     vertical-align: middle;
     text-align: center;
 }
 
+.todo-list, .todo-form, .search-field {
+    max-width: 60vw;
+    border-radius: 10px;
+    background: white;
+    padding: 1.5rem;
+    margin: auto;
+    box-shadow: 0px 0px 16px 0px rgba(58, 82, 125, 1);
+}
+
 .todo-list {
-    margin: auto auto 3vw;
+    margin: auto auto 3rem;
+}
+
+.form-group {
+    margin-bottom: 1rem;
 }
 
 .add-btn, .delete-btn {
@@ -54,18 +59,17 @@ body {
 }
 
 .add-btn {
-    margin-top: 2vw;
+    margin-top: 1.5rem;
 }
 
 .filters {
-    margin-top: 3vw;
-    margin-bottom: 4vw;
+    margin-bottom: 4rem;
 }
 
 .search-field {
-    margin: 1vw auto auto;
-    max-width: 50vw;
-    padding: 2vw;
+    margin: 1rem auto auto;
+    max-width: 60vw;
+    padding: 1.5rem;
 }
 
 
