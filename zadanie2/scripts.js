@@ -112,7 +112,7 @@ let updateTodoList = function () {
             newRow.append($("<td>" + todoDueDate + "</td>"));
 
             // Creating a new button for deleting the to-do item
-            let newDeleteButton = $("<input class='delete-btn btn btn-danger' type='button' value='x'>");
+            let newDeleteButton = $("<input class='delete-btn btn btn-outline-danger' type='button' value='x'>");
             newDeleteButton.on("click", function () {
                 deleteTodo(index);
             });

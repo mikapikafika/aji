@@ -9,7 +9,7 @@
 }
 
 body {
-    background: linear-gradient(to right, #6190E8, #A7BFE8);
+    background: linear-gradient(to top, #6190E8, #A7BFE8);
 }
 
 
@@ -43,11 +43,11 @@ body {
     background: white;
     padding: 1.5rem;
     margin: auto;
-    box-shadow: 0px 0px 16px 0px rgba(58, 82, 125, 1);
+    box-shadow: 0px 0px 14px 0px rgba(58, 82, 125, 1);
 }
 
-.todo-list {
-    margin: auto auto 3rem;
+.todo-form {
+    margin: 3rem auto;
 }
 
 .form-group {
@@ -63,11 +63,11 @@ body {
 }
 
 .filters {
-    margin-bottom: 4rem;
+    margin-bottom: 2rem;
 }
 
 .search-field {
-    margin: 1rem auto auto;
+    margin: 1rem auto;
     max-width: 60vw;
     padding: 1.5rem;
 }
