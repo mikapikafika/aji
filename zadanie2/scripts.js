@@ -85,9 +85,12 @@ let updateTodoList = function () {
     todoListTable.empty();
 
     // Filtering data according to the user input
-    let filterInput = $("#inputSearch").val();
+    let filterInput = $("#inputSearch").val().toLowerCase();
     let fromDate = new Date($("#inputFromDate").val());
     let toDate = new Date($("#inputToDate").val());
+
+    // Needed for showing / hiding the table
+    let hasItems = false;
 
     // Iterating over the todoList array and adding new rows to the table
     $.each(todoList, function (index, todo) {
@@ -95,10 +98,12 @@ let updateTodoList = function () {
 
         // Checking if the to-do item should be displayed (filtering)
         if (
-            (filterInput === "" || todo.title.includes(filterInput) || todo.description.includes(filterInput))
+            (filterInput === "" || todo.title.toLowerCase().includes(filterInput)
+                || todo.description.toLowerCase().includes(filterInput))
             && (isNaN(fromDate.getTime()) || todoDueDate >= fromDate)
             && (isNaN(toDate.getTime()) || todoDueDate <= toDate)
         ) {
+            hasItems = true;
             // Creating a new row for the matching to-do item
             let newRow = $("<tr>");
             newRow.append($("<td>" + todo.title + "</td>"));
@@ -117,6 +122,12 @@ let updateTodoList = function () {
             todoListTable.append(newRow);
         }
     });
+
+    if (hasItems) {
+        $("#todoListView").slideDown();
+    } else {
+        $("#todoListView").slideUp();
+    }
 }
 // Calling the updateTodoList function every second
 setInterval(updateTodoList, 1000);
