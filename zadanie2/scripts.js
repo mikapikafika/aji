@@ -1,19 +1,22 @@
 "use strict"
 
-let todoList = []; //declares a new array for Your todo list
+/* DATA HOSTING */
+
+let todoList = []; // Declares a new array for Your to-do list
 
 const BASE_URL = "https://api.jsonbin.io/v3/b/652956660574da7622b86ba4";
 const SECRET_KEY = "$2a$10$k6rJFntlGv4uRtrF6Kh1MO.f1AIzeGDuHvMWwgoewjf6lbsGqaX2a";
+
+// Fetching data from the JSON bin using AJAX GET request
 $.ajax({
-    // copy Your bin identifier here. It can be obtained in the dashboard
     url: BASE_URL,
     type: 'GET',
-    headers: { //Required only if you are trying to access a private bin
+    headers: { // Required only if you are trying to access a private bin
         'X-Master-Key': SECRET_KEY,
-        'X-Bin-Meta': false
+        'X-Bin-Meta': false // To retrieve only the data and not the metadata
     },
     success: (data) => {
-        // console.log(data);
+        // Updating todoList array with data from JSON response
         todoList = data;
     },
     error: (err) => {
@@ -21,11 +24,12 @@ $.ajax({
     }
 });
 
+// Updating the JSON bin with the updated todoList array using AJAX PUT request
 let updateJSONbin = function () {
     $.ajax({
         url: BASE_URL,
         type: 'PUT',
-        headers: { //Required only if you are trying to access a private bin
+        headers: { // Required only if you are trying to access a private bin
             'X-Master-Key': SECRET_KEY
         },
         contentType: 'application/json',
@@ -40,64 +44,23 @@ let updateJSONbin = function () {
 }
 
 
-let updateTodoList = function () {
-    let todoListTable = $("#todoListContent");
+/* TO-DO LIST FUNCTIONS */
 
-    //remove all elements
-    todoListTable.empty();
-
-    //add all elements
-    let filterInput = $("#inputSearch").val();
-    let fromDate = new Date($("#inputFromDate").val());
-    let toDate = new Date($("#inputToDate").val());
-
-    $.each(todoList, function (index, todo) {
-        let todoDueDate = new Date(todo.dueDate).toDateString();
-
-        if (
-            (filterInput === "" || todo.title.includes(filterInput) || todo.description.includes(filterInput))
-            && (isNaN(fromDate.getTime()) || todoDueDate >= fromDate)
-            && (isNaN(toDate.getTime()) || todoDueDate <= toDate)
-        ) {
-            let newRow = $("<tr>");
-            newRow.append($("<td>" + todo.title + "</td>"));
-            newRow.append($("<td>" + todo.description + "</td>"));
-            newRow.append($("<td>" + todo.place + "</td>"));
-            newRow.append($("<td>" + todoDueDate + "</td>"));
-
-            let newDeleteButton = $("<input class='delete-btn btn btn-danger' type='button' value='x'>");
-            newDeleteButton.on("click", function () {
-                deleteTodo(index);
-            });
-            newRow.append($("<td>").append(newDeleteButton));
-
-            todoListTable.append(newRow);
-        }
-    });
-}
-setInterval(updateTodoList, 1000);
-
-
-let deleteTodo = function (index) {
-    todoList.splice(index, 1);
-    updateJSONbin();
-}
-
-
+// Adding a new to-do item to the list
 let addTodo = function () {
-    //get the elements in the form
+    // Getting the references to the input fields
     let inputTitle = $("#inputTitle");
     let inputDescription = $("#inputDescription");
     let inputPlace = $("#inputPlace");
     let inputDate = $("#inputDate");
 
-    //get the values from the form
+    // Getting the values from the input fields
     let newTitle = inputTitle.val();
     let newDescription = inputDescription.val();
     let newPlace = inputPlace.val();
     let newDate = new Date(inputDate.val());
 
-    //create new item
+    // Creating a new to-do item object
     let newTodo = {
         title: newTitle,
         description: newDescription,
@@ -105,10 +68,61 @@ let addTodo = function () {
         dueDate: newDate
     };
 
-    //add item to the list
+    // Adding the new to-do item to the array
     todoList.push(newTodo);
 
+    // Storing the updated to-do list in the local storage
     window.localStorage.setItem("todos", JSON.stringify(todoList));
 
+    updateJSONbin();
+}
+
+// Updating the displayed to-do list
+let updateTodoList = function () {
+    let todoListTable = $("#todoListContent");
+
+    // Removing all elements
+    todoListTable.empty();
+
+    // Filtering data according to the user input
+    let filterInput = $("#inputSearch").val();
+    let fromDate = new Date($("#inputFromDate").val());
+    let toDate = new Date($("#inputToDate").val());
+
+    // Iterating over the todoList array and adding new rows to the table
+    $.each(todoList, function (index, todo) {
+        let todoDueDate = new Date(todo.dueDate).toDateString();
+
+        // Checking if the to-do item should be displayed (filtering)
+        if (
+            (filterInput === "" || todo.title.includes(filterInput) || todo.description.includes(filterInput))
+            && (isNaN(fromDate.getTime()) || todoDueDate >= fromDate)
+            && (isNaN(toDate.getTime()) || todoDueDate <= toDate)
+        ) {
+            // Creating a new row for the matching to-do item
+            let newRow = $("<tr>");
+            newRow.append($("<td>" + todo.title + "</td>"));
+            newRow.append($("<td>" + todo.description + "</td>"));
+            newRow.append($("<td>" + todo.place + "</td>"));
+            newRow.append($("<td>" + todoDueDate + "</td>"));
+
+            // Creating a new button for deleting the to-do item
+            let newDeleteButton = $("<input class='delete-btn btn btn-danger' type='button' value='x'>");
+            newDeleteButton.on("click", function () {
+                deleteTodo(index);
+            });
+            newRow.append($("<td>").append(newDeleteButton));
+
+            // Appending the new row to the table
+            todoListTable.append(newRow);
+        }
+    });
+}
+// Calling the updateTodoList function every second
+setInterval(updateTodoList, 1000);
+
+// Deleting a to-do item from the list
+let deleteTodo = function (index) {
+    todoList.splice(index, 1);
     updateJSONbin();
 }

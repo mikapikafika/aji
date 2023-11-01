@@ -8,19 +8,21 @@
           integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
     <script src="scripts.js"></script>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>MyTODO App</title>
 </head>
 <body>
 <h1 class="title text-center">MyNotes</h1>
+<!-- Displaying / modifying the to-do list -->
 <div class="todo-list" id="todoListView">
-    <table class="table">
+    <table class="table table-hover">
         <thead>
         <tr>
-            <th>Title</th>
-            <th>Description</th>
-            <th>Place</th>
-            <th>Date</th>
-            <th>Action</th>
+            <th scope="col">Title</th>
+            <th scope="col">Description</th>
+            <th scope="col">Place</th>
+            <th scope="col">Due date</th>
+            <th scope="col">Action</th>
         </tr>
         </thead>
         <tbody id="todoListContent"></tbody>
@@ -46,6 +48,8 @@
     <input class="add-btn btn btn-primary" type="button" value="Add"
            onclick="addTodo()"/>
 </form>
+<!-- Filtering the to-do list -->
+<h1 class="title sub-title text-center">Filters</h1>
 <div class="filters">
     <div class="search-field input-group mb-3">
         <div class="input-group-prepend">
@@ -57,13 +61,13 @@
         <div class="input-group-prepend">
             <span class="input-group-text">From</span>
         </div>
-        <input class="form-control" type="date" id="inputFromDate" placeholder="Chose date to start from..."/>
+        <input class="form-control" type="date" id="inputFromDate"/>
     </div>
     <div class="search-field input-group mb-3">
         <div class="input-group-prepend">
             <span class="input-group-text">To</span>
         </div>
-        <input class="form-control" type="date" id="inputToDate" placeholder="Chose date to end at..."/>
+        <input class="form-control" type="date" id="inputToDate"/>
     </div>
 </div>
 </body>
