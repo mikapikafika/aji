@@ -1,5 +1,4 @@
 
-
 body {
     background: linear-gradient(to right, #6190E8, #A7BFE8);
 }
@@ -33,6 +32,9 @@ h1 {
     max-width: 1200px;
     margin-bottom: 50px;
 }
-.search-label {
 
+
+.col-sm-2.form-group button {
+    padding: 5px 160px;
+    font-size: 18px;
 }
