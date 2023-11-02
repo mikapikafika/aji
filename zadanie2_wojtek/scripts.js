@@ -13,7 +13,6 @@ $.ajax({
         'X-Bin-Meta': false
     },
     success: (data) => {
-        // console.log(data);
         todoList = data;
     },
     error: (err) => {
@@ -47,6 +46,8 @@ let updateTodoList = function () {
     todoListTable .empty();
 
     //add all elements
+    let fromDate = new Date($("#inputFromDate").val());
+    let toDate = new Date($("#inputToDate").val());
     let filterInput = $("#inputSearch");
 
 
@@ -55,7 +56,9 @@ let updateTodoList = function () {
         if (
             (filterInput.val() === "") ||
             (todo.title.includes(filterInput.val())) ||
-            (todo.description.includes(filterInput.val()))
+            (todo.description.includes(filterInput.val())) // ad filter by date
+            && (isNaN(fromDate.getTime()) || todoDueDate >= fromDate)
+            && (isNaN(toDate.getTime()) || todoDueDate <= toDate)
         ) {
             var newRow = $("<tr>");
             newRow.append("<td>" + todo.title + "</td>");
@@ -105,7 +108,7 @@ let addTodo = function () {
     //add item to the list
     todoList.push(newTodo);
 
-    window.localStorage.setItem("todos", JSON.stringify(todoList));
+    // window.localStorage.setItem("todos", JSON.stringify(todoList));
 
     updateJSONbin();
 }
