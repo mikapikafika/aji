@@ -51,34 +51,24 @@ let updateTodoList = function () {
 
 
     $.each(todoList, function (index, todo) {
+        let todoDueDate = new Date(todo.dueDate).toDateString();
         if (
             (filterInput.val() === "") ||
             (todo.title.includes(filterInput.val())) ||
             (todo.description.includes(filterInput.val()))
         ) {
-            // let newElement = $("<p>" + todo.title + " " + todo.description + "</p>");
-            //
-            // let newDeleteButton = $("<input type='button' value='x'>");
-            // newDeleteButton.on("click", function () {
-            //     deleteTodo(index)
-            // });
-            //
-            // newElement.append(newDeleteButton);
-            // todoListDiv.append(newElement);
-
-
             var newRow = $("<tr>");
             newRow.append("<td>" + todo.title + "</td>");
             newRow.append("<td>" + todo.description + "</td>");
             newRow.append("<td>" + todo.place + "</td>");
-            newRow.append("<td>" + todo.dueDate + "</td>");
-            let newDeleteButton = $("<input type='button' value='x'>");
+            newRow.append("<td>" + todoDueDate + "</td>");
+            let newDeleteButton = $("<input class='delete-btn btn btn-outline-danger' type='button' value='x'>");
             newDeleteButton.on("click", function () {
                 deleteTodo(index)
             });
-            newRow.append(newDeleteButton)
+            newRow.append(newDeleteButton);
 
-            todoListTable .append(newRow);
+            todoListTable.append(newRow);
         }
     });
 }
