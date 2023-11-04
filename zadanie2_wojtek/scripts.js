@@ -54,9 +54,9 @@ let updateTodoList = function () {
     $.each(todoList, function (index, todo) {
         let todoDueDate = new Date(todo.dueDate);
         if (
-            (filterInput === "") ||
+            ((filterInput === "") ||
             (todo.title.toLowerCase().includes(filterInput)) ||
-            (todo.description.toLowerCase().includes(filterInput))
+            (todo.description.toLowerCase().includes(filterInput)))
             && (isNaN(fromDate.getTime()) || todoDueDate >= fromDate)
             && (isNaN(toDate.getTime()) || todoDueDate <= toDate)
         ) {
