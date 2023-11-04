@@ -32,6 +32,10 @@ body {
 
 /* LAYOUT */
 
+.container {
+    height: 100vh;
+}
+
 .table th, .table td {
     vertical-align: middle;
     text-align: center;
@@ -71,6 +75,8 @@ body {
     max-width: 60vw;
     padding: 1.5rem;
 }
+
+
 
 
 

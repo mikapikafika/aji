@@ -12,13 +12,18 @@ const SECRET_KEY = "$2a$10$k6rJFntlGv4uRtrF6Kh1MO.f1AIzeGDuHvMWwgoewjf6lbsGqaX2a
 $.ajax({
     url: BASE_URL,
     type: 'GET',
-    headers: { // Required only if you are trying to access a private bin
+    headers: {
         'X-Master-Key': SECRET_KEY,
         'X-Bin-Meta': false // To retrieve only the data and not the metadata
     },
     success: (data) => {
         // Updating todoList array with data from JSON response
-        todoList = data;
+        if (data.empty === true) {
+            console.log("No data in JSON bin");
+        } else {
+            todoList = data;
+            $("#todoListView").slideDown();
+        }
     },
     error: (err) => {
         console.log(err.response);
@@ -27,14 +32,23 @@ $.ajax({
 
 // Updating the JSON bin with the updated todoList array using AJAX PUT request
 let updateJSONbin = function () {
+    // Sending empty object if there's no to-dos
+    // This prevents the JSON bin from showing previously deleted to-do
+    let dataToSend;
+    if (todoList.length > 0) {
+        dataToSend = JSON.stringify(todoList);
+    } else {
+        dataToSend = JSON.stringify({empty: true});
+    }
+
     $.ajax({
         url: BASE_URL,
         type: 'PUT',
-        headers: { // Required only if you are trying to access a private bin
+        headers: {
             'X-Master-Key': SECRET_KEY
         },
         contentType: 'application/json',
-        data: JSON.stringify(todoList),
+        data: dataToSend,
         success: (data) => {
             console.log(data);
         },
@@ -59,9 +73,6 @@ let updateTodoList = function () {
     let fromDate = new Date($("#inputFromDate").val());
     let toDate = new Date($("#inputToDate").val());
 
-    // // Needed for showing / hiding the table
-    let hasItems = false;
-
     // Iterating over the todoList array and adding new rows to the table
     $.each(todoList, function (index, todo) {
         let todoDueDate = new Date(todo.dueDate);
@@ -73,8 +84,6 @@ let updateTodoList = function () {
             && (isNaN(fromDate.getTime()) || todoDueDate >= fromDate)
             && (isNaN(toDate.getTime()) || todoDueDate <= toDate)
         ) {
-            // hasItems = true;
-            // Creating a new row for the matching to-do item
             let newRow = $("<tr>");
             newRow.append($("<td>" + todo.title + "</td>"));
             newRow.append($("<td>" + todo.description + "</td>"));
@@ -93,7 +102,7 @@ let updateTodoList = function () {
         }
     });
 
-    if (hasItems) {
+    if (todoList.length > 0) {
         $("#todoListView").slideDown();
     } else {
         $("#todoListView").slideUp();
@@ -138,3 +147,5 @@ let addTodo = function () {
 
     updateJSONbin();
 }
+
+
