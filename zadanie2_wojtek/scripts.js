@@ -48,15 +48,15 @@ let updateTodoList = function () {
     //add all elements
     let fromDate = new Date($("#inputFromDate").val());
     let toDate = new Date($("#inputToDate").val());
-    let filterInput = $("#inputSearch");
+    let filterInput = $("#inputSearch").val().toLowerCase();
 
 
     $.each(todoList, function (index, todo) {
-        let todoDueDate = new Date(todo.dueDate).toDateString();
+        let todoDueDate = new Date(todo.dueDate);
         if (
-            (filterInput.val() === "") ||
-            (todo.title.includes(filterInput.val())) ||
-            (todo.description.includes(filterInput.val())) // ad filter by date
+            (filterInput === "") ||
+            (todo.title.toLowerCase().includes(filterInput)) ||
+            (todo.description.toLowerCase().includes(filterInput))
             && (isNaN(fromDate.getTime()) || todoDueDate >= fromDate)
             && (isNaN(toDate.getTime()) || todoDueDate <= toDate)
         ) {
@@ -64,7 +64,7 @@ let updateTodoList = function () {
             newRow.append("<td>" + todo.title + "</td>");
             newRow.append("<td>" + todo.description + "</td>");
             newRow.append("<td>" + todo.place + "</td>");
-            newRow.append("<td>" + todoDueDate + "</td>");
+            newRow.append("<td>" + todoDueDate.toDateString() + "</td>");
             let newDeleteButton = $("<input class='delete-btn btn btn-outline-danger' type='button' value='x'>");
             newDeleteButton.on("click", function () {
                 deleteTodo(index)
