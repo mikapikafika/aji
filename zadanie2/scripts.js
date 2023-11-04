@@ -1,5 +1,6 @@
 "use strict"
 
+
 /* DATA HOSTING */
 
 let todoList = []; // Declares a new array for Your to-do list
@@ -46,6 +47,67 @@ let updateJSONbin = function () {
 
 /* TO-DO LIST FUNCTIONS */
 
+// Updating the displayed to-do list
+let updateTodoList = function () {
+    let todoListTable = $("#todoListContent");
+
+    // Removing all elements
+    todoListTable.empty();
+
+    // Filtering data according to the user input
+    let filterInput = $("#inputSearch").val().toLowerCase();
+    let fromDate = new Date($("#inputFromDate").val());
+    let toDate = new Date($("#inputToDate").val());
+
+    // // Needed for showing / hiding the table
+    let hasItems = false;
+
+    // Iterating over the todoList array and adding new rows to the table
+    $.each(todoList, function (index, todo) {
+        let todoDueDate = new Date(todo.dueDate);
+
+        // Checking if the to-do item should be displayed (filtering)
+        if (
+            (filterInput === "" || todo.title.toLowerCase().includes(filterInput)
+                || todo.description.toLowerCase().includes(filterInput))
+            && (isNaN(fromDate.getTime()) || todoDueDate >= fromDate)
+            && (isNaN(toDate.getTime()) || todoDueDate <= toDate)
+        ) {
+            // hasItems = true;
+            // Creating a new row for the matching to-do item
+            let newRow = $("<tr>");
+            newRow.append($("<td>" + todo.title + "</td>"));
+            newRow.append($("<td>" + todo.description + "</td>"));
+            newRow.append($("<td>" + todo.place + "</td>"));
+            newRow.append($("<td>" + todoDueDate.toDateString() + "</td>"));
+
+            // Creating a new button for deleting the to-do item
+            let newDeleteButton = $("<input class='delete-btn btn btn-outline-danger' type='button' value='x'>");
+            newDeleteButton.on("click", function () {
+                deleteTodo(index);
+            });
+            newRow.append($("<td>").append(newDeleteButton));
+
+            // Appending the new row to the table
+            todoListTable.append(newRow);
+        }
+    });
+
+    if (hasItems) {
+        $("#todoListView").slideDown();
+    } else {
+        $("#todoListView").slideUp();
+    }
+}
+// Calling the updateTodoList function every second
+setInterval(updateTodoList, 1000);
+
+// Deleting a to-do item from the list
+let deleteTodo = function (index) {
+    todoList.splice(index, 1);
+    updateJSONbin();
+}
+
 // Adding a new to-do item to the list
 let addTodo = function () {
     // Getting the references to the input fields
@@ -74,66 +136,5 @@ let addTodo = function () {
     // Storing the updated to-do list in the local storage
     window.localStorage.setItem("todos", JSON.stringify(todoList));
 
-    updateJSONbin();
-}
-
-// Updating the displayed to-do list
-let updateTodoList = function () {
-    let todoListTable = $("#todoListContent");
-
-    // Removing all elements
-    todoListTable.empty();
-
-    // Filtering data according to the user input
-    let filterInput = $("#inputSearch").val().toLowerCase();
-    let fromDate = new Date($("#inputFromDate").val());
-    let toDate = new Date($("#inputToDate").val());
-
-    // Needed for showing / hiding the table
-    let hasItems = false;
-
-    // Iterating over the todoList array and adding new rows to the table
-    $.each(todoList, function (index, todo) {
-        let todoDueDate = new Date(todo.dueDate).toDateString();
-
-        // Checking if the to-do item should be displayed (filtering)
-        if (
-            (filterInput === "" || todo.title.toLowerCase().includes(filterInput)
-                || todo.description.toLowerCase().includes(filterInput))
-            && (isNaN(fromDate.getTime()) || todoDueDate >= fromDate)
-            && (isNaN(toDate.getTime()) || todoDueDate <= toDate)
-        ) {
-            hasItems = true;
-            // Creating a new row for the matching to-do item
-            let newRow = $("<tr>");
-            newRow.append($("<td>" + todo.title + "</td>"));
-            newRow.append($("<td>" + todo.description + "</td>"));
-            newRow.append($("<td>" + todo.place + "</td>"));
-            newRow.append($("<td>" + todoDueDate + "</td>"));
-
-            // Creating a new button for deleting the to-do item
-            let newDeleteButton = $("<input class='delete-btn btn btn-outline-danger' type='button' value='x'>");
-            newDeleteButton.on("click", function () {
-                deleteTodo(index);
-            });
-            newRow.append($("<td>").append(newDeleteButton));
-
-            // Appending the new row to the table
-            todoListTable.append(newRow);
-        }
-    });
-
-    if (hasItems) {
-        $("#todoListView").slideDown();
-    } else {
-        $("#todoListView").slideUp();
-    }
-}
-// Calling the updateTodoList function every second
-setInterval(updateTodoList, 1000);
-
-// Deleting a to-do item from the list
-let deleteTodo = function (index) {
-    todoList.splice(index, 1);
     updateJSONbin();
 }
