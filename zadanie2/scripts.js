@@ -3,7 +3,7 @@
 
 /* DATA HOSTING */
 
-let todoList = []; // Declares a new array for Your to-do list
+let todoList = [];
 
 const BASE_URL = "https://api.jsonbin.io/v3/b/652956660574da7622b86ba4";
 const SECRET_KEY = "$2a$10$k6rJFntlGv4uRtrF6Kh1MO.f1AIzeGDuHvMWwgoewjf6lbsGqaX2a";
@@ -18,11 +18,12 @@ $.ajax({
     },
     success: (data) => {
         // Updating todoList array with data from JSON response
+        // This prevents the JSON bin from showing previously deleted to-do
         if (data.empty === true) {
-            console.log("No data in JSON bin");
+            console.log("No data in the JSON bin");
         } else {
             todoList = data;
-            $("#todoListView").slideDown();
+            updateTodoList();
         }
     },
     error: (err) => {
@@ -109,12 +110,14 @@ let updateTodoList = function () {
     }
 }
 // Calling the updateTodoList function every second
-setInterval(updateTodoList, 1000);
+// (No longer needed)
+// setInterval(updateTodoList, 1000);
 
 // Deleting a to-do item from the list
 let deleteTodo = function (index) {
     todoList.splice(index, 1);
     updateJSONbin();
+    updateTodoList();
 }
 
 // Adding a new to-do item to the list
@@ -146,6 +149,7 @@ let addTodo = function () {
     window.localStorage.setItem("todos", JSON.stringify(todoList));
 
     updateJSONbin();
+    updateTodoList();
 }
 
 
