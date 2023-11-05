@@ -23,7 +23,7 @@ $.ajax({
             console.log("No data in the JSON bin");
         } else {
             todoList = data;
-            updateTodoList();
+            $("#todoListView").slideDown();
         }
     },
     error: (err) => {
@@ -110,14 +110,12 @@ let updateTodoList = function () {
     }
 }
 // Calling the updateTodoList function every second
-// (No longer needed)
-// setInterval(updateTodoList, 1000);
+setInterval(updateTodoList, 1000);
 
 // Deleting a to-do item from the list
 let deleteTodo = function (index) {
     todoList.splice(index, 1);
     updateJSONbin();
-    updateTodoList();
 }
 
 // Adding a new to-do item to the list
@@ -149,7 +147,6 @@ let addTodo = function () {
     window.localStorage.setItem("todos", JSON.stringify(todoList));
 
     updateJSONbin();
-    updateTodoList();
 }
 
 
