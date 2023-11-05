@@ -13,7 +13,11 @@ $.ajax({
         'X-Bin-Meta': false
     },
     success: (data) => {
-        todoList = data;
+        if (data.empty === true) {
+            console.log("No data in the JSON bin");
+        } else {
+            todoList = data;
+        }
     },
     error: (err) => {
         console.log(err.response);
@@ -21,6 +25,12 @@ $.ajax({
 });
 
 let updateJSONbin = function () {
+    let dataToSend;
+    if (todoList.length > 0) {
+        dataToSend = JSON.stringify(todoList);
+    } else {
+        dataToSend = JSON.stringify({empty: true});
+    }
     $.ajax({
         url: BASE_URL,
         type: 'PUT',
@@ -28,7 +38,7 @@ let updateJSONbin = function () {
             'X-Master-Key': SECRET_KEY
         },
         contentType: 'application/json',
-        data: JSON.stringify(todoList),
+        data: dataToSend,
         success: (data) => {
             console.log(data);
         },
@@ -43,9 +53,8 @@ let updateTodoList = function () {
     let todoListTable = $("#todoTable");
 
     //remove all elements
-    todoListTable .empty();
+    todoListTable.empty();
 
-    //add all elements
     let fromDate = new Date($("#inputFromDate").val());
     let toDate = new Date($("#inputToDate").val());
     let filterInput = $("#inputSearch").val().toLowerCase();
@@ -55,8 +64,8 @@ let updateTodoList = function () {
         let todoDueDate = new Date(todo.dueDate);
         if (
             ((filterInput === "") ||
-            (todo.title.toLowerCase().includes(filterInput)) ||
-            (todo.description.toLowerCase().includes(filterInput)))
+                (todo.title.toLowerCase().includes(filterInput)) ||
+                (todo.description.toLowerCase().includes(filterInput)))
             && (isNaN(fromDate.getTime()) || todoDueDate >= fromDate)
             && (isNaN(toDate.getTime()) || todoDueDate <= toDate)
         ) {
@@ -77,13 +86,11 @@ let updateTodoList = function () {
 }
 setInterval(updateTodoList, 1000);
 
-// KROK 3C
 let deleteTodo = function (index) {
     todoList.splice(index, 1);
     updateJSONbin();
 }
 
-// KROK 3B
 let addTodo = function () {
     //get the elements in the form
     let inputTitle = $("#inputTitle");
