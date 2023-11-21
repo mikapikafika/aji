@@ -1,19 +1,21 @@
 <template>
 <!--  <HelloWorld msg="Welcome to Your Vue.js App"/>-->
   <MoviesTable />
+  <SearchBar/>
   <CastList />
   <GenresList />
 </template>
 
 <script>
-// import HelloWorld from './components/HelloWorld.vue'
 import MoviesTable from "@/components/MoviesTable.vue";
 import CastList from "@/components/CastList.vue";
 import GenresList from "@/components/GenresList.vue";
+import SearchBar from "@/components/SearchBar.vue";
 
 export default {
   name: 'App',
   components: {
+    SearchBar,
     GenresList,
     MoviesTable,
     CastList,
