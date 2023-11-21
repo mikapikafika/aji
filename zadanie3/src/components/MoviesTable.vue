@@ -13,7 +13,7 @@ function showMore() {
 </script>
 
 <template>
-  <div>
+  <div class="centered-container">
     <table>
       <thead>
       <tr>
@@ -38,5 +38,10 @@ function showMore() {
 </template>
 
 <style scoped>
-
+.centered-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
 </style>
