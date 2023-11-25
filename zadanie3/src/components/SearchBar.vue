@@ -7,7 +7,7 @@ const titleFilter = ref("");
 const startYear = ref(1900);
 const endYear = ref(2019);
 const castFilter = ref("");
-const filteredMovies = ref([]);
+// const filteredMovies = ref([]);
 const moviesTable = ref([]);
 
 const filterByTitle = movie => {
@@ -26,7 +26,7 @@ const filterByCast = movie => {
 };
 
 const searchMovies = () => {
-  filteredMovies.value = movies.filter(movie => {
+  moviesTable.value = movies.filter(movie => {
     const titleMatch = titleFilter.value !== "" ? filterByTitle(movie) : true;
     const yearMatch = startYear.value !== "" || endYear.value !== "" ? filterByYear(movie) : true;
     const castMatch = castFilter.value !== "" ? filterByCast(movie) : true;
@@ -36,14 +36,15 @@ const searchMovies = () => {
 
   // moviesTable.value = [...filteredMovies.value];
 };
+moviesTable.value = [...movies];
 
 watch([titleFilter, startYear, endYear, castFilter], () => {
   searchMovies();
 });
 
-const emitFilteredMovies = () => {
-  moviesTable.value = [...filteredMovies.value];
-};
+// const emitFilteredMovies = () => {
+//   moviesTable.value = [...filteredMovies.value];
+// };
 </script>
 
 <template>
@@ -52,7 +53,7 @@ const emitFilteredMovies = () => {
     <input v-model="startYear" type="number" min="1900" max="2019">
     <input v-model="endYear" type="number" min="1900" max="2019">
     <input v-model="castFilter" type="text" placeholder="Name and surname">
-    <button @click="emitFilteredMovies">Search</button>
+    <button @click="searchMovies">Search</button>
     <MoviesTable :movies="moviesTable"/>
   </div>
 </template>

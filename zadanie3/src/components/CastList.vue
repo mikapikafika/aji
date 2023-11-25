@@ -14,7 +14,6 @@ const nonEmptyCastMovies = _.filter(moviesCast, (movie) => {
 
 const uniqueCast = ref(_.uniq(_.flatten(_.map(nonEmptyCastMovies, 'cast'))).slice(0, 100));
 
-
 for (const actor of uniqueCast.value) {
   moviesByCast.value[actor] = _.filter(moviesCast, (movie) => {
     return movie.cast && movie.cast.includes(actor);
