@@ -5,17 +5,25 @@ import {ref} from "vue";
 
 const moviesByCast = ref({});
 const moviesCast = _.cloneDeep(movies);
-const uniqueCast = ref(_.uniq(_.flatten(_.map(moviesCast, 'cast'))).slice(0, 100));
 
-for (const cast of uniqueCast.value) {
-  moviesByCast.value[cast] = _.filter(moviesCast, (movie) => {
-    return _.includes(movie.cast, cast);
+
+const nonEmptyCastMovies = _.filter(moviesCast, (movie) => {
+  console.log(movie.cast);
+  return movie.cast && movie.cast.length > 0;
+});
+
+const uniqueCast = ref(_.uniq(_.flatten(_.map(nonEmptyCastMovies, 'cast'))).slice(0, 100));
+
+
+for (const actor of uniqueCast.value) {
+  moviesByCast.value[actor] = _.filter(moviesCast, (movie) => {
+    return movie.cast && movie.cast.includes(actor);
   });
 }
 
 const moviesByCastVisibility = ref({});
-uniqueCast.value.forEach((genre) => {
-  moviesByCastVisibility.value[genre] = false;
+uniqueCast.value.forEach((cast) => {
+  moviesByCastVisibility.value[cast] = false;
 });
 
 function toggleMoviesVisibility(cast) {
@@ -25,7 +33,7 @@ function toggleMoviesVisibility(cast) {
 
 <template>
   <div>
-    <h3>bezcenny argentyński kaktus</h3>
+    <h3>Movies by cast</h3>
     <ul>
       <li class="cast" v-for="cast in uniqueCast" :key="cast">
         {{ cast }}
