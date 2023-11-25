@@ -47,7 +47,7 @@ showAll.value = props.movies.length <= 10;
       <tr v-for="movie in displayedMovies" :key="movie.id">
         <td>{{ movie.title }}</td>
         <td>{{ movie.year }}</td>
-        <td>{{ movie.cast.join(', ') }}</td>
+        <td>{{ movie.cast.join(', ')}}</td>
         <td>{{ movie.genres.join(', ') }}</td>
       </tr>
       </tbody>

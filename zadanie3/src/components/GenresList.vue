@@ -5,7 +5,7 @@ import {ref} from "vue";
 
 const randomMovies = _.sampleSize(movies, 100);
 const moviesByGenre = ref({});
-const uniqueGenres = _.uniq(_.flatten(randomMovies.map(movie => movie.genres))).slice(0, 100);
+const uniqueGenres = _.uniq(_.flatten(randomMovies.map(movie => movie.genres)))
 
 for (const genre of uniqueGenres) {
   moviesByGenre.value[genre] = randomMovies.filter((movie) => {
