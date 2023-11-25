@@ -1,17 +1,23 @@
 <template>
-  <GenresList/>
-  <CastList/>
+  <SearchBar/>
+  <MoviesTable movies="movies"/>
 </template>
 
 <script>
-import GenresList from "@/components/GenresList.vue";
-import CastList from "@/components/CastList.vue";
+import SearchBar from "@/components/SearchBar.vue";
+import MoviesTable from "@/components/MoviesTable.vue";
+import movies from './assets/movies.json';
 
 export default {
   name: 'App',
   components: {
-    GenresList,
-    CastList
+    SearchBar,
+    MoviesTable
+  },
+  data() {
+    return {
+      movies: movies
+    }
   }
 }
 </script>

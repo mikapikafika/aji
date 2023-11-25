@@ -27,6 +27,9 @@ watch( () => props.movies, () => {
   displayedMovies.value = [...props.movies.slice(0, 10)];
   showAll.value = props.movies.length <= 10;
 });
+
+displayedMovies.value = [...props.movies.slice(0, 10)];
+showAll.value = props.movies.length <= 10;
 </script>
 
 <template>
