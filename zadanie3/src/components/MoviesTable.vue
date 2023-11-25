@@ -1,20 +1,40 @@
 <script setup>
-import movies from '../assets/movies.json';
-import _ from 'lodash';
-import {ref} from "vue";
+import {defineProps, watch, ref} from "vue";
 
-const moviesTable = ref(_.take(movies, 10));
-const counter = ref(1);
+const props = defineProps({
+  movies: {
+    type: Array,
+    required: true,
+    default: () => []
+  }
+});
 
-function showMore() {
-  counter.value++;
-  moviesTable.value = _.take(movies, 10 * counter.value);
-}
+const displayedMovies = ref([]);
+const showAll = ref(false);
+
+const showMore = () => {
+  const currentLength = displayedMovies.value.length;
+  const moviesLeft = props.movies.length - currentLength;
+  const nextMovies = props.movies.slice(currentLength, currentLength + 10);
+  displayedMovies.value = [...displayedMovies.value, ...nextMovies];
+
+  if (moviesLeft <= 10) {
+    showAll.value = true;
+  }
+};
+
+watch( () => props.movies, () => {
+  displayedMovies.value = [...props.movies.slice(0, 10)];
+  showAll.value = props.movies.length <= 10;
+});
+
+displayedMovies.value = [...props.movies.slice(0, 10)];
+showAll.value = props.movies.length <= 10;
 </script>
 
 <template>
   <div class="centered-container">
-    <table>
+    <table v-if="displayedMovies.length > 0">
       <thead>
       <tr>
         <th>Title</th>
@@ -24,17 +44,19 @@ function showMore() {
       </tr>
       </thead>
       <tbody>
-      <tr v-for="movie in moviesTable" :key="movie.id">
+      <tr v-for="movie in displayedMovies" :key="movie.id">
         <td>{{ movie.title }}</td>
         <td>{{ movie.year }}</td>
-        <td>{{ movie.cast }}</td>
-        <td>{{ movie.genres }}</td>
+        <td>{{ movie.cast.join(', ') }}</td>
+        <td>{{ movie.genres.join(', ') }}</td>
       </tr>
       </tbody>
     </table>
-    <button @click="showMore">Show more</button>
+    <div v-else>
+      No movies found.
+    </div>
+    <button v-if="!showAll && displayedMovies.length < props.movies.length" @click="showMore">Show more</button>
   </div>
-
 </template>
 
 <style scoped>

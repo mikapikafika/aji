@@ -1,5 +1,6 @@
 <script setup>
-import { ref } from "vue";
+import {ref, watch} from "vue";
+import MoviesTable from "@/components/MoviesTable.vue";
 import movies from '../assets/movies.json';
 
 const titleFilter = ref("");
@@ -33,6 +34,14 @@ const searchMovies = () => {
     return titleMatch && yearMatch && castMatch;
   });
 
+  // moviesTable.value = [...filteredMovies.value];
+};
+
+watch([titleFilter, startYear, endYear, castFilter], () => {
+  searchMovies();
+});
+
+const emitFilteredMovies = () => {
   moviesTable.value = [...filteredMovies.value];
 };
 </script>
@@ -43,30 +52,8 @@ const searchMovies = () => {
     <input v-model="startYear" type="number" min="1900" max="2019">
     <input v-model="endYear" type="number" min="1900" max="2019">
     <input v-model="castFilter" type="text" placeholder="Name and surname">
-    <button @click="searchMovies">Search</button>
-  </div>
-  <div class="centered-container">
-    <table v-if="moviesTable.length > 0">
-      <thead>
-      <tr>
-        <th>Title</th>
-        <th>Year</th>
-        <th>Cast</th>
-        <th>Genres</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr v-for="movie in moviesTable" :key="movie.id">
-        <td>{{ movie.title }}</td>
-        <td>{{ movie.year }}</td>
-        <td>{{ movie.cast.join(', ') }}</td>
-        <td>{{ movie.genres.join(', ') }}</td>
-      </tr>
-      </tbody>
-    </table>
-    <div v-else>
-      No movies found.
-    </div>
+    <button @click="emitFilteredMovies">Search</button>
+    <MoviesTable :movies="moviesTable"/>
   </div>
 </template>
 
