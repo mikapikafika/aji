@@ -53,7 +53,7 @@ const emitFilteredMovies = () => {
     <input v-model="endYear" type="number" min="1900" max="2019">
     <input v-model="castFilter" type="text" placeholder="Name and surname">
     <button @click="emitFilteredMovies">Search</button>
-    <MoviesTable :movies="filteredMovies"/>
+    <MoviesTable :movies="moviesTable"/>
   </div>
 </template>
 
