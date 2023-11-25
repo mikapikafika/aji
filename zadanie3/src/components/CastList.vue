@@ -31,25 +31,47 @@ function toggleMoviesVisibility(cast) {
 </script>
 
 <template>
-  <div>
-    <h3>Movies by cast</h3>
-    <ul>
-      <li class="cast" v-for="cast in uniqueCast" :key="cast">
+  <div class="centered-container">
+    <h2>Movies by cast</h2>
+    <ul class="list-group">
+      <li class="cast list-group-item" v-for="cast in uniqueCast" :key="cast">
         {{ cast }}
-        <button @click="toggleMoviesVisibility(cast)">Show/Hide Movies</button>
-        <ul v-if="moviesByCastVisibility[cast]">
-          <li class="movies_by_cast" v-for="movie in moviesByCast[cast]" :key="movie.id">{{ movie.title }}</li>
-        </ul>
+        <span class="badge badge-pill"><button class="btn btn-light"
+                                               @click="toggleMoviesVisibility(cast)">Show / Hide</button></span>
+        <ol v-if="moviesByCastVisibility[cast]">
+          <li class="movies-by-cast" v-for="movie in moviesByCast[cast]" :key="movie.id">{{ movie.title }}</li>
+        </ol>
       </li>
     </ul>
   </div>
 </template>
 
 <style scoped>
+.centered-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 4rem;
+}
+
 .cast, .movies_by_cast {
   list-style: none;
-  padding: 0;
-  margin: 0;
+  margin: 1rem;
+  font-weight: 500;
+  font-size: 1.3rem;
+  border-radius: 10px;
 }
+
+.movies-by-cast {
+  margin: 0.5rem;
+  font-weight: 300;
+  font-size: 1rem;
+}
+
+.btn {
+  border-color: #6c757d;
+}
+
 </style>
 

@@ -48,12 +48,35 @@ watch([titleFilter, startYear, endYear, castFilter], () => {
 </script>
 
 <template>
-  <div>
-    <input v-model="titleFilter" type="text" placeholder="Movie title">
-    <input v-model="startYear" type="number" min="1900" max="2019">
-    <input v-model="endYear" type="number" min="1900" max="2019">
-    <input v-model="castFilter" type="text" placeholder="Name and surname">
-    <button @click="searchMovies">Search</button>
+  <div class="centered-container">
+    <form>
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Title</span>
+        </div>
+        <input class="form-control" v-model="titleFilter" type="text"
+               placeholder="Full title or its part">
+      </div>
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Production year (from)</span>
+        </div>
+        <input class="form-control" v-model="startYear" type="number" min="1900" max="2019">
+      </div>
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Production year (to)</span>
+        </div>
+        <input class="form-control" v-model="endYear" type="number" min="1900" max="2019">
+      </div>
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text">Cast</span>
+        </div>
+        <input class="form-control" v-model="castFilter" type="text" placeholder="Name and/or surname">
+      </div>
+      <!--    <button @click="searchMovies">Search</button>-->
+    </form>
     <MoviesTable :movies="moviesTable"/>
   </div>
 </template>

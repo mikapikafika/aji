@@ -23,7 +23,7 @@ const showMore = () => {
   }
 };
 
-watch( () => props.movies, () => {
+watch(() => props.movies, () => {
   displayedMovies.value = [...props.movies.slice(0, 10)];
   showAll.value = props.movies.length <= 10;
 });
@@ -34,20 +34,20 @@ showAll.value = props.movies.length <= 10;
 
 <template>
   <div class="centered-container">
-    <table v-if="displayedMovies.length > 0">
+    <table class="table table-hover" v-if="displayedMovies.length > 0">
       <thead>
       <tr>
-        <th>Title</th>
-        <th>Year</th>
-        <th>Cast</th>
-        <th>Genres</th>
+        <th scope="col">Title</th>
+        <th scope="col">Production Year</th>
+        <th scope="col">Cast</th>
+        <th scope="col">Genres</th>
       </tr>
       </thead>
-      <tbody>
+      <tbody class="table-content">
       <tr v-for="movie in displayedMovies" :key="movie.id">
         <td>{{ movie.title }}</td>
         <td>{{ movie.year }}</td>
-        <td>{{ movie.cast.join(', ')}}</td>
+        <td>{{ movie.cast.join(', ') }}</td>
         <td>{{ movie.genres.join(', ') }}</td>
       </tr>
       </tbody>
@@ -55,7 +55,9 @@ showAll.value = props.movies.length <= 10;
     <div v-else>
       No movies found.
     </div>
-    <button v-if="!showAll && displayedMovies.length < props.movies.length" @click="showMore">Show more</button>
+    <button class="btn btn-light" v-if="!showAll && displayedMovies.length < props.movies.length" @click="showMore">
+      Show more
+    </button>
   </div>
 </template>
 
@@ -65,5 +67,14 @@ showAll.value = props.movies.length <= 10;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+}
+
+.table {
+  background: white;
+  border-radius: 10px;
+}
+
+.table-content {
+  padding: 2rem;
 }
 </style>
