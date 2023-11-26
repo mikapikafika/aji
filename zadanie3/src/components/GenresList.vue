@@ -3,16 +3,22 @@ import movies from '../assets/movies.json';
 import _ from 'lodash';
 import {ref} from "vue";
 
-const randomMovies = _.sampleSize(movies, 100);
+// Choose random movies that have genres
+const nonEmptyGenreMovies = movies.filter(movie => movie.genres && movie.genres.length > 0);
+const randomMovies = _.sampleSize(nonEmptyGenreMovies, 100);
+console.log("Total number of movies:", randomMovies.length);
+
+// Create a dictionary that maps genres to movies
 const moviesByGenre = ref({});
 const uniqueGenres = _.uniq(_.flatten(randomMovies.map(movie => movie.genres)))
+console.log("Total number of genres:", uniqueGenres.length);
 
+// Populate the dictionary
 for (const genre of uniqueGenres) {
-  moviesByGenre.value[genre] = randomMovies.filter((movie) => {
-    return movie.genres.includes(genre);
-  });
+  moviesByGenre.value[genre] = randomMovies.filter(movie => movie.genres.includes(genre));
 }
 
+// Control the visibility of movies by genre
 const moviesByGenreVisibility = ref({});
 uniqueGenres.forEach((genre) => {
   moviesByGenreVisibility.value[genre] = false;
