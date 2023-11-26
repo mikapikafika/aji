@@ -1,6 +1,7 @@
 <script setup>
 import {defineProps, watch, ref} from "vue";
 
+// Props that are passed to the component
 const props = defineProps({
   movies: {
     type: Array,
@@ -9,20 +10,23 @@ const props = defineProps({
   }
 });
 
+// Reactive reference to the movies that are currently displayed
 const displayedMovies = ref([]);
 const showAll = ref(false);
 
+// Function that is called when the user clicks on the "Show more" button
 const showMore = () => {
   const currentLength = displayedMovies.value.length;
-  const moviesLeft = props.movies.length - currentLength;
   const nextMovies = props.movies.slice(currentLength, currentLength + 10);
-  displayedMovies.value = [...displayedMovies.value, ...nextMovies];
 
-  if (moviesLeft <= 10) {
+  displayedMovies.value.push(...nextMovies);
+
+  if (props.movies.length - currentLength <= 10) {
     showAll.value = true;
   }
 };
 
+// Watch for changes in the movies prop and update the displayed movies
 watch(() => props.movies, () => {
   displayedMovies.value = [...props.movies.slice(0, 10)];
   showAll.value = props.movies.length <= 10;
@@ -43,7 +47,7 @@ showAll.value = props.movies.length <= 10;
         <th scope="col">Genres</th>
       </tr>
       </thead>
-      <tbody class="table-content">
+      <tbody>
       <tr v-for="movie in displayedMovies" :key="movie.id">
         <td>{{ movie.title }}</td>
         <td>{{ movie.year }}</td>
@@ -72,9 +76,5 @@ showAll.value = props.movies.length <= 10;
 .table {
   background: white;
   border-radius: 10px;
-}
-
-.table-content {
-  padding: 2rem;
 }
 </style>

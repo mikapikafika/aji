@@ -3,13 +3,14 @@ import {ref, watch} from "vue";
 import MoviesTable from "@/components/MoviesTable.vue";
 import movies from '../assets/movies.json';
 
+// Initialize reactive refs for filters and movies table
 const titleFilter = ref("");
 const startYear = ref(1900);
 const endYear = ref(2019);
 const castFilter = ref("");
-// const filteredMovies = ref([]);
 const moviesTable = ref([]);
 
+// Filter functions
 const filterByTitle = movie => {
   return movie.title.toLowerCase().includes(titleFilter.value.toLowerCase());
 };
@@ -25,6 +26,7 @@ const filterByCast = movie => {
   return false;
 };
 
+// Search function that is called on every filter change
 const searchMovies = () => {
   moviesTable.value = movies.filter(movie => {
     const titleMatch = titleFilter.value !== "" ? filterByTitle(movie) : true;
@@ -33,18 +35,16 @@ const searchMovies = () => {
 
     return titleMatch && yearMatch && castMatch;
   });
-
-  // moviesTable.value = [...filteredMovies.value];
 };
+
+// Initialize movies table
 moviesTable.value = [...movies];
 
+// Watch for filter changes
 watch([titleFilter, startYear, endYear, castFilter], () => {
   searchMovies();
 });
 
-// const emitFilteredMovies = () => {
-//   moviesTable.value = [...filteredMovies.value];
-// };
 </script>
 
 <template>
@@ -75,7 +75,6 @@ watch([titleFilter, startYear, endYear, castFilter], () => {
         </div>
         <input class="form-control" v-model="castFilter" type="text" placeholder="Name and/or surname">
       </div>
-      <!--    <button @click="searchMovies">Search</button>-->
     </form>
     <MoviesTable :movies="moviesTable"/>
   </div>
