@@ -3,25 +3,24 @@ import movies from '../assets/movies.json';
 import _ from 'lodash';
 import {ref} from "vue";
 
+// Choose random movies that have cast members
+const nonEmptyCastMovies = movies.filter(movie => movie.cast && movie.cast.length > 0);
+const randomMovies = _.sampleSize(nonEmptyCastMovies, 100);
+console.log("Total number of movies:", randomMovies.length);
+
+// Create a dictionary that maps cast members to movies
 const moviesByCast = ref({});
-const moviesCast = _.cloneDeep(movies);
+const uniqueCast = _.uniq(_.flatten(randomMovies.map(movie => movie.cast)));
+console.log("Total number of cast members:", uniqueCast.length);
 
-
-const nonEmptyCastMovies = _.filter(moviesCast, (movie) => {
-  console.log(movie.cast);
-  return movie.cast && movie.cast.length > 0;
-});
-
-const uniqueCast = ref(_.uniq(_.flatten(_.map(nonEmptyCastMovies, 'cast'))).slice(0, 100));
-
-for (const actor of uniqueCast.value) {
-  moviesByCast.value[actor] = _.filter(moviesCast, (movie) => {
-    return movie.cast && movie.cast.includes(actor);
-  });
+// Populate the dictionary
+for (const actor of uniqueCast) {
+  moviesByCast.value[actor] = randomMovies.filter(movie => movie.cast && movie.cast.includes(actor));
 }
 
+// Control the visibility of movies by cast
 const moviesByCastVisibility = ref({});
-uniqueCast.value.forEach((cast) => {
+uniqueCast.forEach((cast) => {
   moviesByCastVisibility.value[cast] = false;
 });
 
@@ -55,7 +54,7 @@ function toggleMoviesVisibility(cast) {
   margin-top: 4rem;
 }
 
-.cast, .movies_by_cast {
+.cast {
   list-style: none;
   margin: 1rem;
   font-weight: 500;
