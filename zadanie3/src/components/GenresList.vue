@@ -10,7 +10,7 @@ console.log("Total number of movies:", randomMovies.length);
 
 // Create a dictionary that maps genres to movies
 const moviesByGenre = ref({});
-const uniqueGenres = _.uniq(_.flatten(randomMovies.map(movie => movie.genres)))
+const uniqueGenres = _.uniq(_.flatten(randomMovies.map(movie => movie.genres))).sort();
 console.log("Total number of genres:", uniqueGenres.length);
 
 // Populate the dictionary
@@ -30,10 +30,10 @@ function toggleMoviesVisibility(genre) {
 </script>
 
 <template>
-  <div class="centered-container">
+  <div class="movies-by-container">
     <h2>Movies by genre</h2>
     <ul class="list-group">
-      <li class="genres list-group-item" v-for="genre in uniqueGenres" :key="genre">
+      <li class="genres list-group-item shadow" v-for="genre in uniqueGenres" :key="genre">
         {{ genre }}
         <span class="badge badge-pill"><button class="btn btn-light"
                                                @click="toggleMoviesVisibility(genre)">Show / Hide</button></span>
@@ -46,14 +46,6 @@ function toggleMoviesVisibility(genre) {
 </template>
 
 <style scoped>
-.centered-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin-top: 4rem;
-}
-
 .genres {
   list-style: none;
   margin: 1rem;

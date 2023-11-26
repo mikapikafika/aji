@@ -45,4 +45,15 @@ body {
 h1, h2 {
   font-weight: 900;
 }
+
+.movies-by-container, .movies-table-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.movies-by-container {
+  margin-top: 4rem;
+}
 </style>

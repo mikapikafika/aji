@@ -26,6 +26,17 @@ const showMore = () => {
   }
 };
 
+const showLess = () => {
+  const currentLength = displayedMovies.value.length;
+  if (currentLength <= 10) {
+    displayedMovies.value = props.movies.slice(0, 10);
+    showAll.value = false;
+  } else {
+    displayedMovies.value.splice(-10);
+    showAll.value = false;
+  }
+};
+
 // Watch for changes in the movies prop and update the displayed movies
 watch(() => props.movies, () => {
   displayedMovies.value = [...props.movies.slice(0, 10)];
@@ -37,8 +48,8 @@ showAll.value = props.movies.length <= 10;
 </script>
 
 <template>
-  <div class="centered-container">
-    <table class="table table-hover" v-if="displayedMovies.length > 0">
+  <div class="movies-table-container">
+    <table class="table table-hover shadow" v-if="displayedMovies.length > 0">
       <thead>
       <tr>
         <th scope="col">No.</th>
@@ -61,22 +72,32 @@ showAll.value = props.movies.length <= 10;
     <div v-else>
       No movies found.
     </div>
-    <button class="btn btn-light" v-if="!showAll && displayedMovies.length < props.movies.length" @click="showMore">
-      Show more
-    </button>
+    <div class="buttons-container">
+      <button class="btn btn-light" v-if="displayedMovies.length < props.movies.length" @click="showMore"
+              :disabled="showAll">
+        Show more
+      </button>
+      <button class="btn btn-light" v-if="displayedMovies.length > 0" @click="showLess"
+              :disabled="displayedMovies.length <= 10">
+        Show less
+      </button>
+    </div>
   </div>
 </template>
 
 <style scoped>
-.centered-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
 .table {
   background: white;
   border-radius: 10px;
+}
+
+.buttons-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.btn {
+  margin-left: 1rem;
+  margin-right: 1rem;
 }
 </style>

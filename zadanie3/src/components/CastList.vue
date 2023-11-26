@@ -10,7 +10,8 @@ console.log("Total number of movies:", randomMovies.length);
 
 // Create a dictionary that maps cast members to movies
 const moviesByCast = ref({});
-const uniqueCast = _.uniq(_.flatten(randomMovies.map(movie => movie.cast)));
+const uniqueCast = _.uniq(_.flatten(randomMovies.map(movie => movie.cast)))
+    .filter(actor => actor.length >= 5).sort();
 console.log("Total number of cast members:", uniqueCast.length);
 
 // Populate the dictionary
@@ -30,10 +31,10 @@ function toggleMoviesVisibility(cast) {
 </script>
 
 <template>
-  <div class="centered-container">
+  <div class="movies-by-container">
     <h2>Movies by cast</h2>
     <ul class="list-group">
-      <li class="cast list-group-item" v-for="cast in uniqueCast" :key="cast">
+      <li class="cast list-group-item shadow" v-for="cast in uniqueCast" :key="cast">
         {{ cast }}
         <span class="badge badge-pill"><button class="btn btn-light"
                                                @click="toggleMoviesVisibility(cast)">Show / Hide</button></span>
@@ -46,14 +47,6 @@ function toggleMoviesVisibility(cast) {
 </template>
 
 <style scoped>
-.centered-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin-top: 4rem;
-}
-
 .cast {
   list-style: none;
   margin: 1rem;
@@ -63,8 +56,7 @@ function toggleMoviesVisibility(cast) {
 }
 
 .movies-by-cast {
-  list-style: none;
-  margin: 0.5rem 0.5rem 0.5rem -1.2rem;
+  margin: 0.5rem;
   font-weight: 300;
   font-size: 1rem;
 }
