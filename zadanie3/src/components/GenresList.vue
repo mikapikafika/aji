@@ -3,7 +3,9 @@ import movies from '../assets/movies.json';
 import _ from 'lodash';
 import {ref} from "vue";
 
-const randomMovies = _.sampleSize(movies, 100);
+const moviesWithGenres = movies.filter(movie => movie.genres && movie.genres.length > 0);
+const randomMovies = _.sampleSize(moviesWithGenres, 100);
+console.log("Total number of movies:", randomMovies.length);
 const moviesByGenre = ref({});
 const uniqueGenres = _.uniq(_.flatten(randomMovies.map(movie => movie.genres)))
 
