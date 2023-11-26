@@ -24,25 +24,46 @@ function toggleMoviesVisibility(genre) {
 </script>
 
 <template>
-  <div>
-    <h1>Movies by genre</h1>
-    <ul>
-      <li class="genres" v-for="genre in uniqueGenres" :key="genre">
+  <div class="centered-container">
+    <h2>Movies by genre</h2>
+    <ul class="list-group">
+      <li class="genres list-group-item" v-for="genre in uniqueGenres" :key="genre">
         {{ genre }}
-        <button @click="toggleMoviesVisibility(genre)">Show/Hide Movies</button>
-        <ul v-if="moviesByGenreVisibility[genre]">
-          <li class="movies_by_genre" v-for="movie in moviesByGenre[genre]" :key="movie.id">{{ movie.title }}</li>
-        </ul>
+        <span class="badge badge-pill"><button class="btn btn-light"
+                                               @click="toggleMoviesVisibility(genre)">Show / Hide</button></span>
+        <ol v-if="moviesByGenreVisibility[genre]">
+          <li class="movies-by-genre" v-for="movie in moviesByGenre[genre]" :key="movie.id">{{ movie.title }}</li>
+        </ol>
       </li>
     </ul>
   </div>
 </template>
 
 <style scoped>
-.genres, .movies_by_genre {
+.centered-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 4rem;
+}
+
+.genres {
   list-style: none;
-  padding: 0;
-  margin: 0;
+  margin: 1rem;
+  font-weight: 500;
+  font-size: 1.3rem;
+  border-radius: 10px;
+}
+
+.movies-by-genre {
+  margin: 0.5rem;
+  font-weight: 300;
+  font-size: 1rem;
+}
+
+.btn {
+  border-color: #6c757d;
 }
 </style>
 
