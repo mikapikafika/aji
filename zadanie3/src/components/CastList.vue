@@ -1,7 +1,7 @@
 <script setup>
 import movies from '../assets/movies.json';
 import _ from 'lodash';
-import {ref} from "vue";
+import {computed, ref} from "vue";
 
 // Choose random movies that have cast members
 const nonEmptyCastMovies = movies.filter(movie => movie.cast && movie.cast.length > 0);
@@ -10,7 +10,8 @@ console.log("Total number of movies:", randomMovies.length);
 
 // Create a dictionary that maps cast members to movies
 const moviesByCast = ref({});
-const uniqueCast = _.uniq(_.flatten(randomMovies.map(movie => movie.cast)));
+const uniqueCast = _.uniq(_.flatten(randomMovies.map(movie => movie.cast)))
+    .filter(actor => actor.length >= 5).sort();
 console.log("Total number of cast members:", uniqueCast.length);
 
 // Populate the dictionary
@@ -27,15 +28,29 @@ uniqueCast.forEach((cast) => {
 function toggleMoviesVisibility(cast) {
   moviesByCastVisibility.value[cast] = !moviesByCastVisibility.value[cast];
 }
+
+// Sorting
+const sortOrder = ref('asc');
+function toggleSortOrder() {
+  sortOrder.value = sortOrder.value === 'asc' ? 'desc' : 'asc';
+}
+
+// Reactive sorting (computed property)
+const sortedCast = computed(() => {
+  return _.orderBy(uniqueCast, [], sortOrder.value);
+});
 </script>
 
 <template>
-  <div class="centered-container">
+  <div class="movies-by-container">
     <h2>Movies by cast</h2>
+    <button class="btn btn-light shadow" @click="toggleSortOrder">
+      Sort {{ sortOrder === 'asc' ? 'descending' : 'ascending' }}
+    </button>
     <ul class="list-group">
-      <li class="cast list-group-item" v-for="cast in uniqueCast" :key="cast">
+      <li class="cast list-group-item shadow" v-for="cast in sortedCast" :key="cast">
         {{ cast }}
-        <span class="badge badge-pill"><button class="btn btn-light"
+        <span class="badge badge-pill"><button class="btn btn-light btn-show"
                                                @click="toggleMoviesVisibility(cast)">Show / Hide</button></span>
         <ol v-if="moviesByCastVisibility[cast]">
           <li class="movies-by-cast" v-for="movie in moviesByCast[cast]" :key="movie.id">{{ movie.title }}</li>
@@ -46,14 +61,6 @@ function toggleMoviesVisibility(cast) {
 </template>
 
 <style scoped>
-.centered-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin-top: 4rem;
-}
-
 .cast {
   list-style: none;
   margin: 1rem;
@@ -63,13 +70,12 @@ function toggleMoviesVisibility(cast) {
 }
 
 .movies-by-cast {
-  list-style: none;
-  margin: 0.5rem 0.5rem 0.5rem -1.2rem;
+  margin: 0.5rem;
   font-weight: 300;
   font-size: 1rem;
 }
 
-.btn {
+.btn-show {
   border-color: #6c757d;
 }
 

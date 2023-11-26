@@ -1,7 +1,7 @@
 <script setup>
 import movies from '../assets/movies.json';
 import _ from 'lodash';
-import {ref} from "vue";
+import {computed, ref} from "vue";
 
 // Choose random movies that have genres
 const nonEmptyGenreMovies = movies.filter(movie => movie.genres && movie.genres.length > 0);
@@ -10,7 +10,7 @@ console.log("Total number of movies:", randomMovies.length);
 
 // Create a dictionary that maps genres to movies
 const moviesByGenre = ref({});
-const uniqueGenres = _.uniq(_.flatten(randomMovies.map(movie => movie.genres)))
+const uniqueGenres = _.uniq(_.flatten(randomMovies.map(movie => movie.genres))).sort();
 console.log("Total number of genres:", uniqueGenres.length);
 
 // Populate the dictionary
@@ -27,15 +27,29 @@ uniqueGenres.forEach((genre) => {
 function toggleMoviesVisibility(genre) {
   moviesByGenreVisibility.value[genre] = !moviesByGenreVisibility.value[genre];
 }
+
+// Sorting
+const sortOrder = ref('asc');
+function toggleSortOrder() {
+  sortOrder.value = sortOrder.value === 'asc' ? 'desc' : 'asc';
+}
+
+// Reactive sorting (computed property)
+const sortedGenres = computed(() => {
+  return _.orderBy(uniqueGenres, [], sortOrder.value);
+});
 </script>
 
 <template>
-  <div class="centered-container">
+  <div class="movies-by-container">
     <h2>Movies by genre</h2>
+    <button class="btn btn-light shadow" @click="toggleSortOrder">
+      Sort {{ sortOrder === 'asc' ? 'descending' : 'ascending' }}
+    </button>
     <ul class="list-group">
-      <li class="genres list-group-item" v-for="genre in uniqueGenres" :key="genre">
+      <li class="genres list-group-item shadow" v-for="genre in sortedGenres" :key="genre">
         {{ genre }}
-        <span class="badge badge-pill"><button class="btn btn-light"
+        <span class="badge badge-pill"><button class="btn btn-light btn-show"
                                                @click="toggleMoviesVisibility(genre)">Show / Hide</button></span>
         <ol v-if="moviesByGenreVisibility[genre]">
           <li class="movies-by-genre" v-for="movie in moviesByGenre[genre]" :key="movie.id">{{ movie.title }}</li>
@@ -46,14 +60,6 @@ function toggleMoviesVisibility(genre) {
 </template>
 
 <style scoped>
-.centered-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin-top: 4rem;
-}
-
 .genres {
   list-style: none;
   margin: 1rem;
@@ -68,7 +74,7 @@ function toggleMoviesVisibility(genre) {
   font-size: 1rem;
 }
 
-.btn {
+.btn-show {
   border-color: #6c757d;
 }
 </style>

@@ -48,28 +48,28 @@ watch([titleFilter, startYear, endYear, castFilter], () => {
 </script>
 
 <template>
-  <div class="centered-container">
+  <div class="movies-table-container">
     <form>
-      <div class="input-group mb-3">
+      <div class="input-group mb-3 shadow">
         <div class="input-group-prepend">
           <span class="input-group-text">Title</span>
         </div>
         <input class="form-control" v-model="titleFilter" type="text"
                placeholder="Full title or its part">
       </div>
-      <div class="input-group mb-3">
+      <div class="input-group mb-3 shadow">
         <div class="input-group-prepend">
           <span class="input-group-text">Production year (from)</span>
         </div>
         <input class="form-control" v-model="startYear" type="number" min="1900" max="2019">
       </div>
-      <div class="input-group mb-3">
+      <div class="input-group mb-3 shadow">
         <div class="input-group-prepend">
           <span class="input-group-text">Production year (to)</span>
         </div>
         <input class="form-control" v-model="endYear" type="number" min="1900" max="2019">
       </div>
-      <div class="input-group mb-3">
+      <div class="input-group mb-3 shadow">
         <div class="input-group-prepend">
           <span class="input-group-text">Cast</span>
         </div>
@@ -81,10 +81,5 @@ watch([titleFilter, startYear, endYear, castFilter], () => {
 </template>
 
 <style scoped>
-.centered-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
+
 </style>
