@@ -1,7 +1,7 @@
 <script setup>
 import movies from '../assets/movies.json';
 import _ from 'lodash';
-import {ref} from "vue";
+import {computed, ref} from "vue";
 
 // Choose random movies that have cast members
 const nonEmptyCastMovies = movies.filter(movie => movie.cast && movie.cast.length > 0);
@@ -28,15 +28,29 @@ uniqueCast.forEach((cast) => {
 function toggleMoviesVisibility(cast) {
   moviesByCastVisibility.value[cast] = !moviesByCastVisibility.value[cast];
 }
+
+// Sorting
+const sortOrder = ref('asc');
+function toggleSortOrder() {
+  sortOrder.value = sortOrder.value === 'asc' ? 'desc' : 'asc';
+}
+
+// Reactive sorting (computed property)
+const sortedCast = computed(() => {
+  return _.orderBy(uniqueCast, [], sortOrder.value);
+});
 </script>
 
 <template>
   <div class="movies-by-container">
     <h2>Movies by cast</h2>
+    <button class="btn btn-light shadow" @click="toggleSortOrder">
+      Sort {{ sortOrder === 'asc' ? 'descending' : 'ascending' }}
+    </button>
     <ul class="list-group">
-      <li class="cast list-group-item shadow" v-for="cast in uniqueCast" :key="cast">
+      <li class="cast list-group-item shadow" v-for="cast in sortedCast" :key="cast">
         {{ cast }}
-        <span class="badge badge-pill"><button class="btn btn-light"
+        <span class="badge badge-pill"><button class="btn btn-light btn-show"
                                                @click="toggleMoviesVisibility(cast)">Show / Hide</button></span>
         <ol v-if="moviesByCastVisibility[cast]">
           <li class="movies-by-cast" v-for="movie in moviesByCast[cast]" :key="movie.id">{{ movie.title }}</li>
@@ -61,7 +75,7 @@ function toggleMoviesVisibility(cast) {
   font-size: 1rem;
 }
 
-.btn {
+.btn-show {
   border-color: #6c757d;
 }
 

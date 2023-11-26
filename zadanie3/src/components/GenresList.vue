@@ -1,7 +1,7 @@
 <script setup>
 import movies from '../assets/movies.json';
 import _ from 'lodash';
-import {ref} from "vue";
+import {computed, ref} from "vue";
 
 // Choose random movies that have genres
 const nonEmptyGenreMovies = movies.filter(movie => movie.genres && movie.genres.length > 0);
@@ -27,15 +27,29 @@ uniqueGenres.forEach((genre) => {
 function toggleMoviesVisibility(genre) {
   moviesByGenreVisibility.value[genre] = !moviesByGenreVisibility.value[genre];
 }
+
+// Sorting
+const sortOrder = ref('asc');
+function toggleSortOrder() {
+  sortOrder.value = sortOrder.value === 'asc' ? 'desc' : 'asc';
+}
+
+// Reactive sorting (computed property)
+const sortedGenres = computed(() => {
+  return _.orderBy(uniqueGenres, [], sortOrder.value);
+});
 </script>
 
 <template>
   <div class="movies-by-container">
     <h2>Movies by genre</h2>
+    <button class="btn btn-light shadow" @click="toggleSortOrder">
+      Sort {{ sortOrder === 'asc' ? 'descending' : 'ascending' }}
+    </button>
     <ul class="list-group">
-      <li class="genres list-group-item shadow" v-for="genre in uniqueGenres" :key="genre">
+      <li class="genres list-group-item shadow" v-for="genre in sortedGenres" :key="genre">
         {{ genre }}
-        <span class="badge badge-pill"><button class="btn btn-light"
+        <span class="badge badge-pill"><button class="btn btn-light btn-show"
                                                @click="toggleMoviesVisibility(genre)">Show / Hide</button></span>
         <ol v-if="moviesByGenreVisibility[genre]">
           <li class="movies-by-genre" v-for="movie in moviesByGenre[genre]" :key="movie.id">{{ movie.title }}</li>
@@ -60,7 +74,7 @@ function toggleMoviesVisibility(genre) {
   font-size: 1rem;
 }
 
-.btn {
+.btn-show {
   border-color: #6c757d;
 }
 </style>

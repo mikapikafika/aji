@@ -73,11 +73,11 @@ showAll.value = props.movies.length <= 10;
       No movies found.
     </div>
     <div class="buttons-container">
-      <button class="btn btn-light" v-if="displayedMovies.length < props.movies.length" @click="showMore"
+      <button class="btn btn-light shadow" v-if="displayedMovies.length < props.movies.length" @click="showMore"
               :disabled="showAll">
         Show more
       </button>
-      <button class="btn btn-light" v-if="displayedMovies.length > 0" @click="showLess"
+      <button class="btn btn-light shadow" v-if="displayedMovies.length > 0" @click="showLess"
               :disabled="displayedMovies.length <= 10">
         Show less
       </button>
