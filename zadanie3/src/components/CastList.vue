@@ -3,19 +3,25 @@ import movies from '../assets/movies.json';
 import _ from 'lodash';
 import {ref} from "vue";
 
-const moviesByCast = ref({});
-const moviesCast = _.cloneDeep(movies);
-const uniqueCast = ref(_.uniq(_.flatten(_.map(moviesCast, 'cast'))).slice(0, 100));
+// Choose random movies that have cast members
+const nonEmptyCastMovies = movies.filter(movie => movie.cast && movie.cast.length > 0);
+const randomMovies = _.sampleSize(nonEmptyCastMovies, 100);
+console.log("Total number of movies:", randomMovies.length);
 
-for (const cast of uniqueCast.value) {
-  moviesByCast.value[cast] = _.filter(moviesCast, (movie) => {
-    return _.includes(movie.cast, cast);
-  });
+// Create a dictionary that maps cast members to movies
+const moviesByCast = ref({});
+const uniqueCast = _.uniq(_.flatten(randomMovies.map(movie => movie.cast)));
+console.log("Total number of cast members:", uniqueCast.length);
+
+// Populate the dictionary
+for (const actor of uniqueCast) {
+  moviesByCast.value[actor] = randomMovies.filter(movie => movie.cast && movie.cast.includes(actor));
 }
 
+// Control the visibility of movies by cast
 const moviesByCastVisibility = ref({});
-uniqueCast.value.forEach((genre) => {
-  moviesByCastVisibility.value[genre] = false;
+uniqueCast.forEach((cast) => {
+  moviesByCastVisibility.value[cast] = false;
 });
 
 function toggleMoviesVisibility(cast) {
@@ -24,25 +30,48 @@ function toggleMoviesVisibility(cast) {
 </script>
 
 <template>
-  <div>
-    <h3>bezcenny argentyński kaktus</h3>
-    <ul>
-      <li class="cast" v-for="cast in uniqueCast" :key="cast">
+  <div class="centered-container">
+    <h2>Movies by cast</h2>
+    <ul class="list-group">
+      <li class="cast list-group-item" v-for="cast in uniqueCast" :key="cast">
         {{ cast }}
-        <button @click="toggleMoviesVisibility(cast)">Show/Hide Movies</button>
-        <ul v-if="moviesByCastVisibility[cast]">
-          <li class="movies_by_cast" v-for="movie in moviesByCast[cast]" :key="movie.id">{{ movie.title }}</li>
-        </ul>
+        <span class="badge badge-pill"><button class="btn btn-light"
+                                               @click="toggleMoviesVisibility(cast)">Show / Hide</button></span>
+        <ol v-if="moviesByCastVisibility[cast]">
+          <li class="movies-by-cast" v-for="movie in moviesByCast[cast]" :key="movie.id">{{ movie.title }}</li>
+        </ol>
       </li>
     </ul>
   </div>
 </template>
 
 <style scoped>
-.cast, .movies_by_cast {
-  list-style: none;
-  padding: 0;
-  margin: 0;
+.centered-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 4rem;
 }
+
+.cast {
+  list-style: none;
+  margin: 1rem;
+  font-weight: 500;
+  font-size: 1.3rem;
+  border-radius: 10px;
+}
+
+.movies-by-cast {
+  list-style: none;
+  margin: 0.5rem 0.5rem 0.5rem -1.2rem;
+  font-weight: 300;
+  font-size: 1rem;
+}
+
+.btn {
+  border-color: #6c757d;
+}
+
 </style>
 

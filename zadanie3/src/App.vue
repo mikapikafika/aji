@@ -1,35 +1,48 @@
 <template>
-<!--  <HelloWorld msg="Welcome to Your Vue.js App"/>-->
-  <MoviesTable />
+  <h1>Movies Database</h1>
   <SearchBar/>
-  <CastList />
-  <GenresList />
+  <GenresList/>
+  <CastList/>
 </template>
 
 <script>
-import MoviesTable from "@/components/MoviesTable.vue";
-import CastList from "@/components/CastList.vue";
-import GenresList from "@/components/GenresList.vue";
 import SearchBar from "@/components/SearchBar.vue";
+import GenresList from "@/components/GenresList.vue";
+import CastList from "@/components/CastList.vue";
 
 export default {
   name: 'App',
   components: {
     SearchBar,
     GenresList,
-    MoviesTable,
-    CastList,
+    CastList
   }
 }
 </script>
 
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;900&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Roboto', sans-serif;
+}
+
+body {
+  background: #acb0fc;
+}
+
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  color: #323556;
   margin-top: 60px;
+}
+
+h1, h2 {
+  font-weight: 900;
 }
 </style>
