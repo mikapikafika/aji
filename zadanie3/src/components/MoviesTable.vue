@@ -41,6 +41,7 @@ showAll.value = props.movies.length <= 10;
     <table class="table table-hover" v-if="displayedMovies.length > 0">
       <thead>
       <tr>
+        <th scope="col">No.</th>
         <th scope="col">Title</th>
         <th scope="col">Production Year</th>
         <th scope="col">Cast</th>
@@ -48,7 +49,8 @@ showAll.value = props.movies.length <= 10;
       </tr>
       </thead>
       <tbody>
-      <tr v-for="movie in displayedMovies" :key="movie.id">
+      <tr v-for="(movie, index) in displayedMovies" :key="movie.id">
+        <td>{{ index + 1 }}</td>
         <td>{{ movie.title }}</td>
         <td>{{ movie.year }}</td>
         <td>{{ movie.cast.join(', ') }}</td>

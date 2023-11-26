@@ -63,7 +63,8 @@ function toggleMoviesVisibility(cast) {
 }
 
 .movies-by-cast {
-  margin: 0.5rem;
+  list-style: none;
+  margin: 0.5rem 0.5rem 0.5rem -1.2rem;
   font-weight: 300;
   font-size: 1rem;
 }
