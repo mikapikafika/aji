@@ -12,7 +12,8 @@
   "dependencies": {
     "bookshelf": "^1.2.0",
     "express": "^4.18.2",
-    "knex": "^3.1.0",
+    "knex": "^0.21.21",
+    "modules": "^0.4.0",
     "mssql": "^6.4.1"
   }
 }
