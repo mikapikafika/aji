@@ -10,18 +10,6 @@ app.get('/', (req, res) => {
   res.send('Hello, World!');
 });
 
-app.get('/test', async (req, res) => {
-  try {
-    // Fetch data from the OrderStatus table
-    const orderStatusList = await knexInstance('OrderStatus').select('*');
-
-    // Render the data on the page
-    res.send(`<pre>${JSON.stringify(orderStatusList, null, 2)}</pre>`);
-  } catch (error) {
-    console.error(error);
-    res.status(500).send('Internal Server Error');
-  }
-});
 
 // Start the server
 app.listen(PORT, () => {
@@ -65,7 +53,7 @@ app.get('/products/:id', async (req, res) => {
   }
 });
 
-// Add a new product - not tested yet
+
 app.post('/products', async (req, res) => {
   const { Name, Description, UnitPrice, Weight, CategoryId } = req.body;
 
@@ -77,7 +65,9 @@ app.post('/products', async (req, res) => {
   }
 
   try {
-    const [ProductId] = await knexInstance('Product').insert({
+    const [ProductId] = await knexInstance('Product')
+    .returning('ProductId')
+    .insert({
       Name,
       Description,
       UnitPrice,
@@ -91,7 +81,6 @@ app.post('/products', async (req, res) => {
   }
 });
 
-// Update a product - not tested yet
 app.put('/products/:id', async (req, res) => {
   const { id } = req.params;
   const { Name, Description, UnitPrice, Weight, CategoryId } = req.body;
@@ -157,7 +146,7 @@ app.get('/orders', async (req, res) => {
   }
 });
 
-// Add a new order - not tested yet
+
 app.post('/orders', async (req, res) => {
   const { ApprovalDate, OrderStatusId, UserName, Email, PhoneNumber } = req.body;
 
@@ -176,7 +165,9 @@ app.post('/orders', async (req, res) => {
   }
 
   try {
-    const [OrderId] = await knexInstance('Orders').insert({
+    const [OrderId] = await knexInstance('Orders')
+    .returning('OrderId')
+    .insert({
       ApprovalDate,
       OrderStatusId,
       UserName,
@@ -233,11 +224,11 @@ app.patch('/orders/:id', async (req, res) => {
   }
 });
 
-// Fetch a specific order by status - not tested yet
+
 app.get('/orders/:id', async (req, res) => {
   const { id } = req.params;
   try {
-    const orders = await knexInstance('Orders').where({ OrderStatusId: id }).select('*');
+    const orders = await knexInstance('Orders').where({ OrderId: id }).select('*');
     res.json(orders);
   } catch (error) {
     console.error(error);
@@ -248,7 +239,7 @@ app.get('/orders/:id', async (req, res) => {
 
 // ORDER STATUS
 // Fetch all order statuses
-app.get('/orderstatus', async (req, res) => {
+app.get('/status', async (req, res) => {
   try {
     const orderstatus = await knexInstance('OrderStatus').select('*');
     res.json(orderstatus);
