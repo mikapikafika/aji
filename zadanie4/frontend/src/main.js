@@ -2,6 +2,7 @@ import 'bootstrap/dist/css/bootstrap.css'
 import { createApp } from 'vue'
 import { createRouter, createWebHistory } from 'vue-router'
 import App from './App.vue'
+import store from './store'
 import CheckoutForm from './views/CheckoutForm.vue';
 import ProductsTable from './views/ProductsTable.vue';
 
@@ -9,7 +10,7 @@ const routes = [
   {
     path: '/checkout',
     name: 'checkout',
-    component: CheckoutForm
+    component: CheckoutForm,
   }, 
   {
     path: '/',
@@ -23,4 +24,4 @@ const router = createRouter({
   routes,
 });
 
-createApp(App).use(router).mount('#app');
+createApp(App).use(router).use(store).mount('#app');

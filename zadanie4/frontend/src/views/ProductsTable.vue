@@ -1,25 +1,31 @@
 <script setup>
-import {onMounted, ref, defineEmits, computed} from "vue";
-import axios from "axios";
+import {useStore} from "vuex";
+import {ref, computed} from "vue";
+// import axios from "axios";
+import productsData from "../../public/data.json";
 
-const products = ref([]);
+
+// const products = ref([]);
+const products = ref(productsData);
 const categories = ref([]);
 const selectedCategory = ref('');
 const searchText = ref('');
+// const orderedItems = ref([]);
+const store = useStore();
 
-onMounted(async () => {
-  try {
-    const [productsResponse, categoriesResponse] = await Promise.all([
-      axios.get("http://localhost:3000/products"),
-      axios.get("http://localhost:3000/categories")
-    ]);
-
-    products.value = productsResponse.data;
-    categories.value = categoriesResponse.data;
-  } catch (e) {
-    console.log(e);
-  }
-});
+// onMounted(async () => {
+//   try {
+//     const [productsResponse, categoriesResponse] = await Promise.all([
+//       axios.get("http://localhost:3000/products"),
+//       axios.get("http://localhost:3000/categories")
+//     ]);
+//
+//     products.value = productsResponse.data;
+//     categories.value = categoriesResponse.data;
+//   } catch (e) {
+//     console.log(e);
+//   }
+// });
 
 const filteredProducts = computed(() => {
   return products.value.filter(product => {
@@ -28,9 +34,9 @@ const filteredProducts = computed(() => {
   });
 });
 
-const emit = defineEmits(["addToCart"]);
 const addToCart = (product) => {
-  emit("addToCart", product);
+  console.log('added');
+  store.commit('addToCart', product);
 };
 </script>
 
