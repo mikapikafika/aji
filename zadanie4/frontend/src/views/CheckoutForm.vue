@@ -71,13 +71,13 @@ const totalPrice = computed(() => {
         <th></th>
       </tr>
       <tr v-for="(product, index) in orderedItems" :key="index">
-        <td>{{ product.name }}</td>
+        <td>{{ product.Name }}</td>
         <td>
           <button @click="decreaseQuantity(index)">-</button>
-          {{ product.quantity }}
+          {{ product.Quantity }}
           <button @click="increaseQuantity(index)">+</button>
         </td>
-        <td>{{ product.price * product.quantity }}</td>
+        <td>{{ product.UnitPrice * product.Quantity }}</td>
         <td>
           <button @click="removeProduct(index)">Remove</button>
         </td>
