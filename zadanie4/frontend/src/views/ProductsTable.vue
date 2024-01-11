@@ -1,12 +1,18 @@
 // IDK NA RAZIE TAK BO MI SIĘ NUDZIŁO
 
 <script setup>
-import {ref} from "vue";
+import {onMounted, ref, defineEmits} from "vue";
+import axios from "axios";
 
-const props = defineProps({
-  products: {
-    type: Array,
-    required: true
+const products = ref([]);
+
+onMounted(async () => {
+  try {
+    const response = await axios.get("http://localhost:3000/products");
+    console.log(response.data);
+    products.value = response.data;
+  } catch (e) {
+    console.log(e);
   }
 });
 const emit = defineEmits(["addToCart"]);
@@ -22,18 +28,14 @@ const addToCart = (product) => {
       <th>Name</th>
       <th>Description</th>
       <th>Unit Price</th>
-      <th>Weight</th>
-      <th>Category</th>
       <th>Action(?)</th>
     </tr>
     </thead>
     <tbody>
-    <tr v-for="product in products" :key="product.id">
-      <td>{{ product.name }}</td>
-      <td>{{ product.description }}</td>
-      <td>{{ product.price }}</td>
-      <td>{{ product.weight }}</td>
-      <td>{{ product.category }}</td>
+    <tr v-for="product in products" :key="product.ProductId">
+      <td>{{ product.Name }}</td>
+      <td>{{ product.Description }}</td>
+      <td>{{ product.UnitPrice }}</td>
       <td>
         <button @click="addToCart(product)">Buy</button>
       </td>

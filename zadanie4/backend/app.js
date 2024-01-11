@@ -20,6 +20,8 @@ app.listen(PORT, () => {
 const HttpStatus = require('http-status-codes');
 const bodyParser = require('body-parser');
 app.use(bodyParser.json());
+const cors = require('cors');
+app.use(cors());
 
 
 
