@@ -1,9 +1,19 @@
 const express = require('express');
 const app = express();
 const PORT = process.env.PORT || 3000;
-const knex = require('knex');
-const knexConfig = require('./knexfile');
-const knexInstance = knex(knexConfig);
+const HttpStatus = require('http-status-codes');
+const bodyParser = require('body-parser');
+const cors = require('cors');
+const bookshelf = require('./bookshelf'); 
+const Product = require('./models/Product');
+const Category = require('./models/Category');
+const Orders = require('./models/Orders');
+const OrderStatus = require('./models/OrderStatus');
+const OrderItems = require('./models/OrderItems');
+
+
+app.use(bodyParser.json());
+app.use(cors());
 
 // Define the '/hello' route
 app.get('/', (req, res) => {
@@ -17,17 +27,11 @@ app.listen(PORT, () => {
 });
 
 
-const HttpStatus = require('http-status-codes');
-const bodyParser = require('body-parser');
-app.use(bodyParser.json());
-const cors = require('cors');
-app.use(cors());
-
 
 // Fetch all products
 app.get('/products', async (req, res) => {
   try {
-    const products = await knexInstance('Product').select('*');
+    const products = await Product.fetchAll();
     res.json(products);
   } catch (error) {
     console.error(error);
@@ -39,9 +43,9 @@ app.get('/products', async (req, res) => {
 app.get('/products/:id', async (req, res) => {
   const { id } = req.params;
   try {
-    const product = await knexInstance('Product').where({ ProductId: id }).first();
+    const product = await Product.where({ ProductId: id }).fetch();
     if (product) {
-      res.json(product);
+      res.json(product.toJSON());
     } else {
       res.status(HttpStatus.StatusCodes.NOT_FOUND).send('Product not found');
     }
@@ -62,16 +66,15 @@ app.post('/products', async (req, res) => {
   }
 
   try {
-    const [ProductId] = await knexInstance('Product')
-    .returning('ProductId')
-    .insert({
+    const product = await Product.forge({
       Name,
       Description,
       UnitPrice,
       Weight,
       CategoryId,
-    });
-    res.status(HttpStatus.StatusCodes.CREATED).json({ ProductId });
+    }).save();
+
+    res.status(HttpStatus.StatusCodes.CREATED).json({ ProductId: product.get('ProductId') });
   } catch (error) {
     console.error(error);
     res.status(HttpStatus.StatusCodes.INTERNAL_SERVER_ERROR).send('Internal server error');
@@ -89,37 +92,35 @@ app.put('/products/:id', async (req, res) => {
   }
 
   try {
-    const product = await knexInstance('Product').where({ ProductId: id }).first();
+    const product = await Product.where({ ProductId: id }).fetch();
+
     if (!product) {
       return res.status(HttpStatus.StatusCodes.NOT_FOUND).json({
-        error: "Can't update product. Make sure the specified exists.",
+        error: "Can't update product. Make sure the specified product exists.",
       });
     }
 
-    const count = await knexInstance('Product').where({ ProductId: id }).update({
+    // Update the product attributes
+    await product.save({
       Name,
       Description,
       UnitPrice,
       Weight,
       CategoryId,
-    });
-    // counting to see if it's updated - idk if this is necessary, but knex returns 1 if updated and 0 if not
-    if (count > 0) {
-      res.status(HttpStatus.StatusCodes.OK).json({ message: "Product successfully updated." });
-    } else {
-      res.status(HttpStatus.StatusCodes.NOT_FOUND).json({ error: "Product not found. Make sure the specified ID is correct." });
-    }
-  }catch (error) {
-      console.error(error);
-      res.status(HttpStatus.StatusCodes.INTERNAL_SERVER_ERROR).send('Internal server error.');
-    }
+    }, { method: 'update', patch: true, require: false });
+
+    res.status(HttpStatus.StatusCodes.OK).json({ message: "Product successfully updated." });
+  } catch (error) {
+    console.error(error);
+    res.status(HttpStatus.StatusCodes.INTERNAL_SERVER_ERROR).send('Internal server error.');
+  }
 });
 
 
 // Fetch all categories
 app.get('/categories', async (req, res) => {
   try {
-    const categories = await knexInstance('Category').select('*');
+    const categories = await Category.fetchAll();
     res.json(categories);
   } catch (error) {
     console.error(error);
@@ -130,7 +131,7 @@ app.get('/categories', async (req, res) => {
 // Fetch all orders
 app.get('/orders', async (req, res) => {
   try {
-    const orders = await knexInstance('Orders').select('*');
+    const orders = await Orders.fetchAll();
     res.json(orders);
   } catch (error) {
     console.error(error);
@@ -140,9 +141,9 @@ app.get('/orders', async (req, res) => {
 
 
 app.post('/orders', async (req, res) => {
-  const { ApprovalDate, OrderStatusId, UserName, Email, PhoneNumber, OrderItems } = req.body;
+  const { ApprovalDate, OrderStatusId, UserName, Email, PhoneNumber, Items } = req.body;
 
-  if (!UserName || !Email || !PhoneNumber || !Array.isArray(OrderItems) || OrderItems.length === 0) {
+  if (!UserName || !Email || !PhoneNumber || !Array.isArray(Items) || Items.length === 0) {
     return res.status(HttpStatus.StatusCodes.BAD_REQUEST).json({
       error: "Can't add order. Username, email, and phone number can't be empty.",
     });
@@ -156,40 +157,39 @@ app.post('/orders', async (req, res) => {
   }
 
   try {
-    const [OrderId] = await knexInstance('Orders')
-    .returning('OrderId')
-    .insert({
+    const order = await Orders.forge({
       ApprovalDate,
       OrderStatusId,
       UserName,
       Email,
       PhoneNumber,
-    });
+    }).save();
 
-    for (let i = 0; i < OrderItems.length; i++) {
-      const product = await knexInstance('Product').where({ ProductId: OrderItems[i].ProductId }).first();
+    for (let i = 0; i < Items.length; i++) {
+      const product = await Product.forge({ ProductId: Items[i].ProductId }).fetch();
+
       if (!product) {
         return res.status(HttpStatus.StatusCodes.BAD_REQUEST).json({
           error: `Can't add order. Product with specified ID doesn't exist.`,
         });
       }
+
       // Validate if product's quantity is greater than 0 and a number
-      if (!Number.isInteger(OrderItems[i].Quantity) || OrderItems[i].Quantity <= 0) {
+      if (!Number.isInteger(Items[i].Quantity) || Items[i].Quantity <= 0) {
         return res.status(HttpStatus.StatusCodes.BAD_REQUEST).json({
           error: `Can't add order. Quantity for product must be an integer and greater than 0.`,
         });
       }
 
       // Add products to the order
-      await knexInstance('OrderItems').insert({
-        OrderId,
-        ProductId: OrderItems[i].ProductId,
-        Quantity: OrderItems[i].Quantity,
-      });
+      await OrderItems.forge({
+        OrderId: order.get('OrderId'),
+        ProductId: Items[i].ProductId,
+        Quantity: Items[i].Quantity,
+      }).save();
     }
 
-
-    res.status(HttpStatus.StatusCodes.CREATED).json({ OrderId });
+    res.status(HttpStatus.StatusCodes.CREATED).json({ OrderId: order.get('OrderId') });
   } catch (error) {
     console.error(error);
     res.status(HttpStatus.StatusCodes.INTERNAL_SERVER_ERROR).send('Internal server error');
@@ -202,37 +202,51 @@ app.patch('/orders/:id', async (req, res) => {
   const { OrderStatusId } = req.body;
 
   try {
-    const order = await knexInstance('Orders').where({ OrderId: id }).first();
-    // Validate if order exists
+    const order = await Orders.forge({ OrderId: id }).fetch();
+
     if (!order) {
       return res.status(HttpStatus.StatusCodes.NOT_FOUND).json({
         error: "Can't update order. Make sure the order exists.",
       });
     }
 
-    // Validate if order is not cancelled
-    if (order.OrderStatusId === 3) {
+    if (order.get('OrderStatusId') === 3) {
       return res.status(HttpStatus.StatusCodes.BAD_REQUEST).json({
         error: "Can't update order. Order is already cancelled.",
       });
     }
 
-    // Validate if the order status is not previously set
-    if (order.OrderStatusId > OrderStatusId) {
+    if (order.get('OrderStatusId') > OrderStatusId) {
       return res.status(HttpStatus.StatusCodes.BAD_REQUEST).json({
         error: "Can't update order. Order status can't be changed to a previous status.",
       });
     }
 
-    const count = await knexInstance('Orders').where({ OrderId: id }).update({
-      OrderStatusId,
-    });
+    await order.save({ OrderStatusId }, { method: 'update', patch: true, require: false });
 
-    if (count > 0) {
-      res.status(HttpStatus.StatusCodes.OK).send('Order status updated');
-    } else {
-      res.status(HttpStatus.StatusCodes.NOT_FOUND).send('Order not found');
-    }
+    res.status(HttpStatus.StatusCodes.OK).send('Order status updated');
+  } catch (error) {
+    console.error(error);
+    res.status(HttpStatus.StatusCodes.INTERNAL_SERVER_ERROR).send('Internal server error');
+  }
+});
+
+app.get('/orders/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    const order = await Orders.where({ OrderId: id }).fetch();
+    res.json(order);
+  } catch (error) {
+    console.error(error);
+    res.status(HttpStatus.StatusCodes.INTERNAL_SERVER_ERROR).send('Internal server error');
+  }
+});
+
+app.get('/orders/status/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    const orders = await Orders.where({ OrderStatusId: id }).fetchAll();
+    res.json(orders);
   } catch (error) {
     console.error(error);
     res.status(HttpStatus.StatusCodes.INTERNAL_SERVER_ERROR).send('Internal server error');
@@ -240,35 +254,10 @@ app.patch('/orders/:id', async (req, res) => {
 });
 
 
-app.get('/orders/:id', async (req, res) => {
-  const { id } = req.params;
-  try {
-    const orders = await knexInstance('Orders').where({ OrderId: id }).select('*');
-    res.json(orders);
-  } catch (error) {
-    console.error(error);
-    res.status(HttpStatus.StatusCodes.INTERNAL_SERVER_ERROR).send('Internal server error');
-  }
-}); 
-
-app.get('/orders/status/:id', async (req, res) => {
-  const { id } = req.params;
-  try {
-    const orders = await knexInstance('Orders').where({ OrderStatusId: id }).select('*');
-    res.json(orders);
-  } catch (error) {
-    console.error(error);
-    res.status(HttpStatus.StatusCodes.INTERNAL_SERVER_ERROR).send('Internal server error');
-  }
-}); 
-
-
-// ORDER STATUS
-// Fetch all order statuses
 app.get('/status', async (req, res) => {
   try {
-    const orderstatus = await knexInstance('OrderStatus').select('*');
-    res.json(orderstatus);
+    const orderStatus = await OrderStatus.fetchAll();
+    res.json(orderStatus);
   } catch (error) {
     console.error(error);
     res.status(HttpStatus.StatusCodes.INTERNAL_SERVER_ERROR).send('Internal server error');
