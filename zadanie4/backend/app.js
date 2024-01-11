@@ -148,10 +148,10 @@ app.get('/orders', async (req, res) => {
 
 
 app.post('/orders', async (req, res) => {
-  const { ApprovalDate, OrderStatusId, UserName, Email, PhoneNumber } = req.body;
+  const { ApprovalDate, OrderStatusId, UserName, Email, PhoneNumber, OrderItems } = req.body;
 
   // Validate input
-  if (!UserName || !Email || !PhoneNumber) {
+  if (!UserName || !Email || !PhoneNumber || !Array.isArray(OrderItems) || OrderItems.length === 0) {
     return res.status(HttpStatus.StatusCodes.BAD_REQUEST).json({
       error: "Can't add order. Username, email, and phone number can't be empty.",
     });
@@ -174,6 +174,31 @@ app.post('/orders', async (req, res) => {
       Email,
       PhoneNumber,
     });
+
+    for (let i = 0; i < OrderItems.length; i++) {
+      const product = await knexInstance('Product').where({ ProductId: OrderItems[i].ProductId }).first();
+      // Validate if product exists
+      if (!product) {
+        return res.status(HttpStatus.StatusCodes.BAD_REQUEST).json({
+          error: `Can't add order. Product with specified ID doesn't exist.`,
+        });
+      }
+      // Validate if product's quantity is greater than 0 and a number
+      if (!Number.isInteger(OrderItems[i].Quantity) || OrderItems[i].Quantity <= 0) {
+        return res.status(HttpStatus.StatusCodes.BAD_REQUEST).json({
+          error: `Can't add order. Quantity for product must be an integer and greater than 0.`,
+        });
+      }
+
+      // Add products to the order
+      await knexInstance('OrderItems').insert({
+        OrderId,
+        ProductId: OrderItems[i].ProductId,
+        Quantity: OrderItems[i].Quantity,
+      });
+    }
+
+
     res.status(HttpStatus.StatusCodes.CREATED).json({ OrderId });
   } catch (error) {
     console.error(error);
