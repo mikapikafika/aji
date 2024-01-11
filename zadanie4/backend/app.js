@@ -22,10 +22,6 @@ const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 
 
-
-// PATHS
-
-// PRODUCT
 // Fetch all products
 app.get('/products', async (req, res) => {
   try {
@@ -57,7 +53,6 @@ app.get('/products/:id', async (req, res) => {
 app.post('/products', async (req, res) => {
   const { Name, Description, UnitPrice, Weight, CategoryId } = req.body;
 
-  // Validate input
   if (!Name || !Description || UnitPrice <= 0 || Weight <= 0) {
     return res.status(HttpStatus.StatusCodes.BAD_REQUEST).json({
       error: "Can't add product. Name and description can't be empty, and unit price and weight must be greater than 0.",
@@ -85,7 +80,6 @@ app.put('/products/:id', async (req, res) => {
   const { id } = req.params;
   const { Name, Description, UnitPrice, Weight, CategoryId } = req.body;
 
-  // Validate input
   if (!Name || !Description || UnitPrice <= 0 || Weight <= 0) {
     return res.status(HttpStatus.StatusCodes.BAD_REQUEST).json({
       error: "Can't update product. Name and description can't be empty, and unit price and weight must be greater than 0.",
@@ -93,7 +87,6 @@ app.put('/products/:id', async (req, res) => {
   }
 
   try {
-    // Validate if product exists
     const product = await knexInstance('Product').where({ ProductId: id }).first();
     if (!product) {
       return res.status(HttpStatus.StatusCodes.NOT_FOUND).json({
@@ -121,7 +114,6 @@ app.put('/products/:id', async (req, res) => {
 });
 
 
-// CATEGORY
 // Fetch all categories
 app.get('/categories', async (req, res) => {
   try {
@@ -133,8 +125,6 @@ app.get('/categories', async (req, res) => {
   }
 });
 
-
-// ORDERS
 // Fetch all orders
 app.get('/orders', async (req, res) => {
   try {
@@ -150,7 +140,6 @@ app.get('/orders', async (req, res) => {
 app.post('/orders', async (req, res) => {
   const { ApprovalDate, OrderStatusId, UserName, Email, PhoneNumber, OrderItems } = req.body;
 
-  // Validate input
   if (!UserName || !Email || !PhoneNumber || !Array.isArray(OrderItems) || OrderItems.length === 0) {
     return res.status(HttpStatus.StatusCodes.BAD_REQUEST).json({
       error: "Can't add order. Username, email, and phone number can't be empty.",
@@ -177,7 +166,6 @@ app.post('/orders', async (req, res) => {
 
     for (let i = 0; i < OrderItems.length; i++) {
       const product = await knexInstance('Product').where({ ProductId: OrderItems[i].ProductId }).first();
-      // Validate if product exists
       if (!product) {
         return res.status(HttpStatus.StatusCodes.BAD_REQUEST).json({
           error: `Can't add order. Product with specified ID doesn't exist.`,
@@ -206,7 +194,7 @@ app.post('/orders', async (req, res) => {
   }
 });
 
-// Update order status - not tested yet
+
 app.patch('/orders/:id', async (req, res) => {
   const { id } = req.params;
   const { OrderStatusId } = req.body;
@@ -254,6 +242,17 @@ app.get('/orders/:id', async (req, res) => {
   const { id } = req.params;
   try {
     const orders = await knexInstance('Orders').where({ OrderId: id }).select('*');
+    res.json(orders);
+  } catch (error) {
+    console.error(error);
+    res.status(HttpStatus.StatusCodes.INTERNAL_SERVER_ERROR).send('Internal server error');
+  }
+}); 
+
+app.get('/orders/status/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    const orders = await knexInstance('Orders').where({ OrderStatusId: id }).select('*');
     res.json(orders);
   } catch (error) {
     console.error(error);
