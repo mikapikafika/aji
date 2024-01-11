@@ -9,6 +9,7 @@ const Product = require('./models/Product');
 const Category = require('./models/Category');
 const Orders = require('./models/Orders');
 const OrderStatus = require('./models/OrderStatus');
+const OrderItems = require('./models/OrderItems');
 
 
 app.use(bodyParser.json());
@@ -91,21 +92,22 @@ app.put('/products/:id', async (req, res) => {
   }
 
   try {
-    const product = await Product.forge({ ProductId: id }).fetch();
+    const product = await Product.where({ ProductId: id }).fetch();
 
     if (!product) {
       return res.status(HttpStatus.StatusCodes.NOT_FOUND).json({
-        error: "Can't update product. Make sure the specified exists.",
+        error: "Can't update product. Make sure the specified product exists.",
       });
     }
 
+    // Update the product attributes
     await product.save({
       Name,
       Description,
       UnitPrice,
       Weight,
       CategoryId,
-    });
+    }, { method: 'update', patch: true, require: false });
 
     res.status(HttpStatus.StatusCodes.OK).json({ message: "Product successfully updated." });
   } catch (error) {
@@ -139,9 +141,9 @@ app.get('/orders', async (req, res) => {
 
 
 app.post('/orders', async (req, res) => {
-  const { ApprovalDate, OrderStatusId, UserName, Email, PhoneNumber, OrderItems } = req.body;
+  const { ApprovalDate, OrderStatusId, UserName, Email, PhoneNumber, Items } = req.body;
 
-  if (!UserName || !Email || !PhoneNumber || !Array.isArray(OrderItems) || OrderItems.length === 0) {
+  if (!UserName || !Email || !PhoneNumber || !Array.isArray(Items) || Items.length === 0) {
     return res.status(HttpStatus.StatusCodes.BAD_REQUEST).json({
       error: "Can't add order. Username, email, and phone number can't be empty.",
     });
@@ -163,8 +165,8 @@ app.post('/orders', async (req, res) => {
       PhoneNumber,
     }).save();
 
-    for (let i = 0; i < OrderItems.length; i++) {
-      const product = await Product.forge({ ProductId: OrderItems[i].ProductId }).fetch();
+    for (let i = 0; i < Items.length; i++) {
+      const product = await Product.forge({ ProductId: Items[i].ProductId }).fetch();
 
       if (!product) {
         return res.status(HttpStatus.StatusCodes.BAD_REQUEST).json({
@@ -173,17 +175,17 @@ app.post('/orders', async (req, res) => {
       }
 
       // Validate if product's quantity is greater than 0 and a number
-      if (!Number.isInteger(OrderItems[i].Quantity) || OrderItems[i].Quantity <= 0) {
+      if (!Number.isInteger(Items[i].Quantity) || Items[i].Quantity <= 0) {
         return res.status(HttpStatus.StatusCodes.BAD_REQUEST).json({
           error: `Can't add order. Quantity for product must be an integer and greater than 0.`,
         });
       }
 
       // Add products to the order
-      await bookshelf.model('OrderItems').forge({
+      await OrderItems.forge({
         OrderId: order.get('OrderId'),
-        ProductId: OrderItems[i].ProductId,
-        Quantity: OrderItems[i].Quantity,
+        ProductId: Items[i].ProductId,
+        Quantity: Items[i].Quantity,
       }).save();
     }
 
@@ -220,7 +222,7 @@ app.patch('/orders/:id', async (req, res) => {
       });
     }
 
-    await order.save({ OrderStatusId });
+    await order.save({ OrderStatusId }, { method: 'update', patch: true, require: false });
 
     res.status(HttpStatus.StatusCodes.OK).send('Order status updated');
   } catch (error) {
