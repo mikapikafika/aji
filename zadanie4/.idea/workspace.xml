@@ -5,17 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1be8bd5f-afec-42f6-8cb3-925d5fe68b55" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/Filter.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/views/OrdersTable.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/CheckoutForm.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/CheckoutForm.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/ProductsTable.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/ProductsTable.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/views/CheckoutForm.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/CheckoutForm.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/views/ProductsTable.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/ProductsTable.vue" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -81,7 +73,7 @@
       <workItem from="1704924468100" duration="23000" />
       <workItem from="1704924498459" duration="1109000" />
       <workItem from="1704931698361" duration="1060000" />
-      <workItem from="1704938958522" duration="1013000" />
+      <workItem from="1704938958522" duration="2104000" />
     </task>
     <servers />
   </component>

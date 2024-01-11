@@ -28,7 +28,7 @@ const addToCart = (product) => {
       <th>Name</th>
       <th>Description</th>
       <th>Unit Price</th>
-      <th>Action(?)</th>
+      <th></th>
     </tr>
     </thead>
     <tbody>
