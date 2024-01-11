@@ -9,8 +9,11 @@
   },
   "dependencies": {
     "axios": "^1.6.5",
+    "bootstrap": "^5.3.2",
     "core-js": "^3.8.3",
-    "vue": "^3.2.13"
+    "modules": "^0.4.0",
+    "vue": "^3.2.13",
+    "vue-router": "^4.0.13"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",

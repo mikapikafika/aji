@@ -1,17 +1,26 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <ProductsTable/>
+  <div id="app">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="container-fluid">
+        <router-link class="navbar-brand" to="/">Shop</router-link>
+        <div class="collapse navbar-collapse">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <router-link class="nav-link" to="/checkout">Checkout</router-link>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <router-view/>
+  </div>
 </template>
 
 <script>
-import ProductsTable from "@/views/ProductsTable.vue";
 
 export default {
   name: 'App',
-  components: {
-    ProductsTable,
   }
-}
 </script>
 
 <style>
@@ -21,6 +30,6 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  margin-top: 0;
 }
 </style>
