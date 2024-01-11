@@ -1,0 +1,154 @@
+[
+  {
+    "ProductId": 3,
+    "Name": "Samsung s20",
+    "Description": "Best smartphone on market ",
+    "UnitPrice": 420,
+    "Weight": 2.4,
+    "CategoryId": 1
+  },
+  {
+    "ProductId": 4,
+    "Name": "Samsung s20",
+    "Description": "Best smartphone on market ",
+    "UnitPrice": 420,
+    "Weight": 2.4,
+    "CategoryId": 1
+  },
+  {
+    "ProductId": 5,
+    "Name": "Samsung s20",
+    "Description": "Best smartphone on market ",
+    "UnitPrice": 420,
+    "Weight": 2.4,
+    "CategoryId": 1
+  },
+  {
+    "ProductId": 6,
+    "Name": "Samsung s20",
+    "Description": "Best smartphone on market ",
+    "UnitPrice": 420,
+    "Weight": 2.4,
+    "CategoryId": 1
+  },
+  {
+    "ProductId": 7,
+    "Name": "xiaomi",
+    "Description": "cheap and good ",
+    "UnitPrice": 120,
+    "Weight": 1.4,
+    "CategoryId": 1
+  },
+  {
+    "ProductId": 8,
+    "Name": "xiaomi",
+    "Description": "cheap and good ",
+    "UnitPrice": 120,
+    "Weight": 1.4,
+    "CategoryId": 1
+  },
+  {
+    "ProductId": 9,
+    "Name": "xiaomi",
+    "Description": "cheap and good ",
+    "UnitPrice": 120,
+    "Weight": 1.4,
+    "CategoryId": 1
+  },
+  {
+    "ProductId": 10,
+    "Name": "xiaomi",
+    "Description": "cheap and good ",
+    "UnitPrice": 120,
+    "Weight": 1.4,
+    "CategoryId": 1
+  },
+  {
+    "ProductId": 11,
+    "Name": "xiaomi",
+    "Description": "cheap and good ",
+    "UnitPrice": 120,
+    "Weight": 1.4,
+    "CategoryId": 1
+  },
+  {
+    "ProductId": 12,
+    "Name": "xiaomi",
+    "Description": "cheap and good ",
+    "UnitPrice": 120,
+    "Weight": 1.4,
+    "CategoryId": 1
+  },
+  {
+    "ProductId": 13,
+    "Name": "motorola",
+    "Description": "cheap and good ",
+    "UnitPrice": 220,
+    "Weight": 1.4,
+    "CategoryId": 1
+  },
+  {
+    "ProductId": 14,
+    "Name": "Sony",
+    "Description": "cheap and good ",
+    "UnitPrice": 220,
+    "Weight": 1.4,
+    "CategoryId": 1
+  },
+  {
+    "ProductId": 15,
+    "Name": "Nokia",
+    "Description": "cheap and good ",
+    "UnitPrice": 220,
+    "Weight": 1.4,
+    "CategoryId": 1
+  },
+  {
+    "ProductId": 16,
+    "Name": "Test",
+    "Description": "cheap and good ",
+    "UnitPrice": 220,
+    "Weight": 1.4,
+    "CategoryId": 1
+  },
+  {
+    "ProductId": 17,
+    "Name": "test",
+    "Description": "Best smartphone on market ",
+    "UnitPrice": 420,
+    "Weight": 2.4,
+    "CategoryId": 1
+  },
+  {
+    "ProductId": 18,
+    "Name": "Plastic Lion",
+    "Description": "Fun toy for children",
+    "UnitPrice": 20,
+    "Weight": 0.4,
+    "CategoryId": 2
+  },
+  {
+    "ProductId": 19,
+    "Name": "Tenis Ball",
+    "Description": "Yellow Tenis Ball",
+    "UnitPrice": 2,
+    "Weight": 0.1,
+    "CategoryId": 2
+  },
+  {
+    "ProductId": 20,
+    "Name": "Witcher 3",
+    "Description": "Game of the year edition",
+    "UnitPrice": 50,
+    "Weight": 0.1,
+    "CategoryId": 3
+  },
+  {
+    "ProductId": 21,
+    "Name": "Skyrim",
+    "Description": "Open world game",
+    "UnitPrice": 50,
+    "Weight": 0.1,
+    "CategoryId": 3
+  }
+]
