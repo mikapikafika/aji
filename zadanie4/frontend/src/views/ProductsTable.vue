@@ -1,31 +1,31 @@
 <script setup>
 import {useStore} from "vuex";
-import {ref, computed} from "vue";
-// import axios from "axios";
-import productsData from "../../public/data.json";
+import {ref, computed, onMounted} from "vue";
+import axios from "axios";
+// import productsData from "../../public/data.json";
 
 
-// const products = ref([]);
-const products = ref(productsData);
+const products = ref([]);
+// const products = ref();
 const categories = ref([]);
 const selectedCategory = ref('');
 const searchText = ref('');
 // const orderedItems = ref([]);
 const store = useStore();
 
-// onMounted(async () => {
-//   try {
-//     const [productsResponse, categoriesResponse] = await Promise.all([
-//       axios.get("http://localhost:3000/products"),
-//       axios.get("http://localhost:3000/categories")
-//     ]);
-//
-//     products.value = productsResponse.data;
-//     categories.value = categoriesResponse.data;
-//   } catch (e) {
-//     console.log(e);
-//   }
-// });
+onMounted(async () => {
+  try {
+    const [productsResponse, categoriesResponse] = await Promise.all([
+      axios.get("http://localhost:3000/products"),
+      axios.get("http://localhost:3000/categories")
+    ]);
+
+    products.value = productsResponse.data;
+    categories.value = categoriesResponse.data;
+  } catch (e) {
+    console.log(e);
+  }
+});
 
 const filteredProducts = computed(() => {
   return products.value.filter(product => {

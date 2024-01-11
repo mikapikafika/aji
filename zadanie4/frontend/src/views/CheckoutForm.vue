@@ -24,16 +24,6 @@ const orderedItems = computed(() => store.state.orderedItems);
 //
 // const v$ = useVuelidate(rules);
 
-// onMounted(async () => {
-//   try {
-//     // cokolwiek na razieee jest 3:40 nie chce mi się spać
-//     const response = await axios.get("http://localhost:3000/orders");
-//     console.log(response.data);
-//     orderedItems.value = response.data;
-//   } catch (e) {
-//     console.log(e);
-//   }
-// });
 
 const increaseQuantity = (index) => {
   orderedItems.value[index].Quantity++;
