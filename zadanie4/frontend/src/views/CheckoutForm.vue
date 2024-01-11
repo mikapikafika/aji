@@ -9,6 +9,21 @@ const email = ref("");
 const phoneNumber = ref("");
 const orderedItems = computed(() => store.state.orderedItems);
 
+// Needed for input validation
+// const form = ref({
+//   userName: "",
+//   email: "",
+//   phoneNumber: "",
+// });
+//
+// const rules = {
+//   userName: {required},
+//   email: {required, email},
+//   phoneNumber: {required},
+// };
+//
+// const v$ = useVuelidate(rules);
+
 // onMounted(async () => {
 //   try {
 //     // cokolwiek na razieee jest 3:40 nie chce mi się spać
@@ -55,6 +70,7 @@ const removeProduct = (index) => {
 //   }
 // };
 
+
 const totalPrice = computed(() => {
   return orderedItems.value.reduce((total, product) => total + product.UnitPrice * product.Quantity, 0);
 });
@@ -67,7 +83,7 @@ const totalPrice = computed(() => {
       <tr>
         <th>Product Name</th>
         <th>Quantity</th>
-        <th>Total Price(?)</th>
+        <th>Sum</th>
         <th></th>
       </tr>
       <tr v-for="(product, index) in orderedItems" :key="index">
@@ -83,6 +99,10 @@ const totalPrice = computed(() => {
         </td>
       </tr>
     </table>
+
+
+    <!-- Total Price -->
+    <p>Total Price: {{ totalPrice }}</p>
 
     <!-- Form -->
     <form @submit.prevent="submitOrder">
@@ -100,9 +120,6 @@ const totalPrice = computed(() => {
       </label>
       <button type="submit">Submit Order</button>
     </form>
-
-    <!-- Total Price -->
-    <p>Total Price: {{ totalPrice }}</p>
   </div>
 </template>
 
