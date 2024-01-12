@@ -76,7 +76,7 @@ const submitOrder = async () => {
 </script>
 
 <template>
-  <div v-if="orderedItems">
+  <div v-if="orderedItems" class="checkout-container">
     <div class="container">
       <div class="row">
         <div class="col-7 shopping-cart-container">
@@ -148,16 +148,31 @@ const submitOrder = async () => {
 </template>
 
 <style scoped>
+.checkout-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 90vh;
+}
+
 .shopping-cart-container {
-  background-color: #f0f0f0;
+  background-color: #f0f0f0 !important;
   border-radius: 10px;
   padding: 2.5rem;
+}
+
+table {
+  background-color: #f0f0f0 !important;
 }
 
 .form-container {
   background-color: #5ac8fa;
   border-radius: 10px;
   padding: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .form-container input {
@@ -165,9 +180,15 @@ const submitOrder = async () => {
   border: none;
   border-radius: 0;
   border-bottom: 1px solid white;
+  width: 100%;
+}
+
+.form-container h2 {
+  font-weight: 900;
 }
 
 .form-container label {
   font-weight: 700;
+  align-self: flex-start;
 }
 </style>
