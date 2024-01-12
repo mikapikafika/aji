@@ -41,12 +41,12 @@ const addToCart = (product) => {
 <template>
   <div class="main-container">
     <div class="container">
-      <div class="row justify-content-center align-items-center">
+      <div class="row justify-content-center align-items-center filter-container mb-lg-5">
         <div class="col-auto">
           <font-awesome-icon :icon="['fas', 'magnifying-glass']"/>
         </div>
         <div class="col-8">
-          <div class="filter-container">
+          <div>
             <input v-model="searchText" class="form-control" placeholder="Search by name">
             <select v-model="selectedCategory" class="form-control">
               <option value="">All Categories</option>
@@ -60,13 +60,14 @@ const addToCart = (product) => {
 
       <div class="row">
         <div class="col-12 products-container">
+          <h2 class="text-center">Products</h2>
           <table class="table">
             <thead>
             <tr>
-              <th>Name</th>
-              <th>Description</th>
-              <th>Unit Price</th>
-              <th></th>
+              <th scope="col">Name</th>
+              <th scope="col">Description</th>
+              <th scope="col">Unit Price</th>
+              <th scope="col"></th>
             </tr>
             </thead>
             <tbody>
@@ -93,4 +94,9 @@ const addToCart = (product) => {
   flex-direction: column;
   height: 50vh;
 }
+
+.filter-container input, .filter-container select {
+  background-color: #e5e5e5;
+}
+
 </style>

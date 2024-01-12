@@ -8,6 +8,9 @@
             <li class="nav-item">
               <router-link class="nav-link" to="/checkout"><font-awesome-icon :icon="['fas', 'cart-shopping']"/></router-link>
             </li>
+            <li class="nav-item">
+              <router-link class="nav-link" to="/manage"><font-awesome-icon :icon="['fas', 'gear']" /></router-link>
+            </li>
           </ul>
         </div>
       </div>
@@ -35,6 +38,10 @@ export default {
 
 nav {
   background-color: #f0f0f0;
+}
+
+h2 {
+  font-weight: 900;
 }
 
 .btn-one {
