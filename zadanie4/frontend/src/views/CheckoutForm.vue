@@ -72,8 +72,9 @@ const submitOrder = async () => {
   <div v-if="orderedItems" class="checkout-container">
     <div class="container">
       <div class="row">
-        <div class="col-7 shopping-cart-container">
-          <h2>Shopping Cart</h2>
+
+        <div class="col-7 shopping-cart-container mr-3">
+          <h2 class="text-center">Shopping Cart</h2>
           <table class="table">
             <thead>
             <tr>
@@ -99,11 +100,12 @@ const submitOrder = async () => {
             </tr>
             </tbody>
           </table>
-
-          <p>Total: {{ totalPrice }}</p>
+          <div class="price-container">
+            <p><strong><font-awesome-icon :icon="['fas', 'dollar-sign']" /> Total:</strong> {{ totalPrice }}</p>
+          </div>
         </div>
 
-        <div class="col-5 form-container">
+        <div class="col-5 form-container ml-3">
           <h2 class="mb-4">Payment Info</h2>
           <form @submit.prevent="submitOrder">
             <div class="form-group row mb-3">
@@ -127,6 +129,7 @@ const submitOrder = async () => {
             <button class="btn btn-primary btn-one mt-3" type="submit">Submit Order</button>
           </form>
         </div>
+
       </div>
     </div>
   </div>
@@ -138,17 +141,24 @@ const submitOrder = async () => {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  height: 90vh;
+  height: 80vh;
 }
 
 .shopping-cart-container {
-  background-color: #f0f0f0 !important;
+  background-color: #e5e5e5;
   border-radius: 10px;
   padding: 2.5rem;
 }
 
+.price-container {
+  background-color: #fff;
+  border-radius: 5px;
+  padding: 1rem;
+}
+
 table {
-  background-color: #f0f0f0 !important;
+  padding: 1rem;
+  border-radius: 5px;
 }
 
 h2 {
@@ -162,6 +172,7 @@ h2 {
   display: flex;
   flex-direction: column;
   align-items: center;
+  max-height: 35vh;
 }
 
 .form-container input {
