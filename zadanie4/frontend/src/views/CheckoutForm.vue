@@ -77,54 +77,77 @@ const submitOrder = async () => {
 
 <template>
   <div v-if="orderedItems">
-    <!-- Table -->
-    <table>
-      <tr>
-        <th>Product Name</th>
-        <th>Quantity</th>
-        <th>Sum</th>
-        <th></th>
-      </tr>
-      <tr v-for="(product, index) in orderedItems" :key="index">
-        <td>{{ product.Name }}</td>
-        <td>
-          <button @click="decreaseQuantity(index)">-</button>
-          {{ product.Quantity }}
-          <button @click="increaseQuantity(index)">+</button>
-        </td>
-        <td>{{ product.UnitPrice * product.Quantity }}</td>
-        <td>
-          <button @click="removeProduct(index)">Remove</button>
-        </td>
-      </tr>
-    </table>
+    <div class="shopping-cart-container">
+      <h2>Shopping Cart</h2>
+      <table class="table">
+        <thead>
+        <tr>
+          <th scope="col">Product</th>
+          <th scope="col">Quantity</th>
+          <th scope="col">Total Price</th>
+          <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-for="(product, index) in orderedItems" :key="index">
+          <td>{{ product.Name }}</td>
+          <td>
+            <button class="btn" @click="decreaseQuantity(index)">
+              <font-awesome-icon :icon="['fas', 'minus']" size="sm"/>
+            </button>
+            {{ product.Quantity }}
+            <button class="btn" @click="increaseQuantity(index)">
+              <font-awesome-icon :icon="['fas', 'plus']" size="sm"/>
+            </button>
+          </td>
+          <td>{{ product.UnitPrice * product.Quantity }}</td>
+          <td>
+            <button class="btn" @click="removeProduct(index)">
+              <font-awesome-icon :icon="['fas', 'trash']"/>
+            </button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
 
+      <p>Total: {{ totalPrice }}</p>
+    </div>
 
-    <!-- Total Price -->
-    <p>Total Price: {{ totalPrice }}</p>
-
-    <!-- Form -->
-    <form @submit.prevent="submitOrder">
-      <label>
-        Username:
-        <input v-model="userName" type="text"/>
-      </label>
-      <label>
-        Email:
-        <input v-model="email" type="email"/>
-      </label>
-      <label>
-        Phone:
-        <input v-model="phoneNumber" type="tel"/>
-      </label>
-      <div v-if="alertMessage" :class="'alert alert-' + alertType" role="alert">
-        {{ alertMessage }}
-      </div>
-      <button type="submit">Submit Order</button>
-    </form>
+    <div class="form-container">
+      <form @submit.prevent="submitOrder">
+        <div class="form-group row">
+          <label class="col-sm-2 col-form-label">Username:</label>
+          <div class="col-sm-10">
+            <input class="form-control" v-model="userName" type="text"/>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-sm-2 col-form-label">Email:</label>
+          <div class="col-sm-10">
+            <input class="form-control" v-model="email" type="email"/>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-sm-2 col-form-label">Phone Number:</label>
+          <div class="col-sm-10">
+            <input class="form-control" v-model="phoneNumber" type="tel"/>
+          </div>
+        </div>
+        <div v-if="alertMessage" :class="'alert alert-' + alertType" role="alert">
+          {{ alertMessage }}
+        </div>
+        <button class="btn btn-primary btn-one" type="submit">Submit Order</button>
+      </form>
+    </div>
   </div>
 </template>
 
 <style scoped>
+.shopping-cart-container {
+  background-color: #f0f0f0;
+}
 
+.form-container {
+  background-color: #83ff00;
+}
 </style>
