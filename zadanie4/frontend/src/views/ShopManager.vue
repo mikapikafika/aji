@@ -103,11 +103,7 @@ const updateOrderStatus = async (order, statusId) => {
             <td>{{ order.Email }}</td>
             <td>{{ order.PhoneNumber }}</td>
             <td>
-              <ul>
-                <li v-for="item in order.OrderItems" :key="item.OrderItemId">
-                  {{ item.Product && item.Product.Name }} ({{ item.Quantity }})
-                </li>
-              </ul>
+              <!-- ni mo -->
             </td>
             <td>
               <button @click="updateOrderStatus(order, 4)" class="btn btn-success">Completed</button>
@@ -133,7 +129,9 @@ const updateOrderStatus = async (order, statusId) => {
           <tr v-for="order in orders" :key="order.OrderId">
             <td></td>
             <td>{{ order.ApprovalDate }}</td>
-            <td></td>
+            <td>
+              <!-- ni mo -->
+            </td>
           </tr>
           </tbody>
         </table>
