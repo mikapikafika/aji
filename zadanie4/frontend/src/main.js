@@ -10,6 +10,7 @@ import Toast from "vue-toastification";
 import 'vue-toastification/dist/index.css';
 import CheckoutForm from './views/CheckoutForm.vue';
 import ProductsTable from './views/ProductsTable.vue';
+import ShopManager from "@/views/ShopManager.vue";
 
 const routes = [
   {
@@ -21,6 +22,11 @@ const routes = [
     path: '/',
     name: 'ProductsTable',
     component: ProductsTable
+  },
+  {
+    path: '/manage',
+    name: 'manage',
+    component: ShopManager
   }
 ];
 
