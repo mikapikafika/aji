@@ -36,5 +36,11 @@ export default {
 .btn-one {
   background-color: #030303;
   border: none;
+  transition: background 0.2s, box-shadow 0.3s;
+}
+
+.btn-one:hover {
+  background-color: #000000;
+  box-shadow: 0px 0px 7px 0px #030303;
 }
 </style>

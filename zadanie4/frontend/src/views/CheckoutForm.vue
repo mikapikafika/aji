@@ -77,67 +77,72 @@ const submitOrder = async () => {
 
 <template>
   <div v-if="orderedItems">
-    <div class="shopping-cart-container">
-      <h2>Shopping Cart</h2>
-      <table class="table">
-        <thead>
-        <tr>
-          <th scope="col">Product</th>
-          <th scope="col">Quantity</th>
-          <th scope="col">Total Price</th>
-          <th scope="col"></th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr v-for="(product, index) in orderedItems" :key="index">
-          <td>{{ product.Name }}</td>
-          <td>
-            <button class="btn" @click="decreaseQuantity(index)">
-              <font-awesome-icon :icon="['fas', 'minus']" size="sm"/>
-            </button>
-            {{ product.Quantity }}
-            <button class="btn" @click="increaseQuantity(index)">
-              <font-awesome-icon :icon="['fas', 'plus']" size="sm"/>
-            </button>
-          </td>
-          <td>{{ product.UnitPrice * product.Quantity }}</td>
-          <td>
-            <button class="btn" @click="removeProduct(index)">
-              <font-awesome-icon :icon="['fas', 'trash']"/>
-            </button>
-          </td>
-        </tr>
-        </tbody>
-      </table>
+    <div class="container">
+      <div class="row">
+        <div class="col-7 shopping-cart-container">
+          <h2>Shopping Cart</h2>
+          <table class="table">
+            <thead>
+            <tr>
+              <th scope="col">Product</th>
+              <th scope="col">Quantity</th>
+              <th scope="col">Total Price</th>
+              <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr v-for="(product, index) in orderedItems" :key="index">
+              <td>{{ product.Name }}</td>
+              <td>
+                <button class="btn" @click="decreaseQuantity(index)">
+                  <font-awesome-icon :icon="['fas', 'minus']" size="sm"/>
+                </button>
+                {{ product.Quantity }}
+                <button class="btn" @click="increaseQuantity(index)">
+                  <font-awesome-icon :icon="['fas', 'plus']" size="sm"/>
+                </button>
+              </td>
+              <td>{{ product.UnitPrice * product.Quantity }}</td>
+              <td>
+                <button class="btn" @click="removeProduct(index)">
+                  <font-awesome-icon :icon="['fas', 'trash']"/>
+                </button>
+              </td>
+            </tr>
+            </tbody>
+          </table>
 
-      <p>Total: {{ totalPrice }}</p>
-    </div>
+          <p>Total: {{ totalPrice }}</p>
+        </div>
 
-    <div class="form-container">
-      <form @submit.prevent="submitOrder">
-        <div class="form-group row">
-          <label class="col-sm-2 col-form-label">Username:</label>
-          <div class="col-sm-10">
-            <input class="form-control" v-model="userName" type="text"/>
-          </div>
+        <div class="col-5 form-container">
+          <h2 class="mb-4">Payment Info</h2>
+          <form @submit.prevent="submitOrder">
+            <div class="form-group row mb-3">
+              <label>Username:</label>
+              <div class="col">
+                <input class="form-control" v-model="userName" type="text"/>
+              </div>
+            </div>
+            <div class="form-group row mb-3">
+              <label>Email:</label>
+              <div class="col">
+                <input class="form-control" v-model="email" type="email"/>
+              </div>
+            </div>
+            <div class="form-group row mb-3">
+              <label>Phone Number:</label>
+              <div class="col">
+                <input class="form-control" v-model="phoneNumber" type="tel"/>
+              </div>
+            </div>
+            <button class="btn btn-primary btn-one mt-3 mb-3" type="submit">Submit Order</button>
+            <div v-if="alertMessage" :class="'alert alert-' + alertType" role="alert">
+              {{ alertMessage }}
+            </div>
+          </form>
         </div>
-        <div class="form-group row">
-          <label class="col-sm-2 col-form-label">Email:</label>
-          <div class="col-sm-10">
-            <input class="form-control" v-model="email" type="email"/>
-          </div>
-        </div>
-        <div class="form-group row">
-          <label class="col-sm-2 col-form-label">Phone Number:</label>
-          <div class="col-sm-10">
-            <input class="form-control" v-model="phoneNumber" type="tel"/>
-          </div>
-        </div>
-        <div v-if="alertMessage" :class="'alert alert-' + alertType" role="alert">
-          {{ alertMessage }}
-        </div>
-        <button class="btn btn-primary btn-one" type="submit">Submit Order</button>
-      </form>
+      </div>
     </div>
   </div>
 </template>
@@ -145,9 +150,24 @@ const submitOrder = async () => {
 <style scoped>
 .shopping-cart-container {
   background-color: #f0f0f0;
+  border-radius: 10px;
+  padding: 2.5rem;
 }
 
 .form-container {
-  background-color: #83ff00;
+  background-color: #5ac8fa;
+  border-radius: 10px;
+  padding: 2.5rem;
+}
+
+.form-container input {
+  background-color: transparent;
+  border: none;
+  border-radius: 0;
+  border-bottom: 1px solid white;
+}
+
+.form-container label {
+  font-weight: 700;
 }
 </style>
