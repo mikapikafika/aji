@@ -40,6 +40,10 @@ nav {
   background-color: #f0f0f0;
 }
 
+h2 {
+  font-weight: 900;
+}
+
 .btn-one {
   background-color: #030303;
   border: none;

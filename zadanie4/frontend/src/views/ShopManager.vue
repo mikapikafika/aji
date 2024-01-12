@@ -5,17 +5,21 @@ import {useToast} from "vue-toastification";
 
 const products = ref([]);
 const categories = ref([]);
+const orders = ref([]);
 const toast = useToast();
 
 onMounted(async () => {
   try {
-    const [productsResponse, categoriesResponse] = await Promise.all([
+    const [productsResponse, categoriesResponse, ordersResponse] = await Promise.all([
       axios.get("http://localhost:3000/products"),
-      axios.get("http://localhost:3000/categories")
+      axios.get("http://localhost:3000/categories"),
+      axios.get("http://localhost:3000/orders")
     ]);
 
     products.value = productsResponse.data;
     categories.value = categoriesResponse.data;
+    orders.value = ordersResponse.data;
+    console.log(orders.value);
   } catch (e) {
     console.log(e);
   }
@@ -30,20 +34,31 @@ const updateProduct = async (product) => {
     toast.error('An error occurred while updating the product');
   }
 };
+
+const updateOrderStatus = async (order, statusId) => {
+  try {
+    await axios.put(`http://localhost:3000/orders/${order.OrderId}`, {...order, OrderStatusId: statusId});
+    toast.success('Order status updated successfully');
+  } catch (e) {
+    console.log(e);
+    toast.error('Failed to update order status');
+  }
+};
 </script>
 
 <template>
   <div class="container">
     <div class="row">
       <div class="col-12 products-container">
+        <h2 class="text-center">Products</h2>
         <table class="table">
           <thead>
           <tr>
-            <th>Name</th>
-            <th>Category</th>
-            <th>Unit Price</th>
-            <th>Weight</th>
-            <th></th>
+            <th scope="col">Name</th>
+            <th scope="col">Category</th>
+            <th scope="col">Unit Price</th>
+            <th scope="col">Weight</th>
+            <th scope="col"></th>
           </tr>
           </thead>
           <tbody>
@@ -61,6 +76,64 @@ const updateProduct = async (product) => {
             <td>
               <button @click="updateProduct(product)" class="btn btn-primary btn-one">Save</button>
             </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12 orders-container">
+        <h2 class="text-center">Orders</h2>
+        <table class="table">
+          <thead>
+          <tr>
+            <th scope="col">Approval Date</th>
+            <th scope="col">Username</th>
+            <th scope="col">Email</th>
+            <th scope="col">Phone Number</th>
+            <th scope="col">Order Items</th>
+            <th></th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr v-for="order in orders" :key="order.OrderId">
+            <td>{{ order.ApprovalDate }}</td>
+            <td>{{ order.UserName }}</td>
+            <td>{{ order.Email }}</td>
+            <td>{{ order.PhoneNumber }}</td>
+            <td>
+              <ul>
+                <li v-for="item in order.OrderItems" :key="item.OrderItemId">
+                  {{ item.Product && item.Product.Name }} ({{ item.Quantity }})
+                </li>
+              </ul>
+            </td>
+            <td>
+              <button @click="updateOrderStatus(order, 4)" class="btn btn-success">Completed</button>
+              <button @click="updateOrderStatus(order, 3)" class="btn btn-danger">Cancelled</button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12 orders-container">
+        <table class="table">
+          <thead>
+          <tr>
+            <th scope="col">Status</th>
+            <th scope="col">Approval Date</th>
+            <th scope="col">Value</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr v-for="order in orders" :key="order.OrderId">
+            <td></td>
+            <td>{{ order.ApprovalDate }}</td>
+            <td></td>
           </tr>
           </tbody>
         </table>

@@ -69,39 +69,47 @@ const submitOrder = async () => {
 </script>
 
 <template>
-  <div v-if="orderedItems" class="checkout-container">
+  <div class="checkout-container">
     <div class="container">
       <div class="row">
 
         <div class="col-7 shopping-cart-container mr-3">
           <h2 class="text-center">Shopping Cart</h2>
-          <table class="table">
-            <thead>
-            <tr>
-              <th scope="col">Product</th>
-              <th scope="col">Quantity</th>
-              <th scope="col">Total Price</th>
-              <th scope="col"></th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr v-for="(product, index) in orderedItems" :key="index">
-              <td>{{ product.Name }}</td>
-              <td>
-                <input type="number" v-model.number="product.Quantity" min="0"
-                       @change="updateQuantity(index, product.Quantity)" class="form-control" style="width: 70px;">
-              </td>
-              <td>{{ product.UnitPrice * product.Quantity }}</td>
-              <td>
-                <button class="btn" @click="removeProduct(index)">
-                  <font-awesome-icon :icon="['fas', 'trash']"/>
-                </button>
-              </td>
-            </tr>
-            </tbody>
-          </table>
-          <div class="price-container">
-            <p><strong><font-awesome-icon :icon="['fas', 'dollar-sign']" /> Total:</strong> {{ totalPrice }}</p>
+          <div v-if="orderedItems.length > 0">
+            <table class="table">
+              <thead>
+              <tr>
+                <th scope="col">Product</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Total Price</th>
+                <th scope="col"></th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr v-for="(product, index) in orderedItems" :key="index">
+                <td>{{ product.Name }}</td>
+                <td>
+                  <input type="number" v-model.number="product.Quantity" min="0"
+                         @change="updateQuantity(index, product.Quantity)" class="form-control" style="width: 70px;">
+                </td>
+                <td>{{ product.UnitPrice * product.Quantity }}</td>
+                <td>
+                  <button class="btn" @click="removeProduct(index)">
+                    <font-awesome-icon :icon="['fas', 'trash']"/>
+                  </button>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+            <div class="price-container">
+              <p><strong>
+                <font-awesome-icon :icon="['fas', 'dollar-sign']"/>
+                Total:</strong> {{ totalPrice }}
+              </p>
+            </div>
+          </div>
+          <div v-else class="empty-cart-container">
+            <h3 class="text-center">Your shopping cart is empty.</h3>
           </div>
         </div>
 
@@ -161,8 +169,11 @@ table {
   border-radius: 5px;
 }
 
-h2 {
-  font-weight: 900;
+.empty-cart-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80%;
 }
 
 .form-container {
