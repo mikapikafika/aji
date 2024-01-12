@@ -4,12 +4,14 @@ import {useStore} from "vuex";
 import {useVuelidate} from "@vuelidate/core";
 import {required, email as emailValidator, minLength, numeric} from "@vuelidate/validators";
 import axios from "axios";
+import {useToast} from "vue-toastification";
 
 const store = useStore();
 const userName = ref("");
 const email = ref("");
 const phoneNumber = ref("");
 const orderedItems = computed(() => store.state.orderedItems);
+const toast = useToast();
 
 // Validation
 const rules = {
@@ -19,19 +21,12 @@ const rules = {
 };
 const v$ = useVuelidate(rules, {userName, email, phoneNumber});
 
-const alertMessage = ref("");
-const alertType = ref("");
-
 // Methods
-const increaseQuantity = (index) => {
-  orderedItems.value[index].Quantity++;
-};
-
-const decreaseQuantity = (index) => {
-  if (orderedItems.value[index].Quantity > 1) {
-    orderedItems.value[index].Quantity--;
-  } else {
+const updateQuantity = (index, quantity) => {
+  if (quantity <= 0) {
     removeProduct(index);
+  } else {
+    orderedItems.value[index].Quantity = quantity;
   }
 };
 
@@ -46,8 +41,7 @@ const totalPrice = computed(() => {
 // Submitting the order
 const submitOrder = async () => {
   if (v$.value.$invalid) {
-    alertMessage.value = "Please fill in all the required fields";
-    alertType.value = "danger";
+    toast.error("Please fill in all the required fields.");
     return;
   }
 
@@ -67,64 +61,130 @@ const submitOrder = async () => {
   try {
     const response = await axios.post("http://localhost:3000/orders", order);
     console.log(response);
-    alertMessage.value = "Order submitted successfully";
-    alertType.value = "success";
+    toast.success("Thank you for shopping with us!")
   } catch (e) {
-    console.error('Error submitting order:', e);
+    toast.error('Error submitting order.');
   }
 };
 </script>
 
 <template>
-  <div v-if="orderedItems">
-    <!-- Table -->
-    <table>
-      <tr>
-        <th>Product Name</th>
-        <th>Quantity</th>
-        <th>Sum</th>
-        <th></th>
-      </tr>
-      <tr v-for="(product, index) in orderedItems" :key="index">
-        <td>{{ product.Name }}</td>
-        <td>
-          <button @click="decreaseQuantity(index)">-</button>
-          {{ product.Quantity }}
-          <button @click="increaseQuantity(index)">+</button>
-        </td>
-        <td>{{ product.UnitPrice * product.Quantity }}</td>
-        <td>
-          <button @click="removeProduct(index)">Remove</button>
-        </td>
-      </tr>
-    </table>
+  <div v-if="orderedItems" class="checkout-container">
+    <div class="container">
+      <div class="row">
 
+        <div class="col-7 shopping-cart-container mr-3">
+          <h2 class="text-center">Shopping Cart</h2>
+          <table class="table">
+            <thead>
+            <tr>
+              <th scope="col">Product</th>
+              <th scope="col">Quantity</th>
+              <th scope="col">Total Price</th>
+              <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr v-for="(product, index) in orderedItems" :key="index">
+              <td>{{ product.Name }}</td>
+              <td>
+                <input type="number" v-model.number="product.Quantity" min="0"
+                       @change="updateQuantity(index, product.Quantity)" class="form-control" style="width: 70px;">
+              </td>
+              <td>{{ product.UnitPrice * product.Quantity }}</td>
+              <td>
+                <button class="btn" @click="removeProduct(index)">
+                  <font-awesome-icon :icon="['fas', 'trash']"/>
+                </button>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+          <div class="price-container">
+            <p><strong><font-awesome-icon :icon="['fas', 'dollar-sign']" /> Total:</strong> {{ totalPrice }}</p>
+          </div>
+        </div>
 
-    <!-- Total Price -->
-    <p>Total Price: {{ totalPrice }}</p>
+        <div class="col-5 form-container ml-3">
+          <h2 class="mb-4">Payment Info</h2>
+          <form @submit.prevent="submitOrder">
+            <div class="form-group row mb-3">
+              <label>Username:</label>
+              <div class="col">
+                <input class="form-control" v-model="userName" type="text"/>
+              </div>
+            </div>
+            <div class="form-group row mb-3">
+              <label>Email:</label>
+              <div class="col">
+                <input class="form-control" v-model="email" type="email"/>
+              </div>
+            </div>
+            <div class="form-group row mb-3">
+              <label>Phone Number:</label>
+              <div class="col">
+                <input class="form-control" v-model="phoneNumber" type="tel"/>
+              </div>
+            </div>
+            <button class="btn btn-primary btn-one mt-3" type="submit">Submit Order</button>
+          </form>
+        </div>
 
-    <!-- Form -->
-    <form @submit.prevent="submitOrder">
-      <label>
-        Username:
-        <input v-model="userName" type="text"/>
-      </label>
-      <label>
-        Email:
-        <input v-model="email" type="email"/>
-      </label>
-      <label>
-        Phone:
-        <input v-model="phoneNumber" type="tel"/>
-      </label>
-      <div v-if="alertMessage" :class="'alert alert-' + alertType" role="alert">
-        {{ alertMessage }}
       </div>
-      <button type="submit">Submit Order</button>
-    </form>
+    </div>
   </div>
 </template>
 
 <style scoped>
+.checkout-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 80vh;
+}
 
+.shopping-cart-container {
+  background-color: #e5e5e5;
+  border-radius: 10px;
+  padding: 2.5rem;
+}
+
+.price-container {
+  background-color: #fff;
+  border-radius: 5px;
+  padding: 1rem;
+}
+
+table {
+  padding: 1rem;
+  border-radius: 5px;
+}
+
+h2 {
+  font-weight: 900;
+}
+
+.form-container {
+  background-color: #5ac8fa;
+  border-radius: 10px;
+  padding: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-height: 35vh;
+}
+
+.form-container input {
+  background-color: transparent;
+  border: none;
+  border-radius: 0;
+  border-bottom: 1px solid white;
+  width: 100%;
+}
+
+.form-container label {
+  font-weight: 700;
+  align-self: flex-start;
+}
 </style>

@@ -2,12 +2,14 @@
 import {useStore} from "vuex";
 import {ref, computed, onMounted} from "vue";
 import axios from "axios";
+import {useToast} from "vue-toastification";
 
 const products = ref([]);
 const categories = ref([]);
 const selectedCategory = ref('');
 const searchText = ref('');
 const store = useStore();
+const toast = useToast();
 
 onMounted(async () => {
   try {
@@ -26,48 +28,69 @@ onMounted(async () => {
 const filteredProducts = computed(() => {
   return products.value.filter(product => {
     return product.Name.includes(searchText.value) &&
-      (selectedCategory.value === '' || product.CategoryId === selectedCategory.value);
+        (selectedCategory.value === '' || product.CategoryId === selectedCategory.value);
   });
 });
 
 const addToCart = (product) => {
-  console.log('added');
   store.commit('addToCart', product);
+  toast.success(`${product.Name} added to cart!`);
 };
 </script>
 
 <template>
-  <div>
-    <input v-model="searchText" class="form-control" placeholder="Search by name">
-    <select v-model="selectedCategory" class="form-control">
-      <option value="">All Categories</option>
-      <option v-for="category in categories" :key="category.CategoryId" :value="category.CategoryId">
-        {{ category.Name }}
-      </option>
-    </select>
+  <div class="main-container">
+    <div class="container">
+      <div class="row justify-content-center align-items-center">
+        <div class="col-auto">
+          <font-awesome-icon :icon="['fas', 'magnifying-glass']"/>
+        </div>
+        <div class="col-8">
+          <div class="filter-container">
+            <input v-model="searchText" class="form-control" placeholder="Search by name">
+            <select v-model="selectedCategory" class="form-control">
+              <option value="">All Categories</option>
+              <option v-for="category in categories" :key="category.CategoryId" :value="category.CategoryId">
+                {{ category.Name }}
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
 
-    <table class="table">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Description</th>
-          <th>Unit Price</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="product in filteredProducts" :key="product.ProductId">
-          <td>{{ product.Name }}</td>
-          <td>{{ product.Description }}</td>
-          <td>{{ product.UnitPrice }}</td>
-          <td>
-            <button @click="addToCart(product)" class="btn btn-primary">Buy</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+      <div class="row">
+        <div class="col-12 products-container">
+          <table class="table">
+            <thead>
+            <tr>
+              <th>Name</th>
+              <th>Description</th>
+              <th>Unit Price</th>
+              <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr v-for="product in filteredProducts" :key="product.ProductId">
+              <td>{{ product.Name }}</td>
+              <td>{{ product.Description }}</td>
+              <td>{{ product.UnitPrice }}</td>
+              <td>
+                <button @click="addToCart(product)" class="btn btn-primary btn-one">Buy</button>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 <style scoped>
-
+.main-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 50vh;
+}
 </style>
