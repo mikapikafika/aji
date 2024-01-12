@@ -3,6 +3,7 @@ import {computed, ref} from "vue";
 import {useStore} from "vuex";
 import {useVuelidate} from "@vuelidate/core";
 import {required, email as emailValidator, minLength, numeric} from "@vuelidate/validators";
+import axios from "axios";
 
 const store = useStore();
 const userName = ref("");
@@ -10,14 +11,18 @@ const email = ref("");
 const phoneNumber = ref("");
 const orderedItems = computed(() => store.state.orderedItems);
 
+// Validation
 const rules = {
-  userName: { required },
-  email: { required, email: emailValidator },
-  phoneNumber: { required, numeric, minLength: minLength(9) }
+  userName: {required},
+  email: {required, email: emailValidator},
+  phoneNumber: {required, numeric, minLength: minLength(9)}
 };
+const v$ = useVuelidate(rules, {userName, email, phoneNumber});
 
-const v$ = useVuelidate(rules, { userName, email, phoneNumber });
+const alertMessage = ref("");
+const alertType = ref("");
 
+// Methods
 const increaseQuantity = (index) => {
   orderedItems.value[index].Quantity++;
 };
@@ -38,9 +43,11 @@ const totalPrice = computed(() => {
   return orderedItems.value.reduce((total, product) => total + product.UnitPrice * product.Quantity, 0);
 });
 
-const submitOrder = () => {
+// Submitting the order
+const submitOrder = async () => {
   if (v$.value.$invalid) {
-    alert('Invalid form');
+    alertMessage.value = "Please fill in all the required fields";
+    alertType.value = "danger";
     return;
   }
 
@@ -57,6 +64,14 @@ const submitOrder = () => {
   };
 
   console.log(order);
+  try {
+    const response = await axios.post("http://localhost:3000/orders", order);
+    console.log(response);
+    alertMessage.value = "Order submitted successfully";
+    alertType.value = "success";
+  } catch (e) {
+    console.error('Error submitting order:', e);
+  }
 };
 </script>
 
@@ -93,18 +108,18 @@ const submitOrder = () => {
       <label>
         Username:
         <input v-model="userName" type="text"/>
-        <span v-if="v$.userName.$error">Username is required</span>
       </label>
       <label>
         Email:
         <input v-model="email" type="email"/>
-        <span v-if="v$.email.$error">Email is required</span>
       </label>
       <label>
         Phone:
         <input v-model="phoneNumber" type="tel"/>
-        <span v-if="v$.phoneNumber.$error">Phone number is required</span>
       </label>
+      <div v-if="alertMessage" :class="'alert alert-' + alertType" role="alert">
+        {{ alertMessage }}
+      </div>
       <button type="submit">Submit Order</button>
     </form>
   </div>
