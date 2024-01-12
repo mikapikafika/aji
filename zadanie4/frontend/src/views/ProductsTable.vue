@@ -2,15 +2,11 @@
 import {useStore} from "vuex";
 import {ref, computed, onMounted} from "vue";
 import axios from "axios";
-// import productsData from "../../public/data.json";
-
 
 const products = ref([]);
-// const products = ref();
 const categories = ref([]);
 const selectedCategory = ref('');
 const searchText = ref('');
-// const orderedItems = ref([]);
 const store = useStore();
 
 onMounted(async () => {
