@@ -1,10 +1,10 @@
 <template>
   <div id="app">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light">
       <div class="container-fluid">
-        <router-link class="navbar-brand" to="/"><font-awesome-icon :icon="['fas', 'house']" /> Home</router-link>
+        <router-link class="navbar-brand h1" to="/"><font-awesome-icon :icon="['fas', 'house']" /> Home</router-link>
         <div class="collapse navbar-collapse">
-          <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+          <ul class="navbar-nav ml-2 mb-2 mb-lg-0">
             <li class="nav-item">
               <router-link class="nav-link" to="/checkout"><font-awesome-icon :icon="['fas', 'cart-shopping']"/></router-link>
             </li>
@@ -31,6 +31,10 @@ export default {
   padding: 0;
   box-sizing: border-box;
   font-family: 'Source Sans 3', sans-serif;
+}
+
+nav {
+  background-color: #f0f0f0;
 }
 
 .btn-one {

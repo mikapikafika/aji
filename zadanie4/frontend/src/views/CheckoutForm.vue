@@ -4,12 +4,14 @@ import {useStore} from "vuex";
 import {useVuelidate} from "@vuelidate/core";
 import {required, email as emailValidator, minLength, numeric} from "@vuelidate/validators";
 import axios from "axios";
+import {useToast} from "vue-toastification";
 
 const store = useStore();
 const userName = ref("");
 const email = ref("");
 const phoneNumber = ref("");
 const orderedItems = computed(() => store.state.orderedItems);
+const toast = useToast();
 
 // Validation
 const rules = {
@@ -19,19 +21,12 @@ const rules = {
 };
 const v$ = useVuelidate(rules, {userName, email, phoneNumber});
 
-const alertMessage = ref("");
-const alertType = ref("");
-
 // Methods
-const increaseQuantity = (index) => {
-  orderedItems.value[index].Quantity++;
-};
-
-const decreaseQuantity = (index) => {
-  if (orderedItems.value[index].Quantity > 1) {
-    orderedItems.value[index].Quantity--;
-  } else {
+const updateQuantity = (index, quantity) => {
+  if (quantity <= 0) {
     removeProduct(index);
+  } else {
+    orderedItems.value[index].Quantity = quantity;
   }
 };
 
@@ -46,8 +41,7 @@ const totalPrice = computed(() => {
 // Submitting the order
 const submitOrder = async () => {
   if (v$.value.$invalid) {
-    alertMessage.value = "Please fill in all the required fields";
-    alertType.value = "danger";
+    toast.error("Please fill in all the required fields.");
     return;
   }
 
@@ -67,10 +61,9 @@ const submitOrder = async () => {
   try {
     const response = await axios.post("http://localhost:3000/orders", order);
     console.log(response);
-    alertMessage.value = "Order submitted successfully";
-    alertType.value = "success";
+    toast.success("Thank you for shopping with us!")
   } catch (e) {
-    console.error('Error submitting order:', e);
+    toast.error('Error submitting order.');
   }
 };
 </script>
@@ -94,13 +87,8 @@ const submitOrder = async () => {
             <tr v-for="(product, index) in orderedItems" :key="index">
               <td>{{ product.Name }}</td>
               <td>
-                <button class="btn" @click="decreaseQuantity(index)">
-                  <font-awesome-icon :icon="['fas', 'minus']" size="sm"/>
-                </button>
-                {{ product.Quantity }}
-                <button class="btn" @click="increaseQuantity(index)">
-                  <font-awesome-icon :icon="['fas', 'plus']" size="sm"/>
-                </button>
+                <input type="number" v-model.number="product.Quantity" min="0"
+                       @change="updateQuantity(index, product.Quantity)" class="form-control" style="width: 70px;">
               </td>
               <td>{{ product.UnitPrice * product.Quantity }}</td>
               <td>
@@ -136,10 +124,7 @@ const submitOrder = async () => {
                 <input class="form-control" v-model="phoneNumber" type="tel"/>
               </div>
             </div>
-            <button class="btn btn-primary btn-one mt-3 mb-3" type="submit">Submit Order</button>
-            <div v-if="alertMessage" :class="'alert alert-' + alertType" role="alert">
-              {{ alertMessage }}
-            </div>
+            <button class="btn btn-primary btn-one mt-3" type="submit">Submit Order</button>
           </form>
         </div>
       </div>
@@ -166,6 +151,10 @@ table {
   background-color: #f0f0f0 !important;
 }
 
+h2 {
+  font-weight: 900;
+}
+
 .form-container {
   background-color: #5ac8fa;
   border-radius: 10px;
@@ -181,10 +170,6 @@ table {
   border-radius: 0;
   border-bottom: 1px solid white;
   width: 100%;
-}
-
-.form-container h2 {
-  font-weight: 900;
 }
 
 .form-container label {
