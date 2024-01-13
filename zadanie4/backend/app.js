@@ -43,7 +43,7 @@ app.get('/products', async (req, res) => {
 app.get('/products/:id', async (req, res) => {
   const { id } = req.params;
   try {
-    const product = await Product.where({ ProductId: id }).fetch();
+    const product = await Product.where({ ProductId: id }).fetch({ require: false });
     if (product) {
       res.json(product.toJSON());
     } else {
@@ -58,6 +58,19 @@ app.get('/products/:id', async (req, res) => {
 
 app.post('/products', async (req, res) => {
   const { Name, Description, UnitPrice, Weight, CategoryId } = req.body;
+
+    // Type checking
+    if (
+      typeof Name !== 'string' ||
+      typeof Description !== 'string' ||
+      typeof UnitPrice !== 'number' ||
+      typeof Weight !== 'number' ||
+      typeof CategoryId !== 'number'
+    ) {
+      return res.status(HttpStatus.StatusCodes.BAD_REQUEST).json({
+        error: "Invalid data types. Name and Description should be strings, and UnitPrice, Weight, and CategoryId should be numbers.",
+      });
+    }
 
   if (!Name || !Description || UnitPrice <= 0 || Weight <= 0) {
     return res.status(HttpStatus.StatusCodes.BAD_REQUEST).json({
@@ -85,6 +98,18 @@ app.put('/products/:id', async (req, res) => {
   const { id } = req.params;
   const { Name, Description, UnitPrice, Weight, CategoryId } = req.body;
 
+  if (
+    typeof Name !== 'string' ||
+    typeof Description !== 'string' ||
+    typeof UnitPrice !== 'number' ||
+    typeof Weight !== 'number' ||
+    typeof CategoryId !== 'number'
+  ) {
+    return res.status(HttpStatus.StatusCodes.BAD_REQUEST).json({
+      error: "Invalid data types. Name and Description should be strings, and UnitPrice, Weight, and CategoryId should be numbers.",
+    });
+  }
+
   if (!Name || !Description || UnitPrice <= 0 || Weight <= 0) {
     return res.status(HttpStatus.StatusCodes.BAD_REQUEST).json({
       error: "Can't update product. Name and description can't be empty, and unit price and weight must be greater than 0.",
@@ -92,7 +117,7 @@ app.put('/products/:id', async (req, res) => {
   }
 
   try {
-    const product = await Product.where({ ProductId: id }).fetch();
+    const product = await Product.where({ ProductId: id }).fetch({require: false});
 
     if (!product) {
       return res.status(HttpStatus.StatusCodes.NOT_FOUND).json({
@@ -143,6 +168,20 @@ app.get('/orders', async (req, res) => {
 app.post('/orders', async (req, res) => {
   const { ApprovalDate, OrderStatusId, UserName, Email, PhoneNumber, Items } = req.body;
 
+  if (
+    typeof ApprovalDate !== 'string' ||   
+    typeof OrderStatusId !== 'number' ||
+    typeof UserName !== 'string' ||
+    typeof Email !== 'string' ||
+    typeof PhoneNumber !== 'string' ||
+    !Array.isArray(Items)   
+  ) {
+    return res.status(HttpStatus.StatusCodes.BAD_REQUEST).json({
+      error: "Invalid data types. ApprovalDate should be a string, OrderStatusId should be a number, UserName and Email should be strings, PhoneNumber should be a string, and Items should be an array.",
+    });
+  }
+  
+
   if (!UserName || !Email || !PhoneNumber || !Array.isArray(Items) || Items.length === 0) {
     return res.status(HttpStatus.StatusCodes.BAD_REQUEST).json({
       error: "Can't add order. Username, email, and phone number can't be empty.",
@@ -157,39 +196,54 @@ app.post('/orders', async (req, res) => {
   }
 
   try {
-    const order = await Orders.forge({
-      ApprovalDate,
-      OrderStatusId,
-      UserName,
-      Email,
-      PhoneNumber,
-    }).save();
+    // Start a transaction
+    const transaction = await bookshelf.knex.transaction();
 
-    for (let i = 0; i < Items.length; i++) {
-      const product = await Product.forge({ ProductId: Items[i].ProductId }).fetch();
+    try {
+      const order = await Orders.forge({
+        ApprovalDate,
+        OrderStatusId,
+        UserName,
+        Email,
+        PhoneNumber,
+      }).save(null, { transacting: transaction });
 
-      if (!product) {
-        return res.status(HttpStatus.StatusCodes.BAD_REQUEST).json({
-          error: `Can't add order. Product with specified ID doesn't exist.`,
-        });
+      for (let i = 0; i < Items.length; i++) {
+        const product = await Product.forge({ ProductId: Items[i].ProductId }).fetch({ transacting: transaction, require: false });
+
+        if (!product) {
+          await transaction.rollback();
+          return res.status(HttpStatus.StatusCodes.BAD_REQUEST).json({
+            error: `Can't add order. Product with specified ID doesn't exist.`,
+          });
+        }
+
+        if (!Number.isInteger(Items[i].Quantity) || Items[i].Quantity <= 0) {
+          // Rollback the transaction if the quantity validation fails
+          await transaction.rollback();
+          return res.status(HttpStatus.StatusCodes.BAD_REQUEST).json({
+            error: `Can't add order. Quantity for product must be an integer and greater than 0.`,
+          });
+        }
+
+        // Add products to the order
+        await OrderItems.forge({
+          OrderId: order.get('OrderId'),
+          ProductId: Items[i].ProductId,
+          Quantity: Items[i].Quantity,
+        }).save(null, { transacting: transaction });
       }
 
-      // Validate if product's quantity is greater than 0 and a number
-      if (!Number.isInteger(Items[i].Quantity) || Items[i].Quantity <= 0) {
-        return res.status(HttpStatus.StatusCodes.BAD_REQUEST).json({
-          error: `Can't add order. Quantity for product must be an integer and greater than 0.`,
-        });
-      }
+      // Commit the transaction if everything is successful
+      await transaction.commit();
 
-      // Add products to the order
-      await OrderItems.forge({
-        OrderId: order.get('OrderId'),
-        ProductId: Items[i].ProductId,
-        Quantity: Items[i].Quantity,
-      }).save();
+      res.status(HttpStatus.StatusCodes.CREATED).json({ OrderId: order.get('OrderId') });
+    } catch (error) {
+      // Rollback the transaction in case of an error
+      await transaction.rollback();
+      console.error(error);
+      res.status(HttpStatus.StatusCodes.INTERNAL_SERVER_ERROR).send('Internal server error');
     }
-
-    res.status(HttpStatus.StatusCodes.CREATED).json({ OrderId: order.get('OrderId') });
   } catch (error) {
     console.error(error);
     res.status(HttpStatus.StatusCodes.INTERNAL_SERVER_ERROR).send('Internal server error');
@@ -202,7 +256,7 @@ app.patch('/orders/:id', async (req, res) => {
   const { OrderStatusId } = req.body;
 
   try {
-    const order = await Orders.forge({ OrderId: id }).fetch();
+    const order = await Orders.forge({ OrderId: id }).fetch({ require: false});
 
     if (!order) {
       return res.status(HttpStatus.StatusCodes.NOT_FOUND).json({
@@ -234,7 +288,7 @@ app.patch('/orders/:id', async (req, res) => {
 app.get('/orders/:id', async (req, res) => {
   const { id } = req.params;
   try {
-    const order = await Orders.where({ OrderId: id }).fetch();
+    const order = await Orders.where({ OrderId: id }).fetch({ require: false});
     res.json(order);
   } catch (error) {
     console.error(error);
