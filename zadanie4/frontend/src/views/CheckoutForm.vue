@@ -46,7 +46,7 @@ const submitOrder = async () => {
   }
 
   const order = {
-    ApprovalDate: null,  // powinnismy to pozniej zmienic i guees po zatwierdzeniu zamowienia
+    ApprovalDate: new Date(),  
     OrderStatusId: 1,
     UserName: userName.value,
     Email: email.value,

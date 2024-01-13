@@ -6,19 +6,22 @@ import {useToast} from "vue-toastification";
 const products = ref([]);
 const categories = ref([]);
 const orders = ref([]);
+const orderItems = ref([]);
 const toast = useToast();
 
 onMounted(async () => {
   try {
-    const [productsResponse, categoriesResponse, ordersResponse] = await Promise.all([
+    const [productsResponse, categoriesResponse, ordersResponse,  orderItemsResponse] = await Promise.all([
       axios.get("http://localhost:3000/products"),
       axios.get("http://localhost:3000/categories"),
-      axios.get("http://localhost:3000/orders")
+      axios.get("http://localhost:3000/orders"),
+      axios.get("http://localhost:3000/orderItems")
     ]);
 
     products.value = productsResponse.data;
     categories.value = categoriesResponse.data;
     orders.value = ordersResponse.data;
+    orderItems.value = orderItemsResponse.data;
     console.log(orders.value);
   } catch (e) {
     console.log(e);
@@ -37,7 +40,7 @@ const updateProduct = async (product) => {
 
 const updateOrderStatus = async (order, statusId) => {
   try {
-    await axios.put(`http://localhost:3000/orders/${order.OrderId}`, {...order, OrderStatusId: statusId});
+    await axios.patch(`http://localhost:3000/orders/${order.OrderId}`, {OrderStatusId: statusId});
     toast.success('Order status updated successfully');
   } catch (e) {
     console.log(e);
@@ -103,7 +106,10 @@ const updateOrderStatus = async (order, statusId) => {
             <td>{{ order.Email }}</td>
             <td>{{ order.PhoneNumber }}</td>
             <td>
-              <!-- ni mo -->
+              {{ orderItems.filter(item => item.OrderId === order.OrderId).map(item => {
+                const product = products.find(product => product.ProductId === item.ProductId);
+                return `${product.Name} x ${item.Quantity}`;
+              }).join(', ') }}
             </td>
             <td>
               <button @click="updateOrderStatus(order, 4)" class="btn btn-success">Completed</button>
