@@ -46,10 +46,12 @@ const submitOrder = async () => {
   }
 
   const order = {
+    ApprovalDate: null,  // powinnismy to pozniej zmienic i guees po zatwierdzeniu zamowienia
+    OrderStatusId: 1,
     UserName: userName.value,
     Email: email.value,
     PhoneNumber: phoneNumber.value,
-    OrderedItems: orderedItems.value.map(product => {
+    Items: orderedItems.value.map(product => {
       return {
         ProductId: product.ProductId,
         Quantity: product.Quantity
@@ -60,7 +62,7 @@ const submitOrder = async () => {
   console.log(order);
   try {
     const response = await axios.post("http://localhost:3000/orders", order);
-    console.log(response);
+    console.log("resposne: ", response);
     toast.success("Thank you for shopping with us!")
   } catch (e) {
     toast.error('Error submitting order.');
