@@ -7,22 +7,25 @@ const products = ref([]);
 const categories = ref([]);
 const orders = ref([]);
 const orderItems = ref([]);
+const status = ref([]);
 const toast = useToast();
 
 onMounted(async () => {
   try {
-    const [productsResponse, categoriesResponse, ordersResponse,  orderItemsResponse] = await Promise.all([
+    const [productsResponse, categoriesResponse, ordersResponse,  orderItemsResponse, statusResponse] = await Promise.all([
       axios.get("http://localhost:3000/products"),
       axios.get("http://localhost:3000/categories"),
       axios.get("http://localhost:3000/orders"),
-      axios.get("http://localhost:3000/orderItems")
+      axios.get("http://localhost:3000/orderItems"),
+      axios.get("http://localhost:3000/status"),
     ]);
 
     products.value = productsResponse.data;
     categories.value = categoriesResponse.data;
     orders.value = ordersResponse.data;
     orderItems.value = orderItemsResponse.data;
-    console.log(orders.value);
+    status.value = statusResponse.data;
+    console.log(status.value);
   } catch (e) {
     console.log(e);
   }
@@ -123,21 +126,24 @@ const updateOrderStatus = async (order, statusId) => {
 
     <div class="row">
       <div class="col-12 orders-container">
+        <h2 class="text-center">Status</h2>
         <table class="table">
           <thead>
           <tr>
             <th scope="col">Status</th>
             <th scope="col">Approval Date</th>
-            <th scope="col">Value</th>
+            <th scope="col">Username</th>
+            <th scope="col">Email</th>
+            <th scope="col">Phone Number</th>
           </tr>
           </thead>
           <tbody>
           <tr v-for="order in orders" :key="order.OrderId">
-            <td></td>
+            <td>{{ status.find(item => item.OrderStatusId === order.OrderStatusId)?.Name}}</td>
             <td>{{ order.ApprovalDate }}</td>
-            <td>
-              <!-- ni mo -->
-            </td>
+            <td>{{ order.UserName }}</td>
+            <td>{{ order.Email }}</td>
+            <td>{{ order.PhoneNumber }}</td>
           </tr>
           </tbody>
         </table>
