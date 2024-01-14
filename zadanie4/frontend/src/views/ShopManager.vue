@@ -61,7 +61,7 @@ const updateOrderStatus = async (order, statusId) => {
 <template>
   <div class="container">
     <div class="row">
-      <div class="col-12 products-container">
+      <div class="col-12 products-container mt-5">
         <h2 class="text-center">Manage Products</h2>
         <table class="table table-bordered">
           <thead>

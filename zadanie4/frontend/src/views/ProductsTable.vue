@@ -41,7 +41,7 @@ const addToCart = (product) => {
 <template>
   <div class="main-container">
     <div class="container">
-      <div class="row justify-content-center align-items-center filter-container mb-lg-5">
+      <div class="row justify-content-center align-items-center filter-container mb-lg-5 mt-5">
         <div class="col-auto">
           <font-awesome-icon :icon="['fas', 'magnifying-glass']"/>
         </div>
@@ -59,9 +59,9 @@ const addToCart = (product) => {
       </div>
 
       <div class="row">
-        <div class="col-12 products-container">
+        <div class="col-12 products-container mb-5">
           <h2 class="text-center">Products</h2>
-          <table class="table">
+          <table class="table table-hover">
             <thead>
             <tr>
               <th scope="col">Name</th>
@@ -92,7 +92,7 @@ const addToCart = (product) => {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  height: 60vh;
+  //height: 80vh;
 }
 
 .filter-container input, .filter-container select {

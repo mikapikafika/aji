@@ -79,7 +79,7 @@ const submitOrder = async () => {
 </script>
 
 <template>
-  <div class="checkout-container">
+  <div class="checkout-container mt-lg-5 mb-lg-5">
     <div class="container">
       <div class="row">
 
@@ -118,7 +118,7 @@ const submitOrder = async () => {
               </p>
             </div>
           </div>
-          <div v-else class="empty-cart-container">
+          <div v-else class="empty-cart-container mt-2">
             <h3 class="text-center">Your shopping cart is empty.</h3>
           </div>
         </div>
@@ -159,7 +159,7 @@ const submitOrder = async () => {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  height: 80vh;
+  //height: 80vh;
 }
 
 .shopping-cart-container {
@@ -180,6 +180,8 @@ table {
 }
 
 .empty-cart-container {
+  background-color: #fff;
+  border-radius: 5px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -193,7 +195,7 @@ table {
   display: flex;
   flex-direction: column;
   align-items: center;
-  max-height: 50vh;
+  max-height: 30rem;
 }
 
 .form-container input {

@@ -5,8 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1be8bd5f-afec-42f6-8cb3-925d5fe68b55" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/backend/.env" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/views/CheckoutForm.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/CheckoutForm.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/views/ProductsTable.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/ProductsTable.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/views/ShopManager.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/ShopManager.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,15 +43,15 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "feature/cors",
-    "last_opened_file_path": "F:/Studia/sem5/aji/zadanie4",
+    "git-widget-placeholder": "develop",
+    "last_opened_file_path": "C:/Studia/sem5/aji/zadanie4",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
     "settings.editor.selected.configurable": "preferences.lookFeel",
-    "ts.external.directory.path": "F:\\Programy\\WebStorm 2022.3.2\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external",
+    "ts.external.directory.path": "C:\\Program Files\\JetBrains\\WebStorm 2023.2.1\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external",
     "vue.rearranger.settings.migration": "true"
   },
   "keyToStringList": {
@@ -77,6 +80,7 @@
       <workItem from="1705073852658" duration="1106000" />
       <workItem from="1705074990392" duration="11519000" />
       <workItem from="1705092312908" duration="3943000" />
+      <workItem from="1705245388505" duration="997000" />
     </task>
     <servers />
   </component>
