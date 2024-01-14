@@ -56,8 +56,8 @@ const updateOrderStatus = async (order, statusId) => {
   <div class="container">
     <div class="row">
       <div class="col-12 products-container">
-        <h2 class="text-center">Products</h2>
-        <table class="table">
+        <h2 class="text-center">Manage Products</h2>
+        <table class="table table-bordered">
           <thead>
           <tr>
             <th scope="col">Name</th>
@@ -89,9 +89,9 @@ const updateOrderStatus = async (order, statusId) => {
     </div>
 
     <div class="row">
-      <div class="col-12 orders-container">
-        <h2 class="text-center">Orders</h2>
-        <table class="table">
+      <div class="col-12 orders-container mt-5">
+        <h2 class="text-center">Manage Orders</h2>
+        <table class="table table-bordered">
           <thead>
           <tr>
             <th scope="col">Approval Date</th>
@@ -115,8 +115,8 @@ const updateOrderStatus = async (order, statusId) => {
               }).join(', ') }}
             </td>
             <td>
-              <button @click="updateOrderStatus(order, 4)" class="btn btn-success">Completed</button>
-              <button @click="updateOrderStatus(order, 3)" class="btn btn-danger">Cancelled</button>
+              <button @click="updateOrderStatus(order, 4)" class="btn btn-primary btn-green">Completed</button>
+              <button @click="updateOrderStatus(order, 3)" class="btn btn-primary btn-red">Cancelled</button>
             </td>
           </tr>
           </tbody>
@@ -125,9 +125,9 @@ const updateOrderStatus = async (order, statusId) => {
     </div>
 
     <div class="row">
-      <div class="col-12 orders-container">
+      <div class="col-12 status-container mt-5 mb-5">
         <h2 class="text-center">Status</h2>
-        <table class="table">
+        <table class="table table-bordered">
           <thead>
           <tr>
             <th scope="col">Status</th>
@@ -153,5 +153,9 @@ const updateOrderStatus = async (order, statusId) => {
 </template>
 
 <style scoped>
-
+.products-container, .status-container {
+  background-color: #5ac8fa;
+  border-radius: 10px;
+  padding: 2.5rem;
+}
 </style>
