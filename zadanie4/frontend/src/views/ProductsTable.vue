@@ -27,7 +27,7 @@ onMounted(async () => {
 
 const filteredProducts = computed(() => {
   return products.value.filter(product => {
-    return product.Name.includes(searchText.value) &&
+    return product.Name.toLowerCase().includes(searchText.value.toLowerCase()) &&
         (selectedCategory.value === '' || product.CategoryId === selectedCategory.value);
   });
 });
@@ -92,7 +92,7 @@ const addToCart = (product) => {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  height: 50vh;
+  height: 60vh;
 }
 
 .filter-container input, .filter-container select {

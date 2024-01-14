@@ -41,7 +41,15 @@ const totalPrice = computed(() => {
 // Submitting the order
 const submitOrder = async () => {
   if (v$.value.$invalid) {
-    toast.error("Please fill in all the required fields.");
+    if (!v$.value.userName.$model || v$.value.userName.$error) {
+      toast.error("Please enter a valid username.");
+    }
+    if (!v$.value.email.$model || v$.value.email.$error) {
+      toast.error("Please enter a valid email (in an email format)");
+    }
+    if (!v$.value.phoneNumber.$model || v$.value.phoneNumber.$error) {
+      toast.error("Please enter a valid phone number (minimum of 9 digits).");
+    }
     return;
   }
 
@@ -185,7 +193,7 @@ table {
   display: flex;
   flex-direction: column;
   align-items: center;
-  max-height: 35vh;
+  max-height: 50vh;
 }
 
 .form-container input {
