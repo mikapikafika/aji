@@ -8,7 +8,9 @@ const categories = ref([]);
 const orders = ref([]);
 const orderItems = ref([]);
 const status = ref([]);
+const updatedOrders = ref([]);
 const toast = useToast();
+
 
 onMounted(async () => {
   try {
@@ -23,6 +25,10 @@ onMounted(async () => {
     products.value = productsResponse.data;
     categories.value = categoriesResponse.data;
     orders.value = ordersResponse.data;
+
+  updatedOrders.value = ordersResponse.data.filter(order => order.OrderStatusId == 1 || order.OrderStatusId == 2);
+
+
     orderItems.value = orderItemsResponse.data;
     status.value = statusResponse.data;
     console.log(status.value);
@@ -103,7 +109,7 @@ const updateOrderStatus = async (order, statusId) => {
           </tr>
           </thead>
           <tbody>
-          <tr v-for="order in orders" :key="order.OrderId">
+          <tr v-for="order in updatedOrders" :key="order.OrderId">
             <td>{{ order.ApprovalDate }}</td>
             <td>{{ order.UserName }}</td>
             <td>{{ order.Email }}</td>
