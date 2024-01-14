@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "modules": "^0.4.0"
+  },
+  "scripts": {
+    "start": "npm-run-all --parallel front back",
+    "front": "cd ./frontend/ && npm run serve",
+    "back": "cd ./backend/ && npm start"
+  }
+}
