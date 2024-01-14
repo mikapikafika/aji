@@ -4,43 +4,16 @@ const PORT = process.env.PORT || 3000;
 const HttpStatus = require('http-status-codes');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const jwt = require('jsonwebtoken');
 const bookshelf = require('./bookshelf'); 
 const Product = require('./models/Product');
 const Category = require('./models/Category');
 const Orders = require('./models/Orders');
 const OrderStatus = require('./models/OrderStatus');
 const OrderItems = require('./models/OrderItems');
-require('dotenv').config();
+
 
 app.use(bodyParser.json());
 app.use(cors());
-
-// Middleware to check if the user is authenticated
-const authenticate = (req, res, next) => {
-  const token = req.headers['authorization'];
-  if (!token) {
-    return res.status(HttpStatus.StatusCodes.UNAUTHORIZED).json({
-      error: 'A token is required for authentication',
-    });
-  }
-  try {
-    req.user = jwt.verify(token, process.env.JWT_SECRET);
-  } catch (error) {
-    return res.status(HttpStatus.StatusCodes.UNAUTHORIZED).json({
-      error: 'Invalid token',
-    });
-  }
-  return next();
-};
-
-app.use('/manage', authenticate, (req, res) => {
-  if (!req.user) {
-    return res.status(HttpStatus.StatusCodes.UNAUTHORIZED).json({
-      error: 'A token is required for authentication',
-    });
-  }
-});
 
 // Define the '/hello' route
 app.get('/', (req, res) => {
