@@ -169,7 +169,7 @@ app.post('/orders', async (req, res) => {
   const { ApprovalDate, OrderStatusId, UserName, Email, PhoneNumber, Items } = req.body;
 
   if (
-    typeof ApprovalDate !== 'string' ||   
+    (ApprovalDate !== null && typeof ApprovalDate !== 'string') ||   
     typeof OrderStatusId !== 'number' ||
     typeof UserName !== 'string' ||
     typeof Email !== 'string' ||
@@ -319,4 +319,17 @@ app.get('/status', async (req, res) => {
 });
 
 
+app.get('/orderItems', async (req, res) => {
+  try {
+    const products = await OrderItems.fetchAll();
+    res.json(products);
+  } catch (error) {
+    console.error(error);
+    res.status(HttpStatus.StatusCodes.INTERNAL_SERVER_ERROR).send('Internal server error');
+  }
+});
+
+
+
     
+
