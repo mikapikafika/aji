@@ -54,4 +54,26 @@ h2 {
   background-color: #000000;
   box-shadow: 0px 0px 7px 0px #030303;
 }
+
+.btn-green {
+  background-color: #00b894;
+  border: none;
+  transition: background 0.2s, box-shadow 0.3s;
+}
+
+.btn-green:hover {
+  background-color: #00a383;
+  box-shadow: 0px 0px 7px 0px #00b894;
+}
+
+.btn-red {
+  background-color: #d63031;
+  border: none;
+  transition: background 0.2s, box-shadow 0.3s;
+}
+
+.btn-red:hover {
+  background-color: #b92c27;
+  box-shadow: 0px 0px 7px 0px #d63031;
+}
 </style>

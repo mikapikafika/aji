@@ -5,9 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1be8bd5f-afec-42f6-8cb3-925d5fe68b55" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/views/CheckoutForm.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/CheckoutForm.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/views/ProductsTable.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/ProductsTable.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/.env" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,7 +40,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "develop",
+    "git-widget-placeholder": "feature/cors",
     "last_opened_file_path": "F:/Studia/sem5/aji/zadanie4",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
