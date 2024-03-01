@@ -7,8 +7,8 @@
     <list default="true" id="1be8bd5f-afec-42f6-8cb3-925d5fe68b55" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/views/CheckoutForm.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/CheckoutForm.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/views/ProductsTable.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/ProductsTable.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/views/ShopManager.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/ShopManager.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/.package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -51,7 +51,7 @@
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
     "settings.editor.selected.configurable": "preferences.lookFeel",
-    "ts.external.directory.path": "C:\\Program Files\\JetBrains\\WebStorm 2023.2.1\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external",
+    "ts.external.directory.path": "F:\\Programy\\WebStorm 2022.3.2\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external",
     "vue.rearranger.settings.migration": "true"
   },
   "keyToStringList": {
@@ -81,6 +81,7 @@
       <workItem from="1705074990392" duration="11519000" />
       <workItem from="1705092312908" duration="3943000" />
       <workItem from="1705245388505" duration="997000" />
+      <workItem from="1705246553105" duration="712000" />
     </task>
     <servers />
   </component>

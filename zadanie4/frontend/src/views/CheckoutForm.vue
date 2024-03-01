@@ -40,6 +40,11 @@ const totalPrice = computed(() => {
 
 // Submitting the order
 const submitOrder = async () => {
+  if (orderedItems.value.length === 0) {
+    toast.warning("Can't submit an empty order.");
+    return;
+  }
+
   if (v$.value.$invalid) {
     if (!v$.value.userName.$model || v$.value.userName.$error) {
       toast.error("Please enter a valid username.");
@@ -54,7 +59,7 @@ const submitOrder = async () => {
   }
 
   const order = {
-    ApprovalDate: new Date(),  
+    ApprovalDate: new Date(),
     OrderStatusId: 1,
     UserName: userName.value,
     Email: email.value,
