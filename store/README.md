@@ -41,8 +41,8 @@ To get started with this project, clone the repository and install the dependenc
 npm install
 ```
 
-Then start the development server:
+Then start the development server (backend and frontend are combined using this command):
 
 ```
-npm run serve
+npm start
 ```
