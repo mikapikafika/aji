@@ -5,23 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1be8bd5f-afec-42f6-8cb3-925d5fe68b55" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../movies-database/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../README.md" beforeDir="false" afterPath="$PROJECT_DIR$/../README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../zadanie3/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../zadanie3/babel.config.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../zadanie3/jsconfig.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../zadanie3/package-lock.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../zadanie3/package.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../zadanie3/public/index.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../zadanie3/src/App.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../zadanie3/src/assets/movies.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../zadanie3/src/components/CastList.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../zadanie3/src/components/GenresList.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../zadanie3/src/components/MoviesTable.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../zadanie3/src/components/SearchBar.vue" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../zadanie3/src/main.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../zadanie3/vue.config.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../zadanie2/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../other_assignments/zadanie2/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../other_assignments/zadanie2/.idea/discord.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../other_assignments/zadanie2/.idea/jsLibraryMappings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../other_assignments/zadanie2/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../other_assignments/zadanie2/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../other_assignments/zadanie2/.idea/zadanie2.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../other_assignments/zadanie2/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../other_assignments/zadanie2/scripts.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../other_assignments/zadanie2/theme.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,28 +44,28 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "master",
-    "last_opened_file_path": "F:/Studia/sem5/aji/zadanie4",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.lookFeel",
-    "ts.external.directory.path": "F:\\Programy\\WebStorm 2022.3.2\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;last_opened_file_path&quot;: &quot;F:/Studia/sem5/aji/zadanie2&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;F:\\Programy\\WebStorm 2022.3.2\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "vue.recent.templates": [
-      "Vue Composition API Component"
+  &quot;keyToStringList&quot;: {
+    &quot;vue.recent.templates&quot;: [
+      &quot;Vue Composition API Component&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="F:\Studia\sem5\aji\zadanie4\frontend\src\views" />
@@ -95,6 +89,8 @@
       <workItem from="1705245388505" duration="997000" />
       <workItem from="1705246553105" duration="712000" />
       <workItem from="1711572072241" duration="40000" />
+      <workItem from="1711572150905" duration="928000" />
+      <workItem from="1711573224240" duration="2000" />
     </task>
     <servers />
   </component>
